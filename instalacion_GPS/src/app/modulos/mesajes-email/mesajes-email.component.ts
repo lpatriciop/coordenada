@@ -64,6 +64,16 @@ export class MesajesEmailComponent implements OnInit {
       this.listaEmail=data;
     })
   }
+  //--------------------Metodo de modificacion--------
+  abrirdialogoEdi(id:String){
+    this.editing=true;
+    this.creating=false;
+    this.messageService.getMensajesEmail().subscribe((data:any)=>{
+      this.mensage=data.find((m)=>{return m.id==id})
+      this.titulo="Editar Mensage"
+      this.dialog.open(this.dialogMessage);
+    })
+  }
 
 
 }

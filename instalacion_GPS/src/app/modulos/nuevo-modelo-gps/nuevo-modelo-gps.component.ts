@@ -87,7 +87,7 @@ export class NuevoModeloGpsComponent implements OnInit {
   }
   //----------------Validaciones-----------------
   validacionModelo = new FormGroup({
-    nombre: new FormControl('',[Validators.required,Validators.pattern('[a-zA-Z ]*')]),
+    nombre: new FormControl('',[Validators.required,Validators.pattern('^[a-zA-Z0-9\\-\\ñÑáéíóúÁÉÍÓÚ., ]*')]),
   });
 
   //---------------------------------------------

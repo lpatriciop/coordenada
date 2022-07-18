@@ -3,6 +3,7 @@ import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {Gps} from "../modelos/Gps";
 import {Cliente} from "../modelos/Cliente";
+import {User} from "../modelos/User";
 
 @Injectable({
   providedIn:"root"
@@ -27,6 +28,9 @@ export class GpsService{
 
   editGps(gps:Gps, id:String){
     return this.httpClient.put(this.base_url+"update-gps/"+id, gps);
+  }
+  updateGps(gps:Gps){
+    return this.httpClient.put(this.base_url+"update-gps/", gps);
   }
 
 }

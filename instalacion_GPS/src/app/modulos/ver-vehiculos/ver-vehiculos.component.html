@@ -90,6 +90,7 @@
   <mat-form-field appearance="outline" style="width: 100%">
     <mat-label>Kilometro</mat-label>
     <input type="number" matInput  name="kilometraje" [(ngModel)]="vehiculo.kilometraje" formControlName="kilometraje" id="kilometraje" autocomplete="off"/>
+    <span matSuffix>km</span>
     <mat-error *ngIf="hasError('kilometraje', 'required')">Kilometraje <strong>requerido</strong></mat-error>
   </mat-form-field>
   <br>
