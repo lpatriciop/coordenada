@@ -14,9 +14,7 @@ public class MensajesMail {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	private String emiMail;
-	
+		
 	private String tipoMensaje;
 	
 	private String title;
@@ -24,12 +22,6 @@ public class MensajesMail {
 	@Column(length = 10485760)
 	private String mensaje;
 	
-	public String getEmiMail() {
-		return emiMail;
-	}
-	public void setEmiMail(String emiMail) {
-		this.emiMail = emiMail;
-	}
 	public Long getId() {
 		return id;
 	}

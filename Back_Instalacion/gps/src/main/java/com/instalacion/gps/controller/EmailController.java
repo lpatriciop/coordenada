@@ -2,8 +2,12 @@ package com.instalacion.gps.controller;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.instalacion.gps.models.DocumentoServicio;
 import com.instalacion.gps.models.MensajesMail;
 import com.instalacion.gps.repository.EmailRepository;
+import com.instalacion.gps.services.EmailService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +21,9 @@ public class EmailController {
 
     @Autowired
     private EmailRepository repository;
+    
+    @Autowired
+    private EmailService emailService;
 
 
     @GetMapping("/")
@@ -28,6 +35,18 @@ public class EmailController {
 	public Optional<MensajesMail> buscarMessage(@PathVariable Long id) {
 		return repository.findById(id);
 	}
+    
+    @PostMapping("/mail/{emailrecep}")
+	public boolean MensajeEmail(@Validated @RequestBody MensajesMail l,@PathVariable String emailrecep) {
+    	if(emailService.enviarEmail(emailrecep, l.getTitle(), l.getMensaje())){
+    		return true;
+    	}else {
+    		return false;
+    	}
+    		
+
+	}
+    
     
 	@PostMapping("/create-mesaje-email")
 	public MensajesMail createMessage(@Validated @RequestBody MensajesMail l) {

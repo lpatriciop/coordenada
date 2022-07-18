@@ -173,9 +173,11 @@ export class VerServicioClienteComponent implements OnInit {
 
         this.servicio.costo=Number(this.servicioGet.costo)+Number(this.servicio.costo);
 
-        console.log(this.servicio)
+        var dayfinplan=new Date(this.servicio.fecha_fin_plan);
+        var dayfin=new Date(this.servicio.fecha_fin);
 
-        if (this.servicio.fecha_fin_plan>this.servicio.fecha_fin){
+
+        if (dayfinplan>=dayfin){
           this.serviceService.editarService(this.servicio,id).subscribe((datas:any)=>{
             console.log("Actializado el servicio")
             this.pago.docservice=datas;

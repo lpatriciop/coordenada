@@ -15,18 +15,18 @@ public class EmailService {
 	@Autowired
     private JavaMailSender javaMailSender;
 
-    public void enviarEmail(String correoReceptor, String asunto, String cuerpoMensaje){
-    	System.out.println(correo);
+    public boolean enviarEmail(String correoReceptor, String asunto, String cuerpoMensaje){
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setFrom(correo);
         mail.setTo(correoReceptor);
         mail.setSubject(asunto);
         mail.setText(cuerpoMensaje);
-        System.out.println(mail);
         try {
-        	//javaMailSender.send(mail);
+        	javaMailSender.send(mail);
+        	return true;
         } catch (Exception e) {
             System.out.println("Error email: " + e.getMessage());
+            return false;
         }
     }
 }

@@ -25,6 +25,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PlanService} from "../../servicios/PlanService";
 import {Plan} from "../../modelos/Plan";
+import {EmailService} from "../../servicios/EmailService";
+import {MensajesMail} from "../../modelos/MensajesMail";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -41,6 +43,9 @@ export class NuevoServicioComponent implements OnInit {
 //Boolean
   infocli = false;
   buscarclienteB = true;
+
+
+  mensaje:MensajesMail=new MensajesMail();
 
   buscarcliente?: String;
 
@@ -116,7 +121,8 @@ export class NuevoServicioComponent implements OnInit {
               private servicioGps: GpsService,
               public dialog: MatDialog,
               private router:Router,
-              private route:ActivatedRoute) {
+              private route:ActivatedRoute,
+              private  mail:EmailService) {
 
   }
 
@@ -263,6 +269,11 @@ export class NuevoServicioComponent implements OnInit {
     this.servicio.idplan=this.id_plan;
     //Agregar id de persona en servicio
     this.servicio.id_cliente=this.cliente.id_persona;
+    this.mensaje.mensaje="Contrato de Servicio Coordenada";
+    this.mensaje.tipoMensaje="COORDANA SERVICIO";
+    this.mail.enviarMail(this.mensaje,this.cliente.correo).subscribe(values => {
+      console.log("Email Enviado")
+    })
       this.servicioService.crearService(this.servicio).subscribe((data:any)=>{
        this.servicioGet=data;
         for (let des of this.listavehiculosAsignados){

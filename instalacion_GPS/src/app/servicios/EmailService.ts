@@ -28,4 +28,7 @@ export class EmailService{
     return this.httpClient.put(this.base_url+"update-mesaje-email/"+id, email);
   }
 
+  enviarMail(datos:MensajesMail,correorecep:String){
+    return this.httpClient.post(this.base_url+"mail/"+correorecep, datos);
+  }
 }

@@ -5,11 +5,6 @@
     <ng-template #dialogMessage>
       <h2> {{titulo}} </h2>
       <form [formGroup]="validacionMensaje">
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>Email Emisor</mat-label>
-          <input matInput name="emiMail" [(ngModel)]="mensage.emiMail" formControlName="emiMail" id="emiMail"/>
-          <mat-error *ngIf="hasError('emiMail', 'required')">Email <strong>requerido</strong></mat-error>
-        </mat-form-field>
         <mat-form-field appearance="outline"style="width: 100%;">
           <mat-label>Tipo de Mensaje</mat-label>
           <input matInput name="tipoMensaje" [(ngModel)]="mensage.tipoMensaje" formControlName="tipoMensaje" id="tipoMensaje"/>
@@ -37,9 +32,6 @@
   <div class="card text-center" *ngFor="let emails of listaEmail">
     <div class="card-header">{{emails.title}}</div>
     <div class="card-body">
-      <h3>Email:
-        <p class="card-text">{{emails.emiMail}}</p>
-      </h3>
       <h3>Tipo:
         <p class="card-text">{{emails.tipoMensaje}}</p>
       </h3>
