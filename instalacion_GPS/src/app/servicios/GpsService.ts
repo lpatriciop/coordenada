@@ -29,8 +29,5 @@ export class GpsService{
   editGps(gps:Gps, id:String){
     return this.httpClient.put(this.base_url+"update-gps/"+id, gps);
   }
-  updateGps(gps:Gps){
-    return this.httpClient.put(this.base_url+"update-gps/", gps);
-  }
 
 }

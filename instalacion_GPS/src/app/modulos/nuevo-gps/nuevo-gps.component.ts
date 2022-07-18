@@ -21,6 +21,8 @@ export class NuevoGpsComponent implements OnInit {
   listaModelo:Array<any>=[];
   listaGps:Array<any>=[];
 
+  //Parametro
+  id:any;
 
   constructor(private servicioModelo:ModeloService,
               private servicioGps:GpsService,
@@ -41,21 +43,24 @@ export class NuevoGpsComponent implements OnInit {
   }
 
 
-
-
-
-
-
-
-
-
-
   ngOnInit(): void {
+    this.id=this.route.snapshot.params['id'];
+    if (this.id){
+      this.Gpsid(this.id);
+    }
       this.servicioModelo.getModelos().subscribe((data:any)=>{
         this.listaModelo=data/*.filter(value=>value.id_modelo==this.plan.modelo.id_modelo);*/
     })
+    this.listarGps();
+  }
 
+  Gpsid(id:String){
+    this.servicioGps.getgps(id).subscribe(value => {
+      this.gps=value
+    })
+  }
 
+  listarGps(){
     this.servicioGps.getGps().subscribe((data:any)=>{
       this.listaGps=data;
       console.log(this.listaGps)
@@ -64,12 +69,20 @@ export class NuevoGpsComponent implements OnInit {
 
   Guardar(){
     this.gps.modelo=this.modelo;
-    console.log(this.modelo.id_modelo)
     this.gps.estado="Activo";
-    console.log(this.gps)
-    this.servicioGps.crearGps(this.gps).subscribe((data:any)=>{
-      this.router.navigate(['/vergps'])
-    })
+    this.gps.imei_gps=(String(this.gps.imei_gps))
+    this.gps.num_gps=(String(this.gps.num_gps))
+    this.gps.num_sim=(String(this.gps.num_gps))
+    if (this.id){
+      this.servicioGps.editGps(this.gps,this.gps.id_gps).subscribe(value => {
+        this.router.navigate(['/vergps'])
+      })
+    }else{
+      this.servicioGps.crearGps(this.gps).subscribe((data:any)=>{
+        this.router.navigate(['/vergps'])
+      })
+    }
+
   }
 
 }

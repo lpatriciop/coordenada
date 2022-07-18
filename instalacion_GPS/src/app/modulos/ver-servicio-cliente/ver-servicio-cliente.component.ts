@@ -16,7 +16,7 @@ import {PlanService} from "../../servicios/PlanService";
 import {Plan} from "../../modelos/Plan";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import Swal from "sweetalert2";
-import {ToastrService} from "ngx-toastr";
+//import {ToastrService} from "ngx-toastr";
 
 
 @Component({
@@ -77,7 +77,7 @@ export class VerServicioClienteComponent implements OnInit {
               private pagoService:PagosService,
               private servicePlan:PlanService,
               private snackBar: MatSnackBar,
-              private toastr: ToastrService) {
+              /*private toastr: ToastrService*/) {
 
   }
   ngOnInit(): void {
@@ -199,9 +199,9 @@ export class VerServicioClienteComponent implements OnInit {
             text: "La fecha maxima a pagar es hasta" +this.servicio.fecha_fin_plan,
             confirmButtonColor: "#0c3255"
           })
-          this.toastr.error("La fecha maxima a pagar es hasta" +this.servicio.fecha_fin_plan, 'ERROR', {
+          /*this.toastr.error("La fecha maxima a pagar es hasta" +this.servicio.fecha_fin_plan, 'ERROR', {
             timeOut: 3000, positionClass: 'toast-top-center'
-          });
+          });*/
         }
       })
   }
