@@ -22,24 +22,8 @@ INSERT INTO public.vehiculo(anio, clave, estado, kilometraje, placa, vehiculo, i
 INSERT INTO public.vehiculo(anio, clave, estado, kilometraje, placa, vehiculo, id_cliente) VALUES ( 2007, 2222, 'Activo', 3000, 'Cbc-124','vitara', 1);
 INSERT INTO public.vehiculo(anio, clave, estado, kilometraje, placa, vehiculo, id_cliente) VALUES ( 2008, 3333, 'Activo', 3500, 'Bbc-225','Dimax', 1);
 INSERT INTO public.vehiculo(anio, clave, estado, kilometraje, placa, vehiculo, id_cliente) VALUES ( 2001, 4444, 'Activo', 3500, 'Dbc-345','Aveo', 2);
-	--------------------------------------------
-INSERT INTO public.plan(costo_p, descripcion_plan, estado_plan, imagen, nombre_p, num_descripcion_p, p_costo_mensual, id_modelo) VALUES ( 120,'por navidad','Activo', ?,'plan A',1,120 ,1);
-	
-	--------------------------------------------
-	INSERT INTO public.documentoservicio(
-	 estado, costo, costo_plan, fecha_ds, fecha_fin, fecha_fin_plan, fecha_inicion, hora, id_cliente, idplan, tipo_plan)
-	VALUES ( 'Activo','', ?, ?, ?, ?, ?, ?, ?, ?, ?);
-	INSERT INTO public.documentoservicio(
-	 estado, costo, costo_plan, fecha_ds, fecha_fin, fecha_fin_plan, fecha_inicion, hora, id_cliente, idplan, tipo_plan)
-	VALUES ( 'Activo','', ?, ?, ?, ?, ?, ?, ?, ?, ?);
-	
-	--------------------------------------------
-	INSERT INTO public.documentodescripcion(
-	 estado, fecha_inst, imagen, observacion, ubicacion, id_documentoservicio, id_gps, id_vehiculo)
-	VALUES ('Activo',11/03/2021, ?, 'puerta sin seguro', 'la capota',1,1,1);
-	INSERT INTO public.documentodescripcion(
-	 estado, fecha_inst, imagen, observacion, ubicacion, id_documentoservicio, id_gps, id_vehiculo)
-	VALUES ('Activo',15/02/2022, ?, 'sobre la capota', 'las entradas del',2,2,2);
+
+
 	
 	
 	
