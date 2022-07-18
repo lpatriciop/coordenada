@@ -2,6 +2,9 @@ INSERT INTO public.modelo(estado, nombre) VALUES ( 'Activo','rj');
 INSERT INTO public.modelo(estado, nombre) VALUES ( 'Activo','rjdos');
 INSERT INTO public.modelo(estado, nombre) VALUES ( 'Activo','rjTres');
 INSERT INTO public.modelo(estado, nombre) VALUES ( 'Activo','rjCuatro');
+    ---------------------------------
+INSERT INTO public.rol(rol_nombre) VALUES ('ROLE_ADMIN');
+INSERT INTO public.rol(rol_nombre) VALUES ('ROLE_INSTALL');
 	--------------------------------
 INSERT INTO public.gps(estado, imei_gps, num_gps, num_sim, id_modelo) VALUES ( 'Activo', 1111, 1111, 1111, 1);
 INSERT INTO public.gps(estado, imei_gps, num_gps, num_sim, id_modelo) VALUES ( 'Activo', 1212, 1212, 1212, 2);

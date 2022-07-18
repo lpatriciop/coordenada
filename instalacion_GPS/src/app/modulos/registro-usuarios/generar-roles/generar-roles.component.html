@@ -1,13 +1,36 @@
-<br>
-<mat-card-title style="text-align: center;font-size: 25px"><strong>EDICIÓN DE USUARIOS</strong></mat-card-title>
-<div class="grid">
-  <input type="text" [value]="user.nombre" disabled>
-  <input type="text" [value]="user.telefono" disabled>
-  <input type="text" [value]="user.correo" disabled>
-</div>
 <!-----------al dia------->
-<div class="grid">
-  <mat-card class="example-card grid">
+  <mat-card class="example-card">
+    <br>
+    <mat-card-title style="text-align: center;font-size: 25px"><strong>EDICIÓN DE USUARIOS</strong></mat-card-title>
+    <h3>Datos del Usuario :</h3>
+    <div class="grid">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Nombre: </mat-label>
+        <input matInput [value]=" user.nombre" disabled>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Telefono: </mat-label>
+        <input matInput [value]=" user.telefono" disabled>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Correo: </mat-label>
+        <input matInput [value]=" user.correo" disabled>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Dirección: </mat-label>
+        <input matInput [value]=" user.direccion" disabled>
+      </mat-form-field>
+
+      <div>
+
+      </div>
+
+    </div>
+
+    <h3>Roles :</h3>
     <section>
       <li class="list-group-item" *ngFor="let rol of listaRol">
         <div class="form-check">
@@ -25,7 +48,7 @@
         </div>
       </li>
     </section>
+    <br>
+    <button style="background: #8cadcb" mat-button color="primary" (click)="submit()">GUARDAR CAMBIOS</button>
   </mat-card>
-  <button (click)="submit()">BOTON</button>
-</div>
 

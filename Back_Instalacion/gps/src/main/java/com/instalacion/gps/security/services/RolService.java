@@ -20,7 +20,7 @@ public class RolService {
 	@Autowired
 	public RolRepository rolRepository;
 	
-	public Optional<Rol> getByUsername(RolNombre rolNombre){
+	public Optional<Rol> getByUsername(String rolNombre){
 		return rolRepository.findByRolNombre(rolNombre);
 	}
 	

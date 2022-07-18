@@ -1,6 +1,7 @@
 package com.instalacion.gps.security.controller;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -66,11 +67,15 @@ public class AuthController {
 				nuevoUsuario.getCorreo(),nuevoUsuario.getTelefono(),passwordEncoder.encode(nuevoUsuario.getPassword()),
 				nuevoUsuario.getEstado());
 		Set<Rol> roles = new HashSet<>();
-		if (nuevoUsuario.getRoles().contains("admin"))
-			roles.add(rolService.getByUsername(RolNombre.ROLE_ADMIN).get());
-		if (nuevoUsuario.getRoles().contains("install")) 
-			roles.add(rolService.getByUsername(RolNombre.ROLE_INSTALL).get());
-		System.out.println(roles.toString());
+		String nrol;
+		for (int i = 0; i < rolService.getAll().size(); i++) {
+			Rol r=rolService.getAll().get(i);
+			nrol = r.getRolNombre();
+			if (nuevoUsuario.getRoles().contains(nrol)) {
+				roles.add(r);
+			}
+		}
+	
 		usuario.setRoles(roles);
 		return new ResponseEntity(usuarioService.save(usuario) , HttpStatus.CREATED);
 	}
@@ -107,8 +112,25 @@ public class AuthController {
 		return users;
 	}
 
-	@PutMapping("/update-user")
-	public Usuario update(@Validated @RequestBody Usuario l) {
+ 	@PutMapping("/update-user")
+	public Usuario update(@Validated @RequestBody NuevoUsuario nu) {
+		Usuario l=new Usuario(nu.getId_persona(),nu.getNombre(), nu.getDireccion(), nu.getCorreo(), nu.getTelefono(), passwordEncoder.encode(nu.getPassword()), nu.getEstado());
+		for (int i = 0; i < nu.getRoles().size(); i++) {
+			String n=nu.getRoles().toString();
+			System.out.println(n);
+			
+		}
+		Set<Rol> roles = new HashSet<>();
+		String nrol;
+		for (int i = 0; i < rolService.getAll().size(); i++) {
+			Rol r=rolService.getAll().get(i);
+			nrol = r.getRolNombre();
+			if (nu.getRoles().contains(nrol)) {
+			 System.out.println(nrol);
+				roles.add(r);
+			}
+		}
+		l.setRoles(roles);
 		return usuarioService.update(l);
 	}
 }
