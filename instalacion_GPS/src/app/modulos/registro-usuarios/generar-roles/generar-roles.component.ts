@@ -5,6 +5,7 @@ import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {User} from "../../../modelos/User";
 import {UserService} from "../../../servicios/UserService";
 import {ActivatedRoute, Router} from "@angular/router";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-generar-roles',
@@ -17,6 +18,7 @@ export class GenerarRolesComponent implements OnInit {
   form: FormGroup;
   user:User=new User();
   idpersona:any;
+  ListadeNombresRol=[]
 
   constructor(private rolService:RolService,
               private _formBuilder: FormBuilder,
@@ -35,25 +37,28 @@ export class GenerarRolesComponent implements OnInit {
   listarRoles(){
     this.rolService.getRol().subscribe((data:any)=>{
       this.listaRol=data
-      console.log(this.listaRol)
     })
   }
 
   public onChange(event, rol: Rol) {
-    console.log(rol);
     const checked = event.target.checked;
     if (checked) {
       this.user.roles.push(rol);
     } else {
       this.user.roles = this.user.roles.filter(
-        (r) => r.rolNombre != rol.rolNombre
-      );
+        (r) => r.rolNombre != rol.rolNombre);
     }
   }
 
   submit(){
-    //Metodo para guardar todavia
     console.log(this.user)
+    for (let rol of this.user.roles){
+      this.ListadeNombresRol.push(rol.rolNombre);
+    }
+    this.user.roles=this.ListadeNombresRol;
+    this.userService.updateUser(this.user).subscribe(value => {
+      this.router.navigate(['/asignacionroles'])
+    })
   }
 
   cargarUsuario(id: number) {

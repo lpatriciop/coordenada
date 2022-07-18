@@ -30,6 +30,7 @@ export class UserService{
   getUserid(id:any):Observable<User>{
     return this.httpClient.get<User>(this.base_url+id);
   }
+
   updateUser(user:User){
     return this.httpClient.put(this.base_url+"update-user", user);
   }
