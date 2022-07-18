@@ -1,0 +1,46 @@
+<div>
+  <mat-card class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar style="background-image: url('assets/mario.png'); background-size: cover"></div>
+      <mat-card-title class="centrar">Registro de Usuarios</mat-card-title>
+      <mat-card-subtitle>Datos del usuario</mat-card-subtitle>
+    </mat-card-header>
+    <form  [formGroup]="formUser">
+      <mat-card-content>
+            <mat-form-field appearance="outline" class="width-full">
+              <mat-label>Correo</mat-label>
+              <input matInput placeholder="Ex. ejemplo@gmail.com"  formControlName="correo" [(ngModel)]="user.correo">
+            </mat-form-field>
+                <br>
+            <mat-form-field appearance="outline" class="width-full">
+              <mat-label>Contraseña</mat-label>
+              <input matInput [type]="hide ? 'password' : 'text'"   formControlName="contra" [(ngModel)]="user.password">
+              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+            <br>
+        <!---->
+          <mat-form-field appearance="outline" class="width-full">
+            <mat-label>Rol</mat-label>
+            <mat-select [(ngModel)]="rol.id" name="rol" formControlName="rol" >
+              <mat-option *ngFor="let rol of listaRol" [value]="rol.id" >
+                {{rol.rolNombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+
+        <mat-card-actions style="width: 100%; text-align: center">
+          <button mat-raised-button color="accent" (click)="regsitrar()" [disabled]="formUser.invalid">REGISTRASE</button>
+        </mat-card-actions>
+      </mat-card-content>
+    </form>
+  </mat-card>
+</div>
+
+<ng-container *ngIf="false">
+  <div class="bss-loader" style="margin: 0 auto;">
+    <mat-progress-bar color="warn" mode="indeterminate"></mat-progress-bar>
+  </div>
+</ng-container>

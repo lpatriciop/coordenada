@@ -1,0 +1,172 @@
+<mat-sidenav-container>
+    <div style="text-align: center;">
+      <img class="logo" src="../assets/imagen/log.png">
+      <br><br>
+      <mat-divider></mat-divider>
+      <h2 class="text-center">Caso #2 - Grupo #1</h2>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <mat-divider></mat-divider>
+
+
+    <mat-accordion multi>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>dashboard</mat-icon>
+            <span>Dashboard</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <button mat-button class="button-accordion" routerLink="/consulta-convocatoria">
+          <mat-icon>description</mat-icon>
+          <span>Ver Convocatorias</span>
+        </button>
+
+        <button mat-button class="button-accordion" routerLink="/consultasppp">
+          <mat-icon>find_in_page</mat-icon>
+          <span> Procesos </span>
+        </button>
+
+
+
+        <button mat-button class="button-accordion" routerLink="/home">
+          <mat-icon>class</mat-icon>
+          <span> Carreras </span>
+        </button>
+
+        <button mat-button class="button-accordion" routerLink="/anexosde-ppp">
+          <mat-icon>file_copy</mat-icon>
+          <span>Anexos PPP </span>
+        </button>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <div>
+      <!--Coordinador de vinculación-->
+      <mat-accordion multi>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>history_edu</mat-icon>
+              <span>Gestión Admin</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <button mat-button class="button-accordion" routerLink="/crear-carrera">
+            <mat-icon>add</mat-icon>
+            <span> Crear Carrera </span>
+          </button>
+
+          <button mat-button class="button-accordion" routerLink="/registro-empresa">
+            <mat-icon>home</mat-icon>
+            <span>Gestión de empresa</span>
+          </button>
+
+          <button mat-button class="button-accordion" routerLink="/registro-docente">
+            <mat-icon>perm_identity</mat-icon>
+            <span>Gestión de Docentes </span>
+          </button>
+
+          <button mat-button class="button-accordion" routerLink="/listar-carreras">
+            <mat-icon>list</mat-icon>
+            <span>Listar </span>
+          </button>
+
+          <button mat-button class="button-accordion" routerLink="/gestion-empresa">
+            <mat-icon>list</mat-icon>
+            <span>Empresas</span>
+          </button>
+
+          <button mat-button class="button-accordion"
+          >
+            <mat-icon>assignment</mat-icon>
+            <span>Acreditación</span>
+          </button>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>business</mat-icon>
+              <span> Gestión Empresa </span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <button mat-button class="button-accordion" routerLink="/solicitud-empresa">
+            <mat-icon>schedule_send</mat-icon>
+            <span>Generar Solicitud</span>
+          </button>
+
+          <button mat-button class="button-accordion" routerLink="/cons-est-asignados">
+            <mat-icon>format_list_bulleted</mat-icon>
+            <span>Estudiantes Asignados</span>
+          </button>
+
+          <button mat-button class="button-accordion" routerLink="/desig-tutor-empresarial">
+            <mat-icon>group</mat-icon>
+            <span>Designar Tutor</span>
+          </button>
+
+          <button mat-button class="button-accordion" routerLink="/crear-empleado">
+            <mat-icon>group_add</mat-icon>
+            <span>Registrar Empleado</span>
+          </button>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>account_tree</mat-icon>
+              <span> Gestión ResponsablePPP </span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <button mat-button class="button-accordion" routerLink="/gestion-convocatoria">
+            <mat-icon>note_add</mat-icon>
+            <span>Generar Convocatoria</span>
+          </button>
+
+          <button mat-button class="button-accordion" routerLink="/lista-convocatorias">
+            <mat-icon>question_answer</mat-icon>
+            <span>Postulaciones</span>
+          </button>
+
+          <button mat-button class="button-accordion" routerLink="/desig-tutor-academico">
+            <mat-icon>group</mat-icon>
+            <span>Designar Tutor</span>
+          </button>
+
+          <button mat-button class="button-accordion" routerLink="/crear-acta">
+            <mat-icon>connect_without_contact</mat-icon>
+            <span>Acta de Reunión</span>
+          </button>
+
+          <button mat-button class="button-accordion" routerLink="/consultas-reportes">
+            <mat-icon>flag</mat-icon>
+            <span>Consultas y Reportes</span>
+          </button>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <a class="nav-link" routerLink="/registro-empresa" style="color: white;">
+      <mat-icon>home</mat-icon>
+      <span>Gestión de empresa</span>
+    </a>
+</mat-sidenav-container>
+

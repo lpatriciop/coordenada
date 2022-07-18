@@ -1,0 +1,48 @@
+package com.instalacion.gps.controller;
+
+import java.util.List;
+import java.util.Optional;
+import com.instalacion.gps.models.MensajesMail;
+import com.instalacion.gps.repository.EmailRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+
+@RestController
+@CrossOrigin(origins = "*", methods = { RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT,
+		RequestMethod.DELETE })
+@RequestMapping("/api/emailservice")
+public class EmailController {
+
+    @Autowired
+    private EmailRepository repository;
+
+
+    @GetMapping("/")
+	public List<MensajesMail> readAll() {
+		return repository.findAll();
+	}
+    
+    @GetMapping("/{id}")
+	public Optional<MensajesMail> buscarMessage(@PathVariable Long id) {
+		return repository.findById(id);
+	}
+    
+	@PostMapping("/create-mesaje-email")
+	public MensajesMail createMessage(@Validated @RequestBody MensajesMail l) {
+		return repository.save(l);
+	}
+
+	@PutMapping("/update-mesaje-email/{id}")
+	public MensajesMail updateMessage(@PathVariable Long id, @Validated @RequestBody MensajesMail l) {
+		return repository.save(l);
+	}
+
+	@DeleteMapping("/delete-mesaje-email/{id}")
+	public void deleteMessage(@PathVariable Long id) {
+		repository.deleteById(id);
+	}
+    
+    
+}

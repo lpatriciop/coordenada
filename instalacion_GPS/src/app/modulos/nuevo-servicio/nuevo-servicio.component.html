@@ -1,0 +1,182 @@
+<div class="center">
+  <mat-card-title>GENERAR DOCUMENTO DE INSTALACIÓN</mat-card-title>
+</div>
+
+<div class="center">
+    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+      <mat-step>
+          <div>
+            <mat-card-title class="mediat">Datos Cliente</mat-card-title>
+            <ng-template matStepLabel ><div class="mediast">Datos Cliente</div></ng-template>
+            <form class="todostepper" [formGroup]="firstFormGroup">
+
+                <h4>Ingrese la cecula del cliente</h4>
+                <mat-form-field>
+                  <input matInput formControlName="cedcli" placeholder="Cedula Cliente" (keyup)="buscarCliente($event)" Enabl style="width: 93%; margin-left: 2px"/>
+                  <mat-icon class="sep">search</mat-icon>
+                </mat-form-field>
+              <br><br>
+
+            </form>
+            <!--Datos-->
+            <div *ngIf="cliente.cedula!=null" style="text-align: center">
+              <div class="grid">
+                <span><strong>Cedula: </strong>{{cliente.cedula}}</span>
+                <span><strong>Nombres: </strong>{{cliente.nombre}}</span>
+                <span><strong>Telefono: </strong>{{cliente.telefono}}</span>
+                <span><strong>Dirección: </strong>{{cliente.direccion}}</span>
+                <span><strong>Contacto: </strong>{{cliente.contacto}}</span>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div>
+            <button mat-raised-button color="primary"  matStepperNext *ngIf="cliente.cedula!=null">Siguiente</button>
+          </div>
+
+      </mat-step>
+      <mat-step [stepControl]="firstFormGroup">
+        <form class="todostepper">
+          <ng-template matStepLabel><div class="mediast">Asignación</div></ng-template>
+          <div class="grids">
+            <div *ngIf="listavehiculos.length>0">
+              <mat-card-title class="mediat">Datos Vehiculo</mat-card-title>
+              <h2>Seleccione un imei para vehiculo</h2>
+              <table class="center">
+                <thead>
+                <th>ID</th>
+                <th>Placa</th>
+                <th>Vehiculo</th>
+                <th>Agregar Imei</th>
+
+                </thead>
+                <tbody *ngFor="let vehiculo of listavehiculos">
+                <td>{{vehiculo.id_vehiculo}}</td>
+                <td>{{vehiculo.placa}}</td>
+                <td>{{vehiculo.vehiculo}}</td>
+                <td><button class="btn btn-primary" (click)="addImei(vehiculo.id_vehiculo)">Add Imei</button></td>
+                </tbody>
+              </table>
+            </div>
+            <div *ngIf="listavehiculosAsignados.length>0">
+              <h2>Vehiculos a guardar</h2>
+              <table class="center">
+                <thead>
+                <th>ID</th>
+                <th>Placa</th>
+                <th>Vehiculo</th>
+                <th>ID</th>
+                <th>Imei</th>
+                <th>Modelo</th>
+                <th>Quitar</th>
+                </thead>
+                <tbody *ngFor="let det of listavehiculosAsignados">
+                <td>{{det.vehiculo.id_vehiculo}}</td>
+                <td>{{det.vehiculo.placa}}</td>
+                <td>{{det.vehiculo.vehiculo}}</td>
+                <td>{{det.gps.id_gps}}</td>
+                <td>{{det.gps.imei_gps}}</td>
+                <td>{{det.gps.modelo.nombre}}</td>
+                <td><button class="btn btn-danger" (click)="Quitar(det.vehiculo.id_vehiculo)">	<mat-icon>close</mat-icon></button></td>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+          <br><br>
+          <div>
+            <button mat-raised-button matStepperPrevious color="warn">Atras</button>
+            <button mat-raised-button matStepperNext color="accent">Siguente</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step >
+        <div class="example-card ">
+          <mat-card-title class="mediat">Confirmación</mat-card-title>
+          <ng-template matStepLabel><div class="mediast">Confirmación</div></ng-template>
+          <mat-card-content>
+            <div style="text-align: center">
+              <strong>Información general del servicio:</strong>
+              <br><br><br>
+            </div>
+
+            <div class="grid">
+              <p><strong>Cedula: </strong> {{cliente.cedula}}</p>
+              <p><strong>Nombre: </strong> {{cliente.nombre}}</p>
+              <p><strong>Nombre Contacto: </strong> {{cliente.contacto}}</p>
+              <p><strong>Fecha Entrega:</strong> {{servicio.fecha_ds | date:'dd/MM/yyyy'}}</p>
+              <p><strong>Hora:</strong> {{servicio.hora}}</p>
+            </div>
+
+                <h4>VEHICULOS - GPS:</h4>
+                <table class="center" *ngIf="listavehiculosAsignados.length>0">
+                  <thead>
+                      <th>Placa</th>
+                      <th>Vehiculo</th>
+                      <th>ID</th>
+                      <th>Imei</th>
+                      <th>Modelo</th>
+                      <th>Observacion</th>
+                      <th>Ubicación</th>
+                  </thead>
+                  <tbody *ngFor="let datos of listavehiculosAsignados">
+                      <td>{{datos.vehiculo.placa}}</td>
+                      <td>{{datos.vehiculo.vehiculo}}</td>
+                      <td>{{datos.gps.id_gps}}</td>
+                      <td>{{datos.gps.imei_gps}}</td>
+                      <td>{{datos.gps.modelo.nombre}}</td>
+                      <td>{{datos.observacion}}</td>
+                      <td>{{datos.ubicacion}}</td>
+                  </tbody>
+                </table>
+            <h3 style="color: #F65B3A" *ngIf="listavehiculosAsignados.length<=0"><strong>Ningun vehiculo Asignado</strong></h3>
+
+          </mat-card-content>
+        </div>
+        <mat-card-actions>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="guardaServicio()" >Guardar Servicio</button>
+          <button mat-button (click)="createPdf()" >Imprimir</button>
+        </mat-card-actions>
+
+      </mat-step>
+    </mat-horizontal-stepper>
+</div>
+
+<ng-template #dialogRef >
+  <div class="center">
+
+
+  <h2> Ingrese el Imei </h2>
+  <br>
+  <mat-form-field appearance="legacy">
+      <mat-label>Imei</mat-label>
+
+      <input (keyup)="flitrarimei($event)" matInput placeholder="Numero de Imei"  style="width: 70%; margin-left: 5px" required/>
+    <mat-icon>search</mat-icon>
+
+      <mat-hint>Hint</mat-hint>
+  </mat-form-field>
+  <br>
+  <h4>GPS</h4>
+  <span>Imei: {{gps.imei_gps}}</span><br>
+  <span>Modelo: {{gps.modelo.nombre}}</span>
+  <h4>Acciones</h4>
+    <div *ngFor="let ac of listaAcciones">
+      <span>{{ac.nombre}}</span>
+    </div>
+
+  <br>
+  <mat-form-field>
+    <input matInput placeholder="Observaciones" name="observacion" [(ngModel)]="ubica" required/>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <input matInput placeholder="Ubicacion" name="ubicacion" [(ngModel)]="obser" required/>
+  </mat-form-field>
+  <br>
+  <button  mat-raised-button color="warn" mat-button mat-dialog-close>Cerrar</button>
+  <button class="btn btn-primary" (click)="Agregarlista()">Guardar</button>
+  </div>
+</ng-template>
+

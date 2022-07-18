@@ -1,0 +1,237 @@
+<!--<header>
+  <mat-toolbar>
+    <div class="tool logo">
+      <a [routerLink]="['']" class="btninicio">
+        <span><img src="https://www.coordenadaec.com/wp-content/uploads/2022/04/LogoCoordenadas.png" alt="Coordenada - Tecnología en Geolocalización" /></span>
+      </a>
+    </div>
+    <span class="example-spacer"></span>
+
+        <div *ngIf="issloading==true" style="margin-left: 50px">
+          <button class="btniniciarS hover" [matMenuTriggerFor]="perfil">
+            <span class="medath tmmeda">{{usuario}}<mat-icon> person_pin</mat-icon></span>
+
+          </button>
+          <mat-menu #perfil="matMenu">
+            <button mat-menu-item style="text-align: center" [routerLink]="['/rol_ingreso']">Perfil<mat-icon> person_pin</mat-icon></button>
+            <button mat-menu-item style="text-align: center" (click)="cerrarSesion()" >Cerrar Sesión<mat-icon>exit_to_app</mat-icon></button>
+          </mat-menu>
+        </div>
+
+
+        <div *ngIf="issloading==false" class="mediaUbt">
+          <button class="btniniciarS hover" [routerLink]="['/iniciasesion']">
+            <mat-icon>supervised_user_circle</mat-icon>
+            INICIAR SESION
+          </button>
+        </div>
+
+    <ng-template #dialogRolesUs >
+      <h2> {{titulo}} </h2>
+      <mat-form-field appearance="fill">
+        <mat-select [(ngModel)]="rol_us.id" name="rol_us" >
+          <mat-option *ngFor="let roles of listrol" [value]="roles.id">
+            {{roles.rol.nombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <button mat-button mat-dialog-close>Cancelar</button>
+      <button mat-button mat-dialog-close>Aceptar</button>
+    </ng-template>
+
+  </mat-toolbar>
+</header>
+<mat-divider style="width: 100%;"></mat-divider>
+<body>
+  <router-outlet></router-outlet>
+</body>
+<footer class="pie-pagina">
+  <div class="grupo-2">
+    <small>&copy; 2022 <b>APECS </b> - Todos los Derechos Reservados.</small>
+  </div>
+</footer>-->
+<header>
+  <mat-toolbar>
+    <div class="container" *ngIf="admin || install">
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon *ngIf="!sidenav.opened">
+          menu
+        </mat-icon>
+        <mat-icon *ngIf="sidenav.opened">
+          close
+        </mat-icon>
+      </button>
+    </div>
+
+    <div class="container" *ngIf="!admin || !install">
+      <div></div>
+    </div>
+
+    <!---->
+    <div *ngIf="issloading==true" >
+      <button [matMenuTriggerFor]="perfil" class="btniniciarS">
+        <span>{{usuario.nombre}}<mat-icon> person_pin</mat-icon></span>
+
+      </button>
+      <mat-menu #perfil="matMenu">
+        <button mat-menu-item style="text-align: center" [routerLink]="['/rol_ingreso']"> Perfil<mat-icon> person_pin</mat-icon></button>
+        <button mat-menu-item style="text-align: center" (click)="cerrarSesion()" >Cerrar Sesión<mat-icon>exit_to_app</mat-icon></button>
+      </mat-menu>
+    </div>
+
+    <div *ngIf="issloading==false" class="sesion">
+      <button style="text-align: right" class="btniniciarS hover" [routerLink]="['/iniciasesion']" class="btniniciarS">
+        <mat-icon>supervised_user_circle</mat-icon>
+        INICIAR SESION
+      </button>
+    </div>
+
+  </mat-toolbar>
+</header>
+
+<mat-sidenav-container>
+
+  <mat-sidenav #sidenav="matSidenav">
+    <mat-divider></mat-divider>
+
+    <div>
+      <div class="tool logo">
+        <a [routerLink]="['']" class="btninicio">
+          <span><img src="https://www.coordenadaec.com/wp-content/uploads/2022/04/LogoCoordenadas.png" alt="Coordenada - Tecnología en Geolocalización" /></span>
+        </a>
+        COORDENADA
+      </div>
+      <br><br>
+      <mat-divider></mat-divider>
+      <br>
+      <div>
+        <mat-accordion multi>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon> person_pin_circle</mat-icon>
+                SERVICIOS
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <button mat-button class="button-accordion" [routerLink]="['/verservicios']">
+              <mat-icon>description</mat-icon>
+              <span>Listar Servicio</span>
+            </button>
+
+            <button mat-button class="button-accordion" [routerLink]="['/seleccion/plan']">
+              <mat-icon>picture_as_pdf</mat-icon>
+              <span>Nuevo Servicio</span>
+            </button>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+
+      <div>
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>supervised_user_circle</mat-icon>
+                <span>CLIENTES</span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <button mat-button class="button-accordion" [routerLink]="['/verclientes']">
+              <mat-icon>person_add</mat-icon>
+              <span>Listar Clientes</span>
+            </button>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+      </div>
+
+      <div>
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>directions_car</mat-icon>
+                <span>VEHICULOS</span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <button mat-button class="button-accordion" [routerLink]="['/vervehiculos']">
+              <mat-icon> local_car_wash</mat-icon>
+              <span>Listar Vehiculos</span>
+            </button>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+      </div>
+
+      <div>
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>gps_fixed</mat-icon>
+                <span>GPS</span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <button mat-button class="button-accordion" [routerLink]="['/vergps']">
+              <mat-icon>gps_not_fixed</mat-icon>
+              <span>Listar GPS</span>
+            </button>
+
+            <button mat-button class="button-accordion" [routerLink]="['/nuevomodelogps']">
+              <mat-icon>offline_bolt</mat-icon>
+              <span>Nuevo Modelo GPS</span>
+            </button>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+      </div>
+
+      <div>
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>group_add</mat-icon>
+                <span>Adminstracion</span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <button mat-button class="button-accordion" [routerLink]="['/Mensaje/email']">
+              <mat-icon>mark_email_unread</mat-icon>
+              <span>Mensajes Email</span>
+            </button>
+            <!------------------------->
+            <button mat-button class="button-accordion" [routerLink]="['/asignacionroles']">
+              <mat-icon>assignment_ind</mat-icon>
+              <span>Usuarios</span>
+            </button>
+
+          </mat-expansion-panel>
+        </mat-accordion>
+
+      </div>
+
+      <a class="nav-link" style="color: white;">
+        <span>ADMIN</span>
+      </a>
+
+    </div>
+  </mat-sidenav>
+
+  <mat-card-content>
+    <router-outlet></router-outlet>
+  </mat-card-content>
+
+</mat-sidenav-container>
+<footer class="pie-pagina">
+  <div class="grupo-2">
+    <small>&copy; 2022 <b>APECS </b> - Todos los Derechos Reservados.</small>
+  </div>
+</footer>
+
+
+
+

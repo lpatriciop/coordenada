@@ -1,0 +1,13 @@
+.center{
+  width: 80%;
+  text-align: center;
+  margin: 1% auto;
+}
+
+mat-form-field {
+  width: 60%;
+}
+.BusquedaModelo{
+  width: 20%;
+  margin-left: 10%;
+}
