@@ -78,8 +78,8 @@
       <mat-error *ngIf="hasError('modelo', 'required')">Modelo <strong>requerido</strong></mat-error>
     </mat-form-field>
     <br>
-    <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-button mat-dialog-close (click)="GuardarPlan()" [disabled]="!VNuevoPlanFormGroup.valid">Guardar</button>
+    <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+    <button mat-raised-button color="primary"   (click)="GuardarPlan()" [disabled]="!VNuevoPlanFormGroup.valid">Guardar</button>
     </form>
   </ng-template>
 
