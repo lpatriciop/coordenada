@@ -1,10 +1,13 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {Router} from "@angular/router";
-import {Rol_UsuarioService} from "../servicios/Rol_UsuarioService";
-import {MatDialog} from "@angular/material/dialog";
-import {MatSidenav} from "@angular/material/sidenav";
+import { FormGroup,} from '@angular/forms';
+import { MatSidenav } from '@angular/material/sidenav';
 import {BreakpointObserver} from '@angular/cdk/layout';
+import { ChangeDetectorRef } from '@angular/core';
+import Swal from 'sweetalert2';
 import {LoginUser} from "../modelos/LoginUser";
+import {Router} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+
 
 @Component({
   selector: 'app-principal',
@@ -23,21 +26,21 @@ export class PrincipalComponent implements OnInit {
   creating = false;
 
   @ViewChild(MatSidenav)
-  sidenav:MatSidenav;
+  sidenav: MatSidenav;
 
   @ViewChild('dialogRolesUs')
   dialogRolesUs!: TemplateRef<any>;
 
 
-  constructor(private router: Router,
-              private roles_userSevice: Rol_UsuarioService,
-              public dialog: MatDialog,
-              private observer: BreakpointObserver) {
-  }
-
-
+  constructor(
+    private observer: BreakpointObserver,
+    private changeDedectionRef: ChangeDetectorRef,
+    private router: Router,
+    public dialog: MatDialog,
+  ) { }
 
   ngOnInit(): void {
+    this.changeDedectionRef.detectChanges();
     this.usuario= JSON.parse(localStorage['user']);
     this.roles= JSON.parse(sessionStorage['Autorities']);
     if (this.usuario.token!=null){
@@ -54,29 +57,21 @@ export class PrincipalComponent implements OnInit {
       this.router.navigate([''])
     }
 
-
   }
+
 
   ngAfterContentInit() {
-    if (this.admin || this.install){
-        this.observer.observe(['(max-width: 800px)']).subscribe((res) => {
-          console.log(this.sidenav)
-          if (res.matches) {
-            this.sidenav.mode = 'over';
-            this.sidenav.close();
-          } else {
-            console.log("grande")
-            this.sidenav.mode = 'side';
-            this.sidenav.open();
-          }
-        });
-    }
 
+    this.observer.observe(['(max-width: 800px)']).subscribe((res) => {
+      if (res.matches) {
+        this.sidenav.mode = 'over';
+        this.sidenav.close();
+      } else {
+        this.sidenav.mode = 'side';
+        this.sidenav.open();
+      }
+    });
   }
-
-
-
-
 
   cerrarSesion(){
     localStorage.clear();
@@ -85,4 +80,5 @@ export class PrincipalComponent implements OnInit {
       window.location.reload();
     })
   }
+
 }

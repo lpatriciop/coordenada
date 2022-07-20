@@ -1,39 +1,40 @@
-  <mat-toolbar>
-    <div class="container" *ngIf="admin || install">
-      <button mat-icon-button (click)="sidenav.toggle()">
-        <mat-icon *ngIf="!sidenav.opened">
-          menu
-        </mat-icon>
-        <mat-icon *ngIf="sidenav.opened">
-          close
-        </mat-icon>
-      </button>
-    </div>
+<mat-toolbar>
+  <div class="container" *ngIf="admin || install">
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon *ngIf="!sidenav.opened">
+        menu
+      </mat-icon>
+      <mat-icon *ngIf="sidenav.opened">
+        close
+      </mat-icon>
+    </button>
+  </div>
 
-    <div class="container" *ngIf="!admin || !install">
-      <div></div>
-    </div>
+  <div class="container" *ngIf="!admin || !install">
+    <div></div>
+  </div>
 
-    <!---->
-    <div *ngIf="issloading==true" >
-      <button [matMenuTriggerFor]="perfil" class="btniniciarS">
-        <span>{{usuario.nombre}}<mat-icon> person_pin</mat-icon></span>
+  <!---->
+  <div *ngIf="issloading==true" >
+    <button [matMenuTriggerFor]="perfil" class="btniniciarS">
+      <span>{{usuario.nombre}}<mat-icon> person_pin</mat-icon></span>
 
-      </button>
-      <mat-menu #perfil="matMenu">
-        <button mat-menu-item style="text-align: center" [routerLink]="['/rol_ingreso']"> Perfil<mat-icon> person_pin</mat-icon></button>
-        <button mat-menu-item style="text-align: center" (click)="cerrarSesion()" >Cerrar Sesión<mat-icon>exit_to_app</mat-icon></button>
-      </mat-menu>
-    </div>
+    </button>
+    <mat-menu #perfil="matMenu">
+      <button mat-menu-item style="text-align: center" [routerLink]="['/rol_ingreso']"> Perfil<mat-icon> person_pin</mat-icon></button>
+      <button mat-menu-item style="text-align: center" (click)="cerrarSesion()" >Cerrar Sesión<mat-icon>exit_to_app</mat-icon></button>
+    </mat-menu>
+  </div>
 
-    <div *ngIf="issloading==false" class="sesion">
-      <button style="text-align: right" class="btniniciarS hover" [routerLink]="['/iniciasesion']" class="btniniciarS">
-        <mat-icon>supervised_user_circle</mat-icon>
-        INICIAR SESION
-      </button>
-    </div>
+  <div *ngIf="issloading==false" class="sesion">
+    <button style="text-align: right" class="btniniciarS hover" [routerLink]="['/iniciasesion']" class="btniniciarS">
+      <mat-icon>supervised_user_circle</mat-icon>
+      INICIAR SESION
+    </button>
+  </div>
 
-  </mat-toolbar>
+</mat-toolbar>
+
 
 <mat-sidenav-container>
 
@@ -166,17 +167,14 @@
     </div>
   </mat-sidenav>
 
-  <mat-sidenav-content class="content">
+  <mat-sidenav-content class="content mat-elevation-z4">
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 
 </mat-sidenav-container>
+
 <footer class="pie-pagina">
   <div class="grupo-2">
     <small>&copy; 2022 <b>APECS </b> - Todos los Derechos Reservados.</small>
   </div>
 </footer>
-
-
-
-
