@@ -199,13 +199,14 @@
 </mat-card-footer>
 
 <ng-template #dialogEditServiciogps >
+
+  <form [formGroup]="DialogvalidGps" >
   <h2> {{titulo}} </h2>
   <br>
   <mat-form-field appearance="legacy">
     <mat-label>Imei</mat-label>
-    <input (keyup)="flitrarimei($event)" matInput placeholder="Numero de Imei" required/>
+    <input (keyup)="flitrarimei($event)" matInput placeholder="Numero de Imei" style="width: 70%; margin-left: 5px" formControlName="imei" id="imei" autocomplete="off"/>
     <mat-icon>search</mat-icon>
-    <mat-hint>Hint</mat-hint>
   </mat-form-field>
   <br>
   <h4>GPS</h4>
@@ -218,8 +219,8 @@
 
   <br>
   <button mat-button mat-dialog-close>Cancelar</button>
-  <button mat-button mat-dialog-close   (click)="seleccionarGps()">Seleccionar</button>
-
+  <button mat-button mat-dialog-close   (click)="seleccionarGps()" [disabled]="!DialogvalidGps.valid">Seleccionar</button>
+  </form>
 </ng-template>
 
 <ng-template #dialogEditServiciovehiculo>

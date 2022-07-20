@@ -85,8 +85,8 @@
           </div>
           <br><br>
           <div>
-            <button mat-raised-button matStepperPrevious color="warn">Atras</button>
-            <button mat-raised-button matStepperNext color="accent">Siguente</button>
+            <button mat-raised-button color="warn" matStepperPrevious>Atras</button>
+            <button mat-raised-button color="primary" matStepperNext>Siguete</button>
           </div>
         </form>
       </mat-step>
@@ -134,9 +134,9 @@
           </mat-card-content>
         </div>
         <mat-card-actions>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button (click)="guardaServicio()" >Guardar Servicio</button>
-          <button mat-button (click)="createPdf()" >Imprimir</button>
+          <button mat-raised-button matStepperPrevious color="warn">Atras</button>
+          <button mat-raised-button (click)="guardaServicio()"color="accent">Guardar Servicio</button>
+          <button mat-raised-button (click)="createPdf()" color="primary">Imprimir</button>
         </mat-card-actions>
 
       </mat-step>
@@ -144,18 +144,15 @@
 </div>
 
 <ng-template #dialogRef >
+  <div [formGroup]="Dialogvalid">
   <div class="center">
-
 
   <h2> Ingrese el Imei </h2>
   <br>
   <mat-form-field appearance="legacy">
-      <mat-label>Imei</mat-label>
-
-      <input (keyup)="flitrarimei($event)" matInput placeholder="Numero de Imei"  style="width: 70%; margin-left: 5px" required/>
+    <mat-label>Imei</mat-label>
+    <input (keyup)="flitrarimei($event)" matInput placeholder="Numero de Imei"  style="width: 70%; margin-left: 5px" formControlName="imei" id="imei" autocomplete="off"/>
     <mat-icon>search</mat-icon>
-
-      <mat-hint>Hint</mat-hint>
   </mat-form-field>
   <br>
   <h4>GPS</h4>
@@ -168,15 +165,16 @@
 
   <br>
   <mat-form-field>
-    <input matInput placeholder="Observaciones" name="observacion" [(ngModel)]="ubica" required/>
+    <input matInput placeholder="Observaciones" name="observacion" [(ngModel)]="ubica" formControlName="ubica" id="ubica"/>
   </mat-form-field>
   <br>
   <mat-form-field>
-    <input matInput placeholder="Ubicacion" name="ubicacion" [(ngModel)]="obser" required/>
+    <input matInput placeholder="Ubicacion" name="ubicacion" [(ngModel)]="obser" formControlName="obser" id="obser"/>
   </mat-form-field>
   <br>
   <button  mat-raised-button color="warn" mat-button mat-dialog-close>Cerrar</button>
-  <button class="btn btn-primary" (click)="Agregarlista()">Guardar</button>
+  <button class="btn btn-primary" (click)="Agregarlista()" >Guardar</button>
+  </div>
   </div>
 </ng-template>
 

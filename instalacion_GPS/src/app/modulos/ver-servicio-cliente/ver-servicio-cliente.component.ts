@@ -16,6 +16,10 @@ import {PlanService} from "../../servicios/PlanService";
 import {Plan} from "../../modelos/Plan";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import Swal from "sweetalert2";
+import {DatePipe} from "@angular/common";
+import pdfMake from 'pdfmake/build/pdfmake';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 //import {ToastrService} from "ngx-toastr";
 
 
@@ -25,6 +29,8 @@ import Swal from "sweetalert2";
   styleUrls: ['./ver-servicio-cliente.component.css']
 })
 export class VerServicioClienteComponent implements OnInit {
+
+  listavehiculosAsignados=[];
 
   // @ts-ignore
   dataSource1: MatTableDataSource<Pagos>;
@@ -207,5 +213,165 @@ export class VerServicioClienteComponent implements OnInit {
         }
       })
   }
+
+
+  //--Documento Imprecion-//
+  async createPdf() {
+    var fecha: String = new Date().toISOString();
+    var pipe: DatePipe = new DatePipe('en-US')
+
+    const pdfDefinition: any = {
+
+      background: [
+        {
+          image: await this.getBase64ImageFromURL('assets/Imagenes/LogoCoordenadas.png'),
+          width:150,height:50
+        }
+      ],
+      content: [
+
+        {
+          text: '_________________________________________________________________________________________',
+          alignment: 'center'
+        },
+
+        {text: 'INFORMACION GENERAL', fontSize: 13, bold: true, alignment: 'center'},
+        {text: '    '},
+        {
+          fontSize: 13,
+          table: {
+            widths: ['50%', '50%'],
+            body: [
+
+              ['NOMBRE:' + this.cliente.nombre, 'RUC/CLI:' + this.cliente.cedula],
+              ['DIRECCION: ' + this.cliente.direccion, 'CORREO: ' + this.cliente.correo],
+              [ 'FECHA ENTREGA: ' + pipe.transform(this.servicio.fecha_ds, 'dd/MM/yyyy'), 'TELEFONO: ' + this.cliente.telefono],
+              ['FECHA INICIO: ' + pipe.transform(this.servicio.fecha_inicion, 'dd/MM/yyyy'), 'FECHA FIN: ' + pipe.transform(this.servicio.fecha_fin, 'dd/MM/yyyy')],
+              ['ATENDIDO POR: Angel Villa', 'HORAS: ' + this.servicio.hora],
+            ]
+          }
+        },
+        {text: '    '},
+        {
+          text: 'DETALLES', fontSize: 13, bold: true, alignment: 'center'
+        },
+        this.getEducationObject(this.infodetalle),
+
+        {text: '    '},
+        {
+          text: 'OBSERVACIONES', fontSize: 13, bold: true, alignment: 'center'
+        },
+        this.getEducationSObject(this.infodetalle),
+        {text: '    '},
+        {
+          columns : [
+            { qr: this.servicio.costo + ', Cliente : ' + this.cliente.nombre, fit : 100 },
+
+          ]
+        },
+
+      ]
+    }
+
+    const pdf = pdfMake.createPdf(pdfDefinition);
+    pdf.open();
+
+  }
+
+  getEducationObject(educations:any[]) {
+    return {
+      table: {
+        widths: ['*', '*', '*', '*', '*'],
+        body: [
+          [{
+            text: 'Placa',
+            style: 'tableHeader'
+          },
+            {
+              text: 'Vehiculo',
+              style: 'tableHeader'
+            },
+            {
+              text: 'Id Gps',
+              style: 'tableHeader'
+            },
+            {
+              text: 'Imei',
+              style: 'tableHeader'
+            }
+            ,
+            {
+              text: 'Modelo',
+              style: 'tableHeader'
+            },
+
+          ],
+          ...educations.map(ed => {
+            return [ed.vehiculo.placa,ed.vehiculo.vehiculo,ed.gps.id_gps, ed.gps.imei_gps, ed.gps.modelo.nombre];
+          })
+        ]
+      }
+    };
+  }
+
+  getEducationSObject(educations:any[]) {
+    return {
+      table: {
+        widths: ['*','*', '*'],
+        body: [
+          [
+            {
+              text: 'Placa',
+              style: 'tableHeader'
+            },
+            {
+              text: 'Observaciones',
+              style: 'tableHeader'
+            }
+            ,
+            {
+              text: 'Ubicacion',
+              style: 'tableHeader'
+            },
+          ],
+          ...educations.map(ed => {
+            return [ed.vehiculo.placa,ed.observacion,ed.ubicacion];
+          })
+        ]
+      }
+    };
+  }
+
+
+  getBase64ImageFromURL(url: any) {
+    return new Promise((resolve, reject) => {
+      var img = new Image();
+      img.setAttribute("crossOrigin", "anonymous");
+
+      img.onload = () => {
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        var ctx = canvas.getContext("2d");
+        // @ts-ignore
+        ctx.drawImage(img, 0, 0);
+
+        var dataURL = canvas.toDataURL("image/png");
+
+        resolve(dataURL);
+      };
+
+      img.onerror = error => {
+        reject(error);
+      };
+
+      img.src = url;
+    });
+  }
+
+
+
+
 }
 

@@ -130,6 +130,13 @@ export class NuevoServicioComponent implements OnInit {
     cedcli: new FormControl('',[Validators.required, Validators.maxLength(10),Validators.pattern("[0-9]+")]),
   });
 
+  Dialogvalid = new FormGroup({
+    imei:new FormControl('',Validators.required),
+    ubica: new FormControl('',[Validators.required,Validators.pattern('^[a-zA-Z0-9\\-\\ñÑáéíóúÁÉÍÓÚ., ]*')]),
+    obser: new FormControl('',[Validators.required,Validators.pattern('^[a-zA-Z0-9\\-\\ñÑáéíóúÁÉÍÓÚ., ]*')]),
+
+  });
+
   hide = true;
   accion: Boolean = true;
 

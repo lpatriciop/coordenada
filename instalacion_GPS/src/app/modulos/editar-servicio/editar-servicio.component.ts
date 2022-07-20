@@ -18,6 +18,7 @@ import {Historial} from "../../modelos/Historial";
 import {withModule} from "@angular/core/testing";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-editar-servicio',
@@ -97,6 +98,17 @@ export class EditarServicioComponent implements OnInit {
   ngOnInit(): void {
     this.listaServicio();
   }
+  //----------Validacion Gps-----------
+  DialogvalidGps = new FormGroup({
+    imei:new FormControl('',Validators.required),
+
+  });
+  //----------Validacion movil---------
+  DialogvalidVh = new FormGroup({
+    movil:new FormControl('',Validators.required),
+
+  });
+
 
   listaServicio(){
     this.id=this.route.snapshot.params['id'];
