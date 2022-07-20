@@ -172,7 +172,6 @@ export class VerServicioClienteComponent implements OnInit {
           console.log("No Hay fecha fin")
         }
         this.servicio.fecha_fin = new Date(date.getTime()+mesmili);
-
         this.servicio.estado="Activo"
 
         if (this.costo>0){
@@ -182,35 +181,42 @@ export class VerServicioClienteComponent implements OnInit {
         var dayfinplan=new Date(this.servicio.fecha_fin_plan);
         var dayfin=new Date(this.servicio.fecha_fin);
 
-
-        if (dayfinplan>=dayfin){
-          this.serviceService.editarService(this.servicio,id).subscribe((datas:any)=>{
-            console.log("Actializado el servicio")
-            this.pago.docservice=datas;
-            this.pago.fecha_pago=new Date();
-            console.log(this.pago)
-            if (this.pago.cantidad_p<=0){
-              window.location.reload();
-            }else{
-              this.pagoService.crearPagos(this.pago).subscribe((value:any)=>{
-                console.log("Pago realizado")
+        if (this.monto>=this.costo){
+          if (dayfinplan>=dayfin){
+            this.serviceService.editarService(this.servicio,id).subscribe((datas:any)=>{
+              console.log("Actializado el servicio")
+              this.pago.docservice=datas;
+              this.pago.fecha_pago=new Date();
+              console.log(this.pago)
+              if (this.pago.cantidad_p<=0){
                 window.location.reload();
-              })
-            }
+              }else{
+                this.pagoService.crearPagos(this.pago).subscribe((value:any)=>{
+                  console.log("Pago realizado")
+                  window.location.reload();
+                })
+              }
 
-          })
+            })
+          }else{
+            // @ts-ignore
+            Swal.fire({
+              icon: 'warning',
+              title: 'Error',
+              text: "La fecha maxima a pagar es hasta" +this.servicio.fecha_fin_plan,
+              confirmButtonColor: "#0c3255"
+            })
+          }
         }else{
           // @ts-ignore
           Swal.fire({
             icon: 'warning',
             title: 'Error',
-            text: "La fecha maxima a pagar es hasta" +this.servicio.fecha_fin_plan,
+            text: "Solo tiene que pagar: $"+this.monto,
             confirmButtonColor: "#0c3255"
           })
-          /*this.toastr.error("La fecha maxima a pagar es hasta" +this.servicio.fecha_fin_plan, 'ERROR', {
-            timeOut: 3000, positionClass: 'toast-top-center'
-          });*/
         }
+
       })
   }
 

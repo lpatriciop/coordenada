@@ -28,6 +28,8 @@ import { RolIngresoComponent } from './modulos/rol-ingreso/rol-ingreso.component
 import { MesajesEmailComponent } from './modulos/mesajes-email/mesajes-email.component';
 import { EditarUserComponent } from './modulos/editar-user/editar-user.component';
 import { GenerarRolesComponent } from './modulos/registro-usuarios/generar-roles/generar-roles.component';
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {LayoutModule} from "@angular/cdk/layout";
 
 const routes: Routes = [
   {path:'', component:CuerpoComponent},
@@ -88,7 +90,7 @@ const routes: Routes = [
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

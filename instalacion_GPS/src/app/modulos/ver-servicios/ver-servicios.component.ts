@@ -9,6 +9,7 @@ import {Cliente} from "../../modelos/Cliente";
 import {ClienteService} from "../../servicios/ClienteService";
 import {DescripcionService} from "../../servicios/DescripcionService";
 import {Descripcion} from "../../modelos/Descripcion";
+import {User} from "../../modelos/User";
 
 
 @Component({
@@ -98,10 +99,11 @@ export class VerServiciosComponent implements OnInit {
   }
 
 
-  contarServicios(id:String){
+  contarServicios(user:User){
+    this.contservicios=null;
     let cont=0;
     for (let numser of this.listServicios){
-      if (numser.id_cliente=id){
+      if (numser.id_cliente==user.id_persona){
         cont++;
       }
     }
