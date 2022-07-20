@@ -43,7 +43,7 @@ export class MesajesEmailComponent implements OnInit {
 
   //----------------Validaciones-----------------
   validacionMensaje = new FormGroup({
-    emiMail:new FormControl('',[Validators.required, Validators.email]),
+    //emiMail:new FormControl('',[Validators.required, Validators.email]),
     tipoMensaje: new FormControl('',[Validators.required,Validators.pattern('[a-zA-Z ]*')]),
     title: new FormControl('',[Validators.required,Validators.pattern('[a-zA-Z ]*')]),
     mensaje:new FormControl('',[Validators.required,Validators.pattern('[a-zA-Z ]*')]),
