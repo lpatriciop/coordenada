@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import {GuardsGuard  as guard} from './Guards/guards.guard';
 import { AppComponent } from './app.component';
 import { PrincipalComponent } from './principal/principal.component';
 import {RouterModule, Routes} from "@angular/router";
@@ -35,7 +36,9 @@ const routes: Routes = [
   {path:'', component:CuerpoComponent},
   {path:'iniciasesion', component:InicioSesionComponent},
   {path:'registrousuario', component:RegistroUsuariosComponent},
-  {path:'verservicios', component:VerServiciosComponent},
+  {path:'verservicios', component:VerServiciosComponent,
+    canActivate:[guard],
+    data: { expectedRol: ['rolAdmin']}},
   {path:'verservicio/cliente=/:id', component:VerServicioClienteComponent},
   {path:'verclientes', component:VerClientesComponent},
   {path:'vervehiculos', component:VerVehiculosComponent},
