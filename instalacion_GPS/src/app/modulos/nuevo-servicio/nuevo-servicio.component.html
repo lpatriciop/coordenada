@@ -173,7 +173,7 @@
   </mat-form-field>
   <br>
   <button  mat-raised-button color="warn" mat-button mat-dialog-close>Cerrar</button>
-  <button class="btn btn-primary" (click)="Agregarlista()" >Guardar</button>
+  <button class="btn btn-primary" (click)="Agregarlista()"[disabled]="!Dialogvalid.valid" >Guardar</button>
   </div>
   </div>
 </ng-template>
