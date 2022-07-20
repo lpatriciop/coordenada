@@ -11,10 +11,10 @@ INSERT INTO public.gps(estado, imei_gps, num_gps, num_sim, id_modelo) VALUES ( '
 INSERT INTO public.gps(estado, imei_gps, num_gps, num_sim, id_modelo) VALUES ( 'Activo', 1313, 1313, 1313, 3);
 INSERT INTO public.gps(estado, imei_gps, num_gps, num_sim, id_modelo) VALUES ( 'Activo', 1412, 1414, 1414, 4);
 	--------------------------------
-INSERT INTO public.persona(correo, direccion, nombre, telefono)	VALUES ( 'gabo@gmail.com', 'El Valle', 'Angel Villa', '0991856543');
-INSERT INTO public.persona(correo, direccion, nombre, telefono)	VALUES ( 'angel@gmail.com', 'El Carme', 'Carla Luna', '0081556546');
-INSERT INTO public.persona(correo, direccion, nombre, telefono)	VALUES ( 'ismael@gmail.com', 'Tejar', 'Pablo Armijos', '091155699');
-INSERT INTO public.persona(correo, direccion, nombre, telefono)	VALUES ( 'graci12@gmail.com', 'totems', 'Graciela Loja', '097155657');
+INSERT INTO public.persona(correo, direccion, nombre, telefono)	VALUES ( 'kevin.hernandez.est@tecazuay.edu.ec', 'El Valle', 'Angel Villa', '0991856543');
+INSERT INTO public.persona(correo, direccion, nombre, telefono)	VALUES ( 'mateo.espinoza.est@tecazuay.edu.ec', 'El Carme', 'Carla Luna', '0081556546');
+INSERT INTO public.persona(correo, direccion, nombre, telefono)	VALUES ( 'jefferson.condo.est@tecazuay.edu.ec', 'Tejar', 'Pablo Armijos', '091155699');
+INSERT INTO public.persona(correo, direccion, nombre, telefono)	VALUES ( 'fabian.chuqui.est@tecazuay.edu.ec', 'totems', 'Graciela Loja', '097155657');
 INSERT INTO public.persona(correo, direccion, nombre, telefono)	VALUES ( 'angelvilla474@gmail.com', 'Las Orquideas', 'Angel Villa', '0980223225');
 	--------------------------------
 	
