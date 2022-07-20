@@ -5,11 +5,17 @@
     <ng-template #dialogMessage>
       <h2> {{titulo}} </h2>
       <form [formGroup]="validacionMensaje">
-        <mat-form-field appearance="outline"style="width: 100%;">
+
+        <mat-form-field appearance="outline" style="width: 100%; margin-left: 5px">
           <mat-label>Tipo de Mensaje</mat-label>
-          <input matInput name="tipoMensaje" [(ngModel)]="mensage.tipoMensaje" formControlName="tipoMensaje" id="tipoMensaje"/>
+          <mat-select  [(ngModel)]="mensage.tipoMensaje" formControlName="tipoMensaje" id="tipoMensaje">
+            <mat-option value="Contrato">CONTRATO</mat-option>
+            <mat-option value="Pago de plan">PAGO DE PLAN</mat-option>
+            <mat-option value="Vencimento de plan">VENCIMIENTO DEPLAN</mat-option>
+          </mat-select>
           <mat-error *ngIf="hasError('tipoMensaje', 'required')">Tipo de Mensaje <strong>requerido</strong></mat-error>
         </mat-form-field>
+        <!----------------------->
         <mat-form-field appearance="outline"style="width: 100%;">
           <mat-label>Titulo</mat-label>
           <input matInput name="title" [(ngModel)]="mensage.title" formControlName="title" id="title"/>
