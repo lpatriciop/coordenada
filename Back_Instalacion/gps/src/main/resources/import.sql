@@ -18,8 +18,11 @@ INSERT INTO public.persona(correo, direccion, nombre, telefono)	VALUES ( 'graci1
 INSERT INTO public.persona(correo, direccion, nombre, telefono)	VALUES ( 'angelvilla474@gmail.com', 'Las Orquideas', 'Angel Villa', '0980223225');
 	--------------------------------
 	
-INSERT INTO public.usuario(estado, password, id_persona) VALUES ('Activo', '123', 5);		
+INSERT INTO public.usuario(estado, password, id_persona) VALUES ('Activo', '$2a$10$zJtq53AumdVK2d9tbPXtneYzijf2LFTmhDHNReW7w/ZV9Cy8j7LY2', 5);		
 	----------------------------------
+	
+INSERT INTO public.usuario_rol(usuario_id, rol_id) VALUES (5, 1);
+    ----------------------------------
 	
 INSERT INTO public.cliente(cedula, ciudad, contacto, estado, id_persona) VALUES ('0127853732','Cuenca','Carla Rivera','Activo', 1);
 INSERT INTO public.cliente(cedula, ciudad, contacto, estado, id_persona) VALUES ('0107853733','El Oro','Diego Almeida','Activo', 2);

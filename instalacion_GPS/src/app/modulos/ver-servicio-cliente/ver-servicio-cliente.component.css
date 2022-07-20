@@ -153,3 +153,58 @@ button{
 .centrarli{
   text-align: center;
 }
+
+.mat-column-id{
+  padding: 0;
+  text-align: left;
+}
+
+.mat-column-activar{
+  padding: 0;
+  text-align: left;
+}
+
+.mat-column-eliminar{
+  padding: 0;
+  text-align: left;
+}
+
+.mat-column-editar{
+  padding: 0;
+  text-align: left;
+}
+
+.mat-column-detalles{
+  padding: 0;
+  text-align: left;
+}
+
+.mat-column-estadoSer{
+  padding: 0;
+  text-align: left;
+}
+
+.mat-column-hora{
+  padding: 0;
+  text-align: left;
+}
+
+.mat-column-fechas{
+  padding: 0;
+  text-align: left;
+}
+.mat-column-fechaI{
+  padding: 0;
+  text-align: left;
+}
+
+.mat-column-fechaF{
+  padding: 0;
+  text-align: left;
+}
+
+.mat-column-fechaFinPlan{
+  padding: 0;
+  text-align: left;
+}
+

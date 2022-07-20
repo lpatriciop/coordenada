@@ -161,9 +161,7 @@ export class VerServicioClienteComponent implements OnInit {
       this.serviceService.getService(id).subscribe((data:any)=>{
         this.servicioGet=data;
         this.servicio=this.servicioGet;
-        if (this.costo>0){
-          this.servicio.costo=this.costo;
-        }
+
         let cant= this.pago.cantidad_p/this.servicioGet.costo_plan;
         let mesmili = ((1000 * 60 * 60 * 24 * 7 * 4)+((1000*60*60*24)*2)) *cant;
         if(this.servicioGet.fecha_fin!=null){
@@ -177,7 +175,9 @@ export class VerServicioClienteComponent implements OnInit {
 
         this.servicio.estado="Activo"
 
-        this.servicio.costo=Number(this.servicioGet.costo)+Number(this.servicio.costo);
+        if (this.costo>0){
+          this.servicio.costo=Number(this.servicioGet.costo)+Number(this.costo);
+        }
 
         var dayfinplan=new Date(this.servicio.fecha_fin_plan);
         var dayfin=new Date(this.servicio.fecha_fin);

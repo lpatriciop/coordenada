@@ -141,3 +141,28 @@ button{
     margin: 10% auto;
   }
 }
+
+.mat-column-id{
+  padding: 0;
+  text-align: left;
+}
+
+.mat-column-cedula{
+  padding: 0;
+  text-align: left;
+}
+
+.mat-column-nombre{
+  padding: 0;
+  text-align: left;
+}
+
+.mat-column-cant{
+  padding: 0;
+  text-align: left;
+}
+
+.mat-column-detalles{
+  padding: 0;
+  text-align: left;
+}
