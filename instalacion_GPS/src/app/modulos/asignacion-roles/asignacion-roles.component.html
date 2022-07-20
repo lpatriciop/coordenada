@@ -42,7 +42,10 @@
 
       <ng-container matColumnDef="eliminar">
         <th class="titulo" mat-header-cell *matHeaderCellDef> Eliminar </th>
-        <td mat-cell *matCellDef="let UsersVs"> <button ><mat-icon class="btnEli">delete</mat-icon></button></td>
+        <td mat-cell *matCellDef="let UsersVs">
+          <button (click)="eliminar(UsersVs.id_persona)" *ngIf="UsersVs.estado=='Activo'"><mat-icon class="btnEli">delete</mat-icon></button>
+          <button (click)="activar(UsersVs.id_persona)" *ngIf="UsersVs.estado=='Inactivo'"><mat-icon class="btnEdi">how_to_reg</mat-icon></button>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="columnas"></tr>

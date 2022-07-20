@@ -6,6 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 
 public class JwtDto {
 	
+	private Long id;
+	
 	private String token;
 	
 	private String bearer = "Bearer";
@@ -16,12 +18,20 @@ public class JwtDto {
 	
 	private Collection<? extends GrantedAuthority> authorities;
 	
-	public JwtDto(String token, String email, String nombre, Collection<? extends GrantedAuthority> authorities) {
-
+	public JwtDto(String token, Long id, String email, String nombre, Collection<? extends GrantedAuthority> authorities) {
+		this.id = id;
 		this.token = token;
 		this.email = email;
 		this.nombre = nombre;
 		this.authorities = authorities;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getToken() {

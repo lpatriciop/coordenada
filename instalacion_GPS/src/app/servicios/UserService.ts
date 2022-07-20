@@ -27,8 +27,8 @@ export class UserService{
     return this.httpClient.post<LoginUser>(this.base_url+"login/",login);
   }
 
-  getUserid(id:any):Observable<User>{
-    return this.httpClient.get<User>(this.base_url+id);
+  getUserid(id:any):Observable<any>{
+    return this.httpClient.get<any>(this.base_url+id);
   }
 
   updateUser(user:User){

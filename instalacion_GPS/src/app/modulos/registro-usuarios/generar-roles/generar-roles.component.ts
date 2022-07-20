@@ -84,4 +84,5 @@ export class GenerarRolesComponent implements OnInit {
   irListaUsuarios(){
     this.router.navigate(['/asignacionroles']);
   }
+
 }

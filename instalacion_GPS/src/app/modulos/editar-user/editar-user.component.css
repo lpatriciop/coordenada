@@ -1,3 +1,13 @@
+.grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(350px,auto));
+  gap: 10px;
+  margin: 10px;
+}
+.center{
+  text-align: center;
+}
+
 .rol{
   margin: 5% auto;
   width: 60%;
@@ -12,7 +22,6 @@
 }
 .example-card {
   margin: 5% auto;
-  max-width: 400px;
 }
 .example-header-image {
   /*background-image: url('../src/assets/fondo.png');*/

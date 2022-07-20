@@ -36,13 +36,18 @@ export class InicioSesionComponent implements OnInit {
       if (value){
         localStorage.clear();
         sessionStorage.clear();
-        localStorage.setItem('user', JSON.stringify(value));
-        sessionStorage.setItem('AuthToken', JSON.stringify(value.token));
-        sessionStorage.setItem('Autorities', JSON.stringify(value.authorities));
-        this.issloading=true;
-        this.router.navigate(['']).then(() => {
-          window.location.reload();
-        })
+        if (value.nombre){
+          localStorage.setItem('user', JSON.stringify(value));
+          sessionStorage.setItem('AuthToken', JSON.stringify(value.token));
+          sessionStorage.setItem('Autorities', JSON.stringify(value.authorities));
+          this.issloading=true;
+          this.router.navigate(['']).then(() => {
+            window.location.reload();
+          })
+        }else{
+          this.router.navigate(['/actualizar/datos/'+value.id])
+        }
+
       }
 
     },error => {

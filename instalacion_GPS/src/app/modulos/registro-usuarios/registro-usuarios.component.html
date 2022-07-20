@@ -23,8 +23,8 @@
         <!---->
           <mat-form-field appearance="outline" class="width-full">
             <mat-label>Rol</mat-label>
-            <mat-select [(ngModel)]="rol.id" name="rol" formControlName="rol" >
-              <mat-option *ngFor="let rol of listaRol" [value]="rol.id" >
+            <mat-select [(ngModel)]="rol.rolNombre" name="rol" formControlName="rol" >
+              <mat-option *ngFor="let rol of listaRol" [value]="rol.rolNombre" >
                 {{rol.rolNombre}}
               </mat-option>
             </mat-select>

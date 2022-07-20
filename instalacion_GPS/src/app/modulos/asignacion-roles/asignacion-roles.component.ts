@@ -8,6 +8,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatDialog} from "@angular/material/dialog";
 import { Rol } from "../../modelos/Rol";
 import {RolService} from "../../servicios/RolService";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-asignacion-roles',
@@ -27,6 +28,7 @@ export class AsignacionRolesComponent implements OnInit {
 
   dataSourceRol: MatTableDataSource<Rol>;
 
+  rolesup=[];
   ListadoR:Rol[]=[];
 
   datos: User[] = [];
@@ -41,6 +43,7 @@ export class AsignacionRolesComponent implements OnInit {
   listaRol:Array<Rol>=[];
 
   users:User=new User();
+  usersGet:User=new User();
 
   rol:Rol=new Rol();
 
@@ -51,28 +54,33 @@ export class AsignacionRolesComponent implements OnInit {
               private rolservicio:RolService) { }
 
   ngOnInit(): void {
+    this.listarUsuarios();
+    this.listarRoles();
+  }
+
+  listarUsuarios(){
     this.serviciouser.getUsers().subscribe((x:any) =>{
       this.listaUser=x
-      console.log(x)
       for (let a of this.listaUser){
         this.datos.push(a);
         this.dataSource = new MatTableDataSource<any>(this.datos);
         this.dataSource.paginator = this.paginator;
       }
     })
+  }
 
+  listarRoles(){
     this.rolservicio.getRol().subscribe((x:any) =>{
       this.listaRol=x
       for (let a of this.listaRol){
         this.datosRol.push(a);
         this.dataSourceRol = new MatTableDataSource<any>(this.datosRol);
         this.dataSourceRol.paginator = this.paginator;
-
       }
     })
-
-
   }
+
+
   abrirdialogoC(){
     this.editing=false;
     this.creating=true;
@@ -88,11 +96,38 @@ export class AsignacionRolesComponent implements OnInit {
   }
 
   obtenerRol(ListadoR: any){
-    console.log(this.ListadoR)
     this.ListadoR = new Array<any>();
     for(let rol of ListadoR){
       this.ListadoR.push(rol);
     }
+  }
+
+  eliminar(id:any){
+    this.rolesup=new Array();
+    this.usersGet=this.listaUser.find(value => {return value.id_persona==id});
+      this.usersGet.estado="Inactivo";
+      for (let r of this.usersGet.roles){
+          this.rolesup.push(r.rolNombre);
+      }
+      this.usersGet.roles=this.rolesup;
+    console.log(this.usersGet)
+      this.serviciouser.updateUser(this.usersGet).subscribe(value1 => {
+        window.location.reload();
+      })
+  }
+
+  activar(id:any){
+    this.rolesup=new Array();
+    this.usersGet=this.listaUser.find(value => {return value.id_persona==id});
+    this.usersGet.estado="Activo";
+    for (let rs of this.usersGet.roles){
+      this.rolesup.push(rs.rolNombre);
+    }
+    this.usersGet.roles=this.rolesup;
+    console.log(this.usersGet)
+    this.serviciouser.updateUser(this.usersGet).subscribe(value1 => {
+      window.location.reload();
+    })
   }
 
 }

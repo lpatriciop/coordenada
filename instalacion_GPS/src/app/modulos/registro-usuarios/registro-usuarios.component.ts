@@ -17,12 +17,9 @@ export class RegistroUsuariosComponent implements OnInit {
   user:User=new User();
   userGet:User=new User();
   rol: Rol = new Rol();
-
-  rol_us: Rol_Usuario = new Rol_Usuario();
-
   listaRol:Array<Rol>=[];
 
-  constructor(private rolService:RolService,private servicioRol_us:Rol_UsuarioService,private serviciouser:UserService, private router:Router) { }
+  constructor(private rolService:RolService,private serviciouser:UserService, private router:Router) { }
 
   ngOnInit(): void {
 
@@ -44,16 +41,11 @@ export class RegistroUsuariosComponent implements OnInit {
 
   regsitrar(){
     this.user.estado="Activo";
-    this.rol_us.usuario=this.user;
-    this.rol_us.rol=this.rol;
+    this.user.roles.push(this.rol.rolNombre);
+    console.log(this.user)
     this.serviciouser.crearUser(this.user).subscribe((data:any)=>{
-       this.userGet=data;
-       this.rol_us.usuario=this.userGet;
-       this.rol_us.rol=this.rol;
-     this.servicioRol_us.crearRol_Usuario(this.rol_us).subscribe((value)=>{
          this.router.navigate(['/asignacionroles'])
-         console.log(value)
-       });
+         console.log(data);
     })
   }
 

@@ -7,6 +7,7 @@ import {Rol} from "../../modelos/Rol";
 import {RolService} from "../../servicios/RolService";
 import {Rol_UsuarioService} from "../../servicios/Rol_UsuarioService";
 import {Rol_Usuario} from "../../modelos/Rol_Usuario";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-editar-user',
@@ -15,15 +16,19 @@ import {Rol_Usuario} from "../../modelos/Rol_Usuario";
 })
 export class EditarUserComponent implements OnInit {
 
+  desa=true;
   user:User=new User();
   userGet:User=new User();
   rol: Rol = new Rol();
   //Parametro
   id:any;
 
+  otracontras:any;
+
   rol_us: Rol_Usuario = new Rol_Usuario();
 
   listaRol:Array<Rol>=[];
+  ListadeNombresRol=[];
 
   idpersona:any;
 
@@ -31,7 +36,8 @@ export class EditarUserComponent implements OnInit {
               private servicioRol_us:Rol_UsuarioService,
               private serviciouser:UserService,
               private router:Router,
-              private route:ActivatedRoute) { }
+              private route:ActivatedRoute,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.idpersona=this.route.snapshot.params['idpersona'];
@@ -49,6 +55,7 @@ export class EditarUserComponent implements OnInit {
   listarUser(id:any){
     this.serviciouser.getUserid(id).subscribe(value => {
       this.user=value;
+      this.user.password=null;
     })
   }
 
@@ -64,9 +71,27 @@ export class EditarUserComponent implements OnInit {
 
   });
 
+
   UpdateUs(){
-    this.serviciouser.updateUser(this.user).subscribe((data:any)=>{
-    })
+    if (this.user.password==this.otracontras){
+      for (let rol of this.user.roles){
+        this.ListadeNombresRol.push(rol.rolNombre);
+      }
+      this.user.roles=this.ListadeNombresRol;
+      console.log(this.user);
+      this.serviciouser.updateUser(this.user).subscribe((data:any)=>{
+        this.router.navigate(['/iniciasesion']).then(value => {
+          this.snackBar.open("Ingrese con los nuevos datos", "",{
+            duration: 1 * 1000,
+          });
+        });
+      })
+    }else{
+      this.snackBar.open("Las contraseñas no coinciden", "",{
+        duration: 1 * 1000,
+      });
+    }
+
   }
 
 }

@@ -52,9 +52,8 @@ const routes: Routes = [
   {path:'asignacionroles', component:AsignacionRolesComponent},
   {path:'rol_ingreso', component:RolIngresoComponent},
   {path:'Mensaje/email', component:MesajesEmailComponent},
-  {path:'editaruser/:idpersona', component:EditarUserComponent},
+  {path:'actualizar/datos/:idpersona', component:EditarUserComponent},
   {path:'dar/roles/:idpersona', component:GenerarRolesComponent},
-
 ];
 
 @NgModule({

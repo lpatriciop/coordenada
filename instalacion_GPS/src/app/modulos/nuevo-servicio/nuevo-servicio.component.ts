@@ -269,8 +269,13 @@ export class NuevoServicioComponent implements OnInit {
     this.servicio.idplan=this.id_plan;
     //Agregar id de persona en servicio
     this.servicio.id_cliente=this.cliente.id_persona;
-    this.mensaje.mensaje="Contrato de Servicio Coordenada";
-    this.mensaje.tipoMensaje="COORDANA SERVICIO";
+    let vehi="";
+    for (let v of this.listavehiculosAsignados){
+      vehi=vehi+", "+v.vehiculo.placa;
+    }
+    this.mensaje.mensaje="Contrato de Servicio Coordenada para los vehiculos con las siguiente placa"+ vehi ;
+    this.mensaje.tipoMensaje="servicio";
+    this.mensaje.title="SERVICIO COORDENADA"
     this.mail.enviarMail(this.mensaje,this.cliente.correo).subscribe(values => {
       console.log("Email Enviado")
     })
