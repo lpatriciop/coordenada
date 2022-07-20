@@ -49,12 +49,12 @@
     </ng-container>
 
     <ng-container matColumnDef="estadoSer">
-      <th class="titulo" mat-header-cell *matHeaderCellDef mat-sort-header> Estado Servicio </th>
+      <th class="titulo" mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
       <td mat-cell class="centrarli" *matCellDef="let row"> {{row.estado}} </td>
     </ng-container>
 
     <ng-container matColumnDef="activar">
-      <th class="titulo" mat-header-cell *matHeaderCellDef mat-sort-header> Activar Plan </th>
+      <th class="titulo" mat-header-cell *matHeaderCellDef mat-sort-header> Activar </th>
       <td mat-cell class="centrarli" *matCellDef="let row"><button mat-button (click)="openTempDialogPagos(row.id_documentoservicio)"><mat-icon class="btnEdi"> attach_money</mat-icon></button></td>
     </ng-container>
 

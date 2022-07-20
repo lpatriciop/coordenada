@@ -115,7 +115,6 @@ public class AuthController {
 		Usuario l=new Usuario(nu.getId_persona(),nu.getNombre(), nu.getDireccion(), nu.getCorreo(), nu.getTelefono(), passwordEncoder.encode(nu.getPassword()), nu.getEstado());
 		for (int i = 0; i < nu.getRoles().size(); i++) {
 			String n=nu.getRoles().toString();
-			System.out.println(n);
 			
 		}
 		Set<Rol> roles = new HashSet<>();

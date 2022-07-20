@@ -1,57 +1,3 @@
-<!--<header>
-  <mat-toolbar>
-    <div class="tool logo">
-      <a [routerLink]="['']" class="btninicio">
-        <span><img src="https://www.coordenadaec.com/wp-content/uploads/2022/04/LogoCoordenadas.png" alt="Coordenada - Tecnología en Geolocalización" /></span>
-      </a>
-    </div>
-    <span class="example-spacer"></span>
-
-        <div *ngIf="issloading==true" style="margin-left: 50px">
-          <button class="btniniciarS hover" [matMenuTriggerFor]="perfil">
-            <span class="medath tmmeda">{{usuario}}<mat-icon> person_pin</mat-icon></span>
-
-          </button>
-          <mat-menu #perfil="matMenu">
-            <button mat-menu-item style="text-align: center" [routerLink]="['/rol_ingreso']">Perfil<mat-icon> person_pin</mat-icon></button>
-            <button mat-menu-item style="text-align: center" (click)="cerrarSesion()" >Cerrar Sesión<mat-icon>exit_to_app</mat-icon></button>
-          </mat-menu>
-        </div>
-
-
-        <div *ngIf="issloading==false" class="mediaUbt">
-          <button class="btniniciarS hover" [routerLink]="['/iniciasesion']">
-            <mat-icon>supervised_user_circle</mat-icon>
-            INICIAR SESION
-          </button>
-        </div>
-
-    <ng-template #dialogRolesUs >
-      <h2> {{titulo}} </h2>
-      <mat-form-field appearance="fill">
-        <mat-select [(ngModel)]="rol_us.id" name="rol_us" >
-          <mat-option *ngFor="let roles of listrol" [value]="roles.id">
-            {{roles.rol.nombre}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <br>
-      <button mat-button mat-dialog-close>Cancelar</button>
-      <button mat-button mat-dialog-close>Aceptar</button>
-    </ng-template>
-
-  </mat-toolbar>
-</header>
-<mat-divider style="width: 100%;"></mat-divider>
-<body>
-  <router-outlet></router-outlet>
-</body>
-<footer class="pie-pagina">
-  <div class="grupo-2">
-    <small>&copy; 2022 <b>APECS </b> - Todos los Derechos Reservados.</small>
-  </div>
-</footer>-->
-<header>
   <mat-toolbar>
     <div class="container" *ngIf="admin || install">
       <button mat-icon-button (click)="sidenav.toggle()">
@@ -88,7 +34,6 @@
     </div>
 
   </mat-toolbar>
-</header>
 
 <mat-sidenav-container>
 
@@ -221,9 +166,9 @@
     </div>
   </mat-sidenav>
 
-  <mat-card-content>
+  <mat-sidenav-content class="content">
     <router-outlet></router-outlet>
-  </mat-card-content>
+  </mat-sidenav-content>
 
 </mat-sidenav-container>
 <footer class="pie-pagina">
