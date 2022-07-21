@@ -15,6 +15,27 @@
   max-width: 400px;
 }
 .example-header-image {
-  /*background-image: url('../src/assets/fondo.png');*/
+  /*background-image: url('../src/assets/log.png');*/
   background-size: cover;
 }
+.avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  position: absolute;
+  top: -50px;
+  left: calc(50% - 50px);
+}
+.ds{
+  text-align: center;
+  position: absolute;
+  left: calc(45% - 50px);
+}
+.enail{
+  color:#428bca;
+}
+.mensaje{
+  color:#428bca;
+}
+
+
