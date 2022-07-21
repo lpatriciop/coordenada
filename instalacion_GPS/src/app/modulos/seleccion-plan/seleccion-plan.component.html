@@ -15,21 +15,20 @@
   </div>
 <!-- dialo de  planes--->
   <ng-template #dialogNplan>
-
+    <div style="text-align: center">
     <form [formGroup]="VNuevoPlanFormGroup" >
-      <h2> {{titulo}} </h2>
-    <mat-form-field appearance="outline" style="width: 100%; margin-left: 5px">
+      <h2 style="text-align: center"> {{titulo}} </h2>
+    <mat-form-field appearance="outline" style="width: 40%; margin-left: 5px">
       <mat-label>Nombre plan</mat-label>
       <input matInput  name="nombre_p"  [(ngModel)]="plan.nombre_p"  formControlName="nombre_p" id="nombre_p"/>
       <mat-error *ngIf="hasError('nombre_p', 'required')">Nombre del plan <strong>requerido</strong></mat-error>
     </mat-form-field>
-    <br>
-    <mat-form-field appearance="outline" style="width: 100%; margin-left: 5px">
+
+    <mat-form-field appearance="outline" style="width: 40%; margin-left: 5px">
       <mat-label>Costo plan</mat-label>
       <input type="number" matInput name="costo_p" [(ngModel)]="plan.costo_p" formControlName="costo_p" id="costo_p"/>
       <mat-error *ngIf="hasError('costo_p', 'required')">Costo del plan <strong>requerido</strong></mat-error>
     </mat-form-field>
-    <br>
 
       <div style="text-align: center">
         <mat-label>Subir Foto</mat-label><br />
@@ -38,7 +37,7 @@
         <img style="width: 90%;" src="{{ plan.imagen}}" alt="" />
       </div>
 
-    <mat-form-field appearance="outline" style="width: 100%; margin-left: 5px">
+    <mat-form-field appearance="outline" style="width: 40%; margin-left: 5px">
       <mat-label>Descripcion</mat-label>
       <mat-select  [(ngModel)]="plan.descripcion_plan" name="descripcion_p" formControlName="descripcion_p" id="descripcion_p">
         <mat-option value="anual">ANUAL</mat-option>
@@ -51,24 +50,21 @@
       <mat-error *ngIf="hasError('descripcion_p', 'required')">Descripcion de plan <strong>requerido</strong></mat-error>
     </mat-form-field>
 
-    <br>
-    <mat-form-field appearance="outline" style="width: 100%; margin-left: 5px">
+    <mat-form-field appearance="outline" style="width: 40%; margin-left: 5px">
       <mat-label>Costo mensual</mat-label>
       <input type="number" matInput  name="costo" [(ngModel)]="plan.p_costo_mensual" formControlName="costo" id="costo"/>
       <mat-error *ngIf="hasError('costo', 'required')">Costo mensual<strong>requerido</strong></mat-error>
     </mat-form-field>
-    <br>
 
-    <mat-form-field appearance="outline" style="width: 100%; margin-left: 5px">
-      <mat-label>Estado plan</mat-label>
+    <mat-form-field appearance="outline" style="width: 40%; margin-left: 5px">
+      <mat-label >Estado plan</mat-label>
       <mat-select [(ngModel)]="plan.estado_plan" name="estado_plan" formControlName="estado_plan" id="estado_plan" required>
         <mat-option value="activo">ACTIVO</mat-option>
         <mat-option value="inactivo">FUERA DE SERVICIO</mat-option>
       </mat-select>
       <mat-error *ngIf="hasError('estado_plan', 'required')">Estado <strong>requerido</strong></mat-error>
     </mat-form-field>
-    <br>
-    <mat-form-field appearance="outline" style="width: 100%; margin-left: 5px">
+    <mat-form-field appearance="outline" style="width: 40%; margin-left: 5px">
       <mat-label>Modelo GPS</mat-label>
       <mat-select [(ngModel)]="modelo.id_modelo" name="modelo" formControlName="modelo" id="descripcion_p">
         <mat-option *ngFor="let modelo of listaModelo" [value]="modelo.id_modelo">
@@ -78,9 +74,10 @@
       <mat-error *ngIf="hasError('modelo', 'required')">Modelo <strong>requerido</strong></mat-error>
     </mat-form-field>
     <br>
-    <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+    <button mat-raised-button color="warn"   mat-dialog-close>Cancelar</button>
     <button mat-raised-button color="primary"   (click)="GuardarPlan()" [disabled]="!VNuevoPlanFormGroup.valid">Guardar</button>
     </form>
+    </div>
   </ng-template>
 
 

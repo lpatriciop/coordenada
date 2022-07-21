@@ -58,7 +58,7 @@ export class SeleccionPlanComponent implements OnInit {
       this.titulo="Crear Plan"
     this.dialog.open(this.dialogNplan,{
       height: '70%',
-      width: '30%',
+      width: '45%',
     });
   }
 
