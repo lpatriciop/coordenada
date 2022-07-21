@@ -1,17 +1,14 @@
 <body>
-<div>
-</div>
 <div class="log-in" >
   <mat-card class="example-card">
-    <mat-card-header>
+
       <img src="assets/log.png" class="avatar" alt="Avatar Image">
+      <br>
       <br>
       <div class="ds">
         <mat-card-subtitle style="text-align:center">Usuarios Coordenada</mat-card-subtitle>
       </div>
-    </mat-card-header>
     <mat-card-content>
-      <mat-divider></mat-divider>
       <br>
       <form [formGroup]="profileFormUser">
         <p style="text-align:center">CREDENCIALES:</p>
@@ -31,10 +28,6 @@
           <button  mat-stroked-button color="primary" class="btniniciarSesion" (click)="iniciarSesion()" [disabled]="profileFormUser.invalid"   >Iniciar Sesión</button>
         </mat-card-actions>
       </form>
-      <div style="text-align: center">
-        <p ></p>
-      </div>
-
     </mat-card-content>
   </mat-card>
 </div>

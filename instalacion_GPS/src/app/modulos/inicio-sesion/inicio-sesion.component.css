@@ -19,12 +19,11 @@
   background-size: cover;
 }
 .avatar {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  alignment: center;
   position: absolute;
-  top: -50px;
-  left: calc(50% - 50px);
+  left: calc(60% - 60px);
 }
 .ds{
   text-align: center;
