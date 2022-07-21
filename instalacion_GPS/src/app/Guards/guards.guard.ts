@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
-import { Observable } from 'rxjs';
 import Swal from "sweetalert2";
 import {UserService} from "../servicios/UserService";
 import {TokenService} from "../servicios/TokenService";
-
-
-
 
 @Injectable({
   providedIn: 'root'
@@ -24,15 +20,15 @@ export class GuardsGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
-
     const expectedRol = route.data['expectedRol'];
-    const roles = this.tokenService.getAuthorities();
+    const roles = JSON.parse(localStorage.getItem("user")+"").authorities;
+    console.log(roles)
     this.realRol = 'user';
     roles.forEach(rol =>{
-      if(rol === 'ROLE_ADMIN'){
+      if(rol.authority == 'ROLE_ADMIN'){
         this.realRol = 'rolAdmin';
       }
-      if(rol === 'ROLE_INSTALL'){
+      if(rol == 'ROLE_INSTALL'){
         this.realRol = 'rolinstall';
       }
     });

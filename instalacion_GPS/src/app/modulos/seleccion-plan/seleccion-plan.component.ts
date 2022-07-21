@@ -108,6 +108,7 @@ export class SeleccionPlanComponent implements OnInit {
     console.log(this.plan);
     this.servicioPlan.crearPlan(this.plan).subscribe((data:any)=>{
       this.listarPLanes();
+      this.dialog.closeAll();
     })
   }
 

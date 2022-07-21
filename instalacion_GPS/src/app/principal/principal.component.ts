@@ -1,9 +1,7 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import { FormGroup,} from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import { ChangeDetectorRef } from '@angular/core';
-import Swal from 'sweetalert2';
 import {LoginUser} from "../modelos/LoginUser";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
@@ -61,16 +59,17 @@ export class PrincipalComponent implements OnInit {
 
 
   ngAfterContentInit() {
-
-    this.observer.observe(['(max-width: 800px)']).subscribe((res) => {
-      if (res.matches) {
-        this.sidenav.mode = 'over';
-        this.sidenav.close();
-      } else {
-        this.sidenav.mode = 'side';
-        this.sidenav.open();
-      }
-    });
+    if (this.admin || this.install){
+      this.observer.observe(['(max-width: 800px)']).subscribe((res) => {
+        if (res.matches) {
+          this.sidenav.mode = 'over';
+          this.sidenav.close();
+        } else {
+          this.sidenav.mode = 'side';
+          this.sidenav.open();
+        }
+      });
+    }
   }
 
   cerrarSesion(){

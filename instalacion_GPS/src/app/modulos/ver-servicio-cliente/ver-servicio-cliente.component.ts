@@ -71,6 +71,10 @@ export class VerServicioClienteComponent implements OnInit {
   servicioGet:Servicio=new Servicio();
   detalle:Descripcion;
   detalles:Descripcion[];
+
+
+  infodetalleImp:Descripcion[];
+
   pago:Pagos=new Pagos();
   pagoGet:Pagos=new Pagos();
   plan:Plan=new Plan();
@@ -123,9 +127,10 @@ export class VerServicioClienteComponent implements OnInit {
 
   //Detalles Del Servicio
   openTempDialog(id:String) {
-    this.detalleService.getDescrip().subscribe((value1:any)=>{
-      this.infodetalle=value1.filter((m)=> m.documentoservicio.id_documentoservicio==id);
+    this.detalleService.getByidDescrip(id).subscribe((value1:any)=>{
+      this.infodetalleImp=value1.filter((m)=> m.documentoservicio.id_documentoservicio==id);
     })
+    console.log()
     this.dialog.open(this.dialogRef);
   }
 
@@ -223,6 +228,8 @@ export class VerServicioClienteComponent implements OnInit {
 
   //--Documento Imprecion-//
   async createPdf() {
+    console.log(this.cliente)
+    console.log(this.servicio)
     var fecha: String = new Date().toISOString();
     var pipe: DatePipe = new DatePipe('en-US')
 
@@ -348,7 +355,6 @@ export class VerServicioClienteComponent implements OnInit {
     };
   }
 
-
   getBase64ImageFromURL(url: any) {
     return new Promise((resolve, reject) => {
       var img = new Image();
@@ -375,9 +381,6 @@ export class VerServicioClienteComponent implements OnInit {
       img.src = url;
     });
   }
-
-
-
 
 }
 
