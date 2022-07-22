@@ -29,6 +29,7 @@ import {EmailService} from "../../servicios/EmailService";
 import {MensajesMail} from "../../modelos/MensajesMail";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {LoginUser} from "../../modelos/LoginUser";
+import {UserService} from "../../servicios/UserService";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -45,7 +46,6 @@ export class NuevoServicioComponent implements OnInit {
 //Boolean
   infocli = false;
   buscarclienteB = true;
-
 
   mensaje:MensajesMail=new MensajesMail();
 
@@ -140,7 +140,8 @@ export class NuevoServicioComponent implements OnInit {
               private route:ActivatedRoute,
               private  mail:EmailService,
               private _liveAnnouncer: LiveAnnouncer,
-              private mensajeService:EmailService) {
+              private mensajeService:EmailService,
+              private usuarioService:UserService) {
 
   }
 
@@ -183,6 +184,8 @@ export class NuevoServicioComponent implements OnInit {
   accion: Boolean = true;
 
   ngOnInit(): void {
+    this.iduser=JSON.parse(localStorage.getItem('user')+"");
+    console.log(this.iduser)
     this.id_plan=this.route.snapshot.params['id'];
     let date: Date = new Date();
     this.servicio.fecha_ds=date;
@@ -314,6 +317,7 @@ export class NuevoServicioComponent implements OnInit {
 
 
   guardaServicio(){
+    this.servicio.fecha_fin=null;
     this.iduser=JSON.parse(localStorage.getItem('user')+"");
     this.servicio.estado="Desactivado";
     this.servicio.costo_plan=this.plan.p_costo_mensual;
@@ -336,10 +340,11 @@ export class NuevoServicioComponent implements OnInit {
     for (let sms of this.listaMensajes){
       if (sms.tipoMensaje.toLowerCase()=='contrato'){
         this.mensaje=sms;
-      }else{
-        this.mensaje.title='CONSTRATO DE SERVICIO';
-        this.mensaje.mensaje='Usted a realizado un contrato con Coordenada';
       }
+    }
+    if (this.mensaje.tipoMensaje==null){
+        this.mensaje.title='CONTRATO DE SERVICIO';
+        this.mensaje.mensaje='Usted a realizado un contrato con Coordenada';
     }
     this.mensaje.mensaje=this.mensaje.mensaje +"\n _________________________________________\nDATOS DEL O LOS VEHICULOS" +
       "\n Placa/s: "+ vehi ;
@@ -437,7 +442,7 @@ export class NuevoServicioComponent implements OnInit {
               ['DIRECCION: ' + this.cliente.direccion, 'CORREO: ' + this.cliente.correo],
               [ 'FECHA ENTREGA: ' + pipe.transform(this.servicio.fecha_ds, 'dd/MM/yyyy'), 'TELEFONO: ' + this.cliente.telefono],
               ['FECHA INICIO: ' + pipe.transform(this.servicio.fecha_inicion, 'dd/MM/yyyy'), 'FECHA FIN: ' +this.servicio.fecha_fin],
-              ['ATENDIDO POR: Angel Villa', 'HORAS: ' + this.servicio.hora],
+              ['ATENDIDO POR: '+this.iduser.nombre, 'HORAS: ' + this.servicio.hora],
             ]
           }
         },

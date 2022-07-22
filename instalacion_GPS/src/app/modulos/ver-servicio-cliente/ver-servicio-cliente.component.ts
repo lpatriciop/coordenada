@@ -209,11 +209,12 @@ export class VerServicioClienteComponent implements OnInit {
 
             })
           }else{
+            var pipe: DatePipe = new DatePipe('en-US')
             // @ts-ignore
             Swal.fire({
               icon: 'warning',
               title: 'Error',
-              text: "La fecha maxima a pagar es hasta" +this.servicio.fecha_fin_plan,
+              text: "La fecha maxima a pagar es hasta" + pipe.transform(this.servicio.fecha_fin_plan, 'dd/MM/yyyy'),
               confirmButtonColor: "#0c3255"
             })
           }
