@@ -51,12 +51,11 @@ export class GenerarRolesComponent implements OnInit {
   }
 
   submit(){
-    console.log(this.user)
     for (let rol of this.user.roles){
       this.ListadeNombresRol.push(rol.rolNombre);
     }
     this.user.roles=this.ListadeNombresRol;
-    this.userService.updateUser(this.user).subscribe(value => {
+    this.userService.updateUserestado(this.user).subscribe(value => {
       this.router.navigate(['/asignacionroles'])
     })
   }

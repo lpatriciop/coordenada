@@ -111,7 +111,7 @@ export class AsignacionRolesComponent implements OnInit {
       }
       this.usersGet.roles=this.rolesup;
     console.log(this.usersGet)
-      this.serviciouser.updateUser(this.usersGet).subscribe(value1 => {
+      this.serviciouser.updateUserestado(this.usersGet).subscribe(value1 => {
         window.location.reload();
       })
   }
@@ -125,7 +125,7 @@ export class AsignacionRolesComponent implements OnInit {
     }
     this.usersGet.roles=this.rolesup;
     console.log(this.usersGet)
-    this.serviciouser.updateUser(this.usersGet).subscribe(value1 => {
+    this.serviciouser.updateUserestado(this.usersGet).subscribe(value1 => {
       window.location.reload();
     })
   }

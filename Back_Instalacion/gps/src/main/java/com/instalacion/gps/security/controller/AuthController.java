@@ -102,10 +102,9 @@ public class AuthController {
 	@GetMapping("/{id}")
 	public Usuario Listarbyid(@PathVariable Long id) {
 		Usuario us=usuarioService.buscarid(id);
-		String pass=passwordEncoder.encode(us.getPassword());
 		Usuario users=new Usuario(us.getId_persona(),us.getNombre(), us.getDireccion(),
 		 us.getCorreo(), us.getTelefono(), 
-		 pass, us.getEstado());
+		 us.getPassword(), us.getEstado());
 		users.setRoles(us.getRoles());
 		return users;
 	}
@@ -114,8 +113,27 @@ public class AuthController {
 	public Usuario update(@Validated @RequestBody NuevoUsuario nu) {
 		Usuario l=new Usuario(nu.getId_persona(),nu.getNombre(), nu.getDireccion(), nu.getCorreo(), nu.getTelefono(), passwordEncoder.encode(nu.getPassword()), nu.getEstado());
 		for (int i = 0; i < nu.getRoles().size(); i++) {
-			String n=nu.getRoles().toString();
-			
+			String n=nu.getRoles().toString();	
+		}
+		Set<Rol> roles = new HashSet<>();
+		String nrol;
+		for (int i = 0; i < rolService.getAll().size(); i++) {
+			Rol r=rolService.getAll().get(i);
+			nrol = r.getRolNombre();
+			if (nu.getRoles().contains(nrol)) {
+			 System.out.println(nrol);
+				roles.add(r);
+			}
+		}
+		l.setRoles(roles);
+		return usuarioService.update(l);
+	}
+ 	
+ 	@PutMapping("/update/estado/user")
+	public Usuario updateestado(@Validated @RequestBody NuevoUsuario nu) {
+		Usuario l=new Usuario(nu.getId_persona(),nu.getNombre(), nu.getDireccion(), nu.getCorreo(), nu.getTelefono(), nu.getPassword(), nu.getEstado());
+		for (int i = 0; i < nu.getRoles().size(); i++) {
+			String n=nu.getRoles().toString();	
 		}
 		Set<Rol> roles = new HashSet<>();
 		String nrol;
