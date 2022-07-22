@@ -20,6 +20,9 @@ import {DatePipe} from "@angular/common";
 import pdfMake from 'pdfmake/build/pdfmake';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import {MensajesMail} from "../../modelos/MensajesMail";
+import {EmailService} from "../../servicios/EmailService";
+import {ClienteService} from "../../servicios/ClienteService";
 //import {ToastrService} from "ngx-toastr";
 
 
@@ -79,6 +82,10 @@ export class VerServicioClienteComponent implements OnInit {
   pagoGet:Pagos=new Pagos();
   plan:Plan=new Plan();
 
+  listaMensajes:MensajesMail[]=[];
+  mensaje:MensajesMail=new MensajesMail();
+  mensaje1:MensajesMail=new MensajesMail();
+
   constructor(private serviceService:ServicioService,
               private route:ActivatedRoute,
               public dialog: MatDialog,
@@ -87,7 +94,8 @@ export class VerServicioClienteComponent implements OnInit {
               private pagoService:PagosService,
               private servicePlan:PlanService,
               private snackBar: MatSnackBar,
-              /*private toastr: ToastrService*/) {
+              private  mail:EmailService,
+              private clienteService:ClienteService) {
 
   }
   ngOnInit(): void {
@@ -152,14 +160,18 @@ export class VerServicioClienteComponent implements OnInit {
     this.pago.cantidad_p=0;
     this.serviceService.getService(id).subscribe((value1:any)=>{
       this.servicioGet=value1;
-      this.servicio.costo_plan=this.servicioGet.costo_plan;
-      this.servicio.fecha_fin_plan=this.servicioGet.fecha_fin_plan;
-      this.servicePlan.getPlan(this.servicioGet.idplan).subscribe((value:any)=>{
-        this.plan=value;
-        this.monto=this.plan.costo_p-this.servicioGet.costo;
+      this.clienteService.getByidCliente(this.servicioGet.id_cliente).subscribe(value => {
+        this.cliente=value;
+        this.servicio.costo_plan=this.servicioGet.costo_plan;
+        this.servicio.fecha_fin_plan=this.servicioGet.fecha_fin_plan;
+        this.servicePlan.getPlan(this.servicioGet.idplan).subscribe((value:any)=>{
+          this.plan=value;
+          this.monto=this.plan.costo_p-this.servicioGet.costo;
+        })
+        console.log(this.cliente)
+        this.dialog.open(this.dialogRefActivacion);
       })
     })
-    this.dialog.open(this.dialogRefActivacion);
   }
 
   //Activacion del servicio
@@ -187,7 +199,7 @@ export class VerServicioClienteComponent implements OnInit {
         if (this.costo>0){
           this.servicio.costo=Number(this.servicioGet.costo)+Number(this.costo);
         }
-
+        console.log(this.costo)
         var dayfinplan=new Date(this.servicio.fecha_fin_plan);
         var dayfin=new Date(this.servicio.fecha_fin);
 
@@ -195,6 +207,22 @@ export class VerServicioClienteComponent implements OnInit {
           if (dayfinplan>=dayfin){
             this.serviceService.editarService(this.servicio,id).subscribe((datas:any)=>{
               console.log("Actializado el servicio")
+              for (let sms of this.listaMensajes){
+                if (sms.tipoMensaje.toLowerCase()=='pago de plan'){
+                  this.mensaje=sms;
+                }
+              }
+
+              if (this.mensaje.tipoMensaje==null){
+                this.mensaje.title='PAGO DE PLAN';
+                this.mensaje.mensaje='Usted a realizado el pago del plan del servicio en Coordenada';
+              }
+              if (this.costo>=0){
+                this.mail.enviarMail(this.mensaje,this.cliente.correo).subscribe(values => {
+                  console.log("Email Enviado PAGO DE PLAN")
+                })
+              }
+
               this.pago.docservice=datas;
               this.pago.fecha_pago=new Date();
               console.log(this.pago)
@@ -203,6 +231,19 @@ export class VerServicioClienteComponent implements OnInit {
               }else{
                 this.pagoService.crearPagos(this.pago).subscribe((value:any)=>{
                   console.log("Pago realizado")
+                  for (let sms1 of this.listaMensajes){
+                    if (sms1.tipoMensaje.toLowerCase()=='pago mensual'){
+                      this.mensaje1=sms1;
+                    }
+                  }
+
+                  if (this.mensaje1.tipoMensaje==null){
+                    this.mensaje1.title='PAGO MENSUAL';
+                    this.mensaje1.mensaje='Usted a realizado el pago mensual de su servicio en Coordenada';
+                  }
+                  this.mail.enviarMail(this.mensaje1,this.cliente.correo).subscribe(values => {
+                    console.log("Email Enviado pago mensual")
+                  })
                   window.location.reload();
                 })
               }
