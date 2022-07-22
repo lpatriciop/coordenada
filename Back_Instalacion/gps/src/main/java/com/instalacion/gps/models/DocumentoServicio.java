@@ -39,6 +39,8 @@ public class DocumentoServicio {
     private String id_cliente;
     
     private String idplan;
+    
+    private String iduser;
    
     //fk_docdescricion
     @OneToMany(mappedBy = "documentoservicio")
@@ -140,7 +142,13 @@ public class DocumentoServicio {
         this.tipo_plan = tipo_plan;
     }
 
+	public String getIduser() {
+		return iduser;
+	}
 
+	public void setIduser(String iduser) {
+		this.iduser = iduser;
+	}
 
 
 }

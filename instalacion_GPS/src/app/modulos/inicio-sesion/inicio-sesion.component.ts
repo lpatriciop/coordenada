@@ -16,7 +16,9 @@ export class InicioSesionComponent implements OnInit {
   login:LoginUser=new LoginUser();
   user?:User = new User();
 
-  constructor(private snackBar: MatSnackBar, private userService:UserService,private router:Router) { }
+  constructor(private snackBar: MatSnackBar,
+              private userService:UserService,
+              private router:Router) { }
 
   ab:boolean=true;
   b:String="";
@@ -36,18 +38,29 @@ export class InicioSesionComponent implements OnInit {
       if (value){
         localStorage.clear();
         sessionStorage.clear();
-        if (value.nombre){
-          localStorage.setItem('user', JSON.stringify(value));
-          sessionStorage.setItem('AuthToken', JSON.stringify(value.token));
-          sessionStorage.setItem('Autorities', JSON.stringify(value.authorities));
-          this.issloading=true;
-          this.router.navigate(['']).then(() => {
-            window.location.reload();
-          })
-        }else{
-          this.router.navigate(['/actualizar/datos/'+value.id])
-        }
-
+        this.userService.getUserid(value.id).subscribe(value1 => {
+          this.user=value1;
+          if (this.user.estado.toLowerCase()=='activo'){
+            if (value.nombre){
+              localStorage.setItem('user', JSON.stringify(value));
+              sessionStorage.setItem('AuthToken', JSON.stringify(value.token));
+              sessionStorage.setItem('Autorities', JSON.stringify(value.authorities));
+              this.issloading=true;
+              this.router.navigate(['']).then(() => {
+                window.location.reload();
+              })
+            }else{
+              this.router.navigate(['/actualizar/datos/'+value.id])
+            }
+          }else{
+            this.snackBar.open("Su usuario no tiene acceso a Coordenada", "",{
+              duration: 1 * 1000,
+            });
+            this.router.navigate(['']).then(value2 => {
+              window.location.reload();
+            });
+          }
+        })
       }
 
     },error => {

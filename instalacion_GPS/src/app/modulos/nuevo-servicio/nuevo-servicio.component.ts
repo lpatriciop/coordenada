@@ -28,6 +28,7 @@ import {Plan} from "../../modelos/Plan";
 import {EmailService} from "../../servicios/EmailService";
 import {MensajesMail} from "../../modelos/MensajesMail";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
+import {LoginUser} from "../../modelos/LoginUser";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -59,6 +60,7 @@ export class NuevoServicioComponent implements OnInit {
 
   listagps=[];
 
+
   listavehiculos = [];
   listavehiculosAsignados=[];
   listaDetalle:Array<Descripcion>=[];
@@ -88,6 +90,8 @@ export class NuevoServicioComponent implements OnInit {
   listaAcciones = [];
   // @ts-ignore
   acciones: Acciones[];
+
+  iduser:LoginUser=new LoginUser();
 
   // @ts-ignore
   selectedValue: string;
@@ -119,6 +123,8 @@ export class NuevoServicioComponent implements OnInit {
 
   date = new FormControl(new Date());
 
+  listaMensajes:MensajesMail[]=[];
+
   constructor(private _formBuilder: FormBuilder,
               private snackBar: MatSnackBar,
               private servicioModelo: ModeloService,
@@ -133,7 +139,8 @@ export class NuevoServicioComponent implements OnInit {
               private router:Router,
               private route:ActivatedRoute,
               private  mail:EmailService,
-              private _liveAnnouncer: LiveAnnouncer) {
+              private _liveAnnouncer: LiveAnnouncer,
+              private mensajeService:EmailService) {
 
   }
 
@@ -143,6 +150,12 @@ export class NuevoServicioComponent implements OnInit {
 
   ngAfterViewInit() {
     this.dataSourcesin.sort = this.sortsing;
+  }
+
+  listarMensajes(){
+    this.mensajeService.getMensajesEmail().subscribe(value => {
+      this.listaMensajes=value;
+    })
   }
 
   /** Announce the change in sort state for assistive technology. */
@@ -184,6 +197,7 @@ export class NuevoServicioComponent implements OnInit {
     })
 
     this.planbyid();
+    this.listarMensajes();
   }
 
   planbyid(){
@@ -300,6 +314,7 @@ export class NuevoServicioComponent implements OnInit {
 
 
   guardaServicio(){
+    this.iduser=JSON.parse(localStorage.getItem('user')+"");
     this.servicio.estado="Desactivado";
     this.servicio.costo_plan=this.plan.p_costo_mensual;
     this.servicio.tipo_plan=this.plan.descripcion_plan;
@@ -317,9 +332,17 @@ export class NuevoServicioComponent implements OnInit {
     for (let v of this.listavehiculosAsignados){
       vehi=vehi+", "+v.vehiculo.placa;
     }
-    this.mensaje.mensaje="Contrato de Servicio Coordenada para los vehiculos con las siguiente placa"+ vehi ;
-    this.mensaje.tipoMensaje="servicio";
-    this.mensaje.title="SERVICIO COORDENADA"
+    this.servicio.iduser=this.iduser.id;
+    for (let sms of this.listaMensajes){
+      if (sms.tipoMensaje.toLowerCase()=='contrato'){
+        this.mensaje=sms;
+      }else{
+        this.mensaje.title='CONSTRATO DE SERVICIO';
+        this.mensaje.mensaje='Usted a realizado un contrato con Coordenada';
+      }
+    }
+    this.mensaje.mensaje=this.mensaje.mensaje +"\n _________________________________________\nDATOS DEL O LOS VEHICULOS" +
+      "\n Placa/s: "+ vehi ;
     this.mail.enviarMail(this.mensaje,this.cliente.correo).subscribe(values => {
       console.log("Email Enviado")
     })
