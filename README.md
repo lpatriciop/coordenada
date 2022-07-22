@@ -43,3 +43,14 @@ Ejecute `ng e2e` para ejecutar las pruebas de extremo a extremo a través de una
 ## Más ayuda
 
 Para obtener más ayuda sobre Angular CLI, use `ng help` o consulte la página [Descripción general y referencia de comandos de Angular CLI] (https://angular.io/cli).
+
+
+#Base de Datos
+Este proyecto esta relizado con
+spring boot(https://spring.io/).
+
+#Dendecias
+1. PosgresDriver
+2. MongoDriver
+3. JWT Token
+Todas estas dependencias se encuentrarn en pom.xml
