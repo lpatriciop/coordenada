@@ -71,7 +71,7 @@ export class VerServicioClienteComponent implements OnInit {
   servicioGet:Servicio=new Servicio();
   detalle:Descripcion;
   detalles:Descripcion[];
-
+  id_servico:any;
 
   infodetalleImp:Descripcion[];
 
@@ -127,6 +127,7 @@ export class VerServicioClienteComponent implements OnInit {
 
   //Detalles Del Servicio
   openTempDialog(id:String) {
+    this.id_servico=id;
     this.detalleService.getDescrip().subscribe((value1:any)=>{
       this.infodetalle=value1.filter((m)=> m.documentoservicio.id_documentoservicio==id);
     })
@@ -232,6 +233,9 @@ export class VerServicioClienteComponent implements OnInit {
 
   //--Documento Imprecion-//
   async createPdf() {
+    this.serviceService.getService(this.id_servico).subscribe(value => {
+      this.servicio=value;
+    });
     console.log(this.cliente)
     console.log(this.servicio)
     var fecha: String = new Date().toISOString();
@@ -282,7 +286,11 @@ export class VerServicioClienteComponent implements OnInit {
         {text: '    '},
         {
           columns : [
-            { qr: this.servicio.costo + ', Cliente : ' + this.cliente.nombre, fit : 100 },
+            { qr: ', Codigo_servicio : ' + this.servicio.id_documentoservicio
+                + ', Cliente : ' + this.cliente.nombre
+                + ', Estado : ' + this.servicio.estado
+                + ',Costo del servicio : '+this.servicio.costo
+                + ', Costo del plan : ' + +this.servicio.costo_plan, fit : 130 },
 
           ]
         },
