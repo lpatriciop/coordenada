@@ -127,8 +127,8 @@ export class VerServicioClienteComponent implements OnInit {
 
   //Detalles Del Servicio
   openTempDialog(id:String) {
-    this.detalleService.getByidDescrip(id).subscribe((value1:any)=>{
-      this.infodetalleImp=value1.filter((m)=> m.documentoservicio.id_documentoservicio==id);
+    this.detalleService.getDescrip().subscribe((value1:any)=>{
+      this.infodetalle=value1.filter((m)=> m.documentoservicio.id_documentoservicio==id);
     })
     console.log()
     this.dialog.open(this.dialogRef);
@@ -178,6 +178,10 @@ export class VerServicioClienteComponent implements OnInit {
         }
         this.servicio.fecha_fin = new Date(date.getTime()+mesmili);
         this.servicio.estado="Activo"
+
+        if(this.monto<=0){
+          this.costo=0;
+        }
 
         if (this.costo>0){
           this.servicio.costo=Number(this.servicioGet.costo)+Number(this.costo);

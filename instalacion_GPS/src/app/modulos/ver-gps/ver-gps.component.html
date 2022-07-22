@@ -3,12 +3,19 @@
   <br>
   <mat-card-subtitle>GPS para el servicio de APECS</mat-card-subtitle>
 </div>
-<button class="btn btn-success btncrear"  [routerLink]="['/nuevogps']">Crear Nuevo Gps</button>
 
-<mat-form-field class="BusquedaGpss">
-  <mat-label>Search</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Search" #input>
-</mat-form-field>
+<div class="grid">
+  <div>
+    <mat-form-field class="center1">
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search" #input>
+    </mat-form-field>
+  </div>
+  <div class="btncrear">
+    <button class="btn btn-success btncrear1"  [routerLink]="['/nuevogps']"><mat-icon>add</mat-icon> Nuevo Gps</button>
+  </div>
+</div>
+
 
 <div class="mat-elevation-z8 center">
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 " #tabla1>
@@ -51,5 +58,5 @@
     <tr mat-header-row *matHeaderRowDef="columnas"></tr>
     <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
   </table>
-  <mat-paginator class="center1" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
 </div>

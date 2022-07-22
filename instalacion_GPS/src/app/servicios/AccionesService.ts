@@ -20,4 +20,12 @@ export class AccionesService{
   crearAccion(accion:Acciones){
     return this.httpClient.post(this.base_url+"create-accion/", accion);
   }
+
+  editaccion(accion:Acciones,id:String){
+    return this.httpClient.put(this.base_url+"update-accion/"+id, accion);
+  }
+
+  eliminarAcciones(id:any){
+    return this.httpClient.delete(this.base_url+"delete-accion/"+id);
+  }
 }

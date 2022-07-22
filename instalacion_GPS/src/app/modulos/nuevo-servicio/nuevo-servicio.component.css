@@ -8,6 +8,18 @@
   margin-top: 10px;
 }
 
+table {
+  width: 100%;
+}
+
+.btn{
+  margin-left: 5px;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
 .grid{
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px,auto));

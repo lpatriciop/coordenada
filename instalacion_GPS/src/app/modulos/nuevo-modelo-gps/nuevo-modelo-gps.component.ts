@@ -8,6 +8,7 @@ import {Acciones} from "../../modelos/Acciones";
 import {MatDialog} from "@angular/material/dialog";
 import {Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-nuevo-modelo-gps',
@@ -39,18 +40,28 @@ export class NuevoModeloGpsComponent implements OnInit {
   @ViewChild('dialogRefAc')
   dialogRefAc!: TemplateRef<any>
 
+  @ViewChild('dialogEliminar')
+  dialogEliminar!: TemplateRef<any>
 
   datosA: Acciones[] = [];
   dataSourceA:any;
+
+  crear=true;
+  editar=false;
 
   listaModelos:Array<Modelo>=[];
   listaAcciones=[];
     constructor(private modeloservice:ModeloService,
                 private accionesservice:AccionesService,
                 public dialog: MatDialog,
-                private router:Router) { }
+                private router:Router,
+                private snackBar: MatSnackBar,) { }
 
   ngOnInit(): void {
+      this.listarModelos();
+  }
+
+  listarModelos(){
     this.modeloservice.getModelos().subscribe((x:any) =>{
       this.listaModelos=x
       for (let a of this.listaModelos){
@@ -59,7 +70,6 @@ export class NuevoModeloGpsComponent implements OnInit {
         this.dataSourceM.paginator = this.paginatorM;
       }
     })
-
   }
 
   //Filtro modelos
@@ -102,11 +112,6 @@ export class NuevoModeloGpsComponent implements OnInit {
     })
   }
 
-  eliminarModelo(id:String){
-    this.modeloservice.deleteModelo(id).subscribe((data:any)=>{
-      window.location.reload();
-    })
-  }
 
   editarModelo(){
     this.modeloservice.updateModelo(this.modelo,this.modelo.id_modelo).subscribe((data:any)=>{
@@ -120,12 +125,12 @@ export class NuevoModeloGpsComponent implements OnInit {
         this.listaAcciones.pop();
       }
 
-    console.log(id);
     this.modelo.id_modelo=id;
       this.accionesservice.getAcciones().subscribe((data:any)=>{
         if (data.filter((data: any) => data.modelo.id_modelo == id).length == 0){
-
-          console.log("sin datos")
+          this.snackBar.open("El modelo no tiene acciones", "",{
+            duration: 1 * 1000,
+          });
         }else{
           this.listaAcciones=data.filter(value=>value.modelo.id_modelo==id)
           this.accion=data.find(m=>{return m.modelo.id_modelo==id})
@@ -143,10 +148,49 @@ export class NuevoModeloGpsComponent implements OnInit {
       console.log(this.accionSet)
 
      this.accionesservice.crearAccion(this.accionSet).subscribe((data:any)=>{
-        window.location.reload();
+       this.abrirdialogoAcciones(this.modelo.id_modelo)
+       this.accionSet.nombre=null;
       })
   }
 
+  abrirdialogoEliminar(modelo:Modelo){
+    this.modelo=modelo;
+    this.dialog.open(this.dialogEliminar);
+  }
+
+  EliminarModelo(){
+    this.modelo.estado="Inactivo"
+    this.modeloservice.updateModelo(this.modelo,this.modelo.id_modelo).subscribe((data:any)=>{
+      this.listarModelos();
+      this.abrirdialogoAcciones(this.modelo.id_modelo)
+    })
+  }
+
+  //ACCIONES
+  EditarAcciones(accion:Acciones){
+    this.accionesservice.editaccion(accion,accion.id_acciones).subscribe(value => {
+      this.snackBar.open("ACCIÓN ACTUALIZADA  ", "",{
+        duration: 1 * 1000,
+      });
+      this.accionSet.nombre=null;
+      this.abrirdialogoAcciones(accion.modelo.id_modelo);
+    })
+  }
+
+  cargardato(accion:Acciones){
+    console.log(accion)
+    this.accionSet=accion;
+    this.crear=false;
+    this.editar=true;
+  }
+
+  EliminarAcciones(id:any){
+    this.accionesservice.eliminarAcciones(id).subscribe(value => {
+      this.snackBar.open("ACCIÓN ELIMINADA  ", "",{
+        duration: 1 * 1000,
+      });
+    })
+  }
 }
 
 

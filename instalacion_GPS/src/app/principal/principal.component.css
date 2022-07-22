@@ -5,6 +5,10 @@ header{
   background: #428bca;
 }
 
+.grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
 
 .btniniciarS{
   background-color: transparent;
@@ -79,7 +83,7 @@ mat-sidenav{
 .content::-webkit-scrollbar-thumb {
   background: #35C1E8;
   border-radius: 10px;
-  border-right: 2px solid white; /*ESPACIO*/
+  border-right: 2px solid white;
 }
 
 .logo{
@@ -96,8 +100,6 @@ mat-icon{
 
 .content{
   height: calc(100vh - 4rem);
-  margin: 16px;
-  margin-left: 32px;
   border-radius: 9px;
   overflow: scroll;
 }

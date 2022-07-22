@@ -2,18 +2,32 @@ table {
   width: 100%;
 }
 .center{
-  width: 80%;
+  width: 90%;
   text-align: center;
-  margin: 3% auto;
+  margin: 1% auto;
+}
+
+.grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.btncrear1{
+  background: #00d084;
+}
+
+.btncrear{
+  text-align: right;
+  margin-right: 10%;
 }
 
 .center1{
-  width: 100%;
-  text-align: center;
+  width: 80%;
+  margin-left: 10%;
 }
 
 .buscarGPS{
-  width: 20%;
+  width: 80%;
   margin-left: 6%;
 }
 
@@ -56,7 +70,6 @@ button{
 }
 .btncrear{
   margin-left: 10%;
-  background: #00d084;
 }
 
 @media (max-width: 800px) {

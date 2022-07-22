@@ -1,7 +1,10 @@
 <section id="nuestros-servicios">
   <div class="container">
     <h1>Seleccione el Plan a contratar</h1>
-    <button class="btn btn-success btncrear"  (click)="abrirdialogoPlanes()">Crear Nuevo Plan</button>
+    <div style="text-align: right">
+      <button class="btn btn-success btncrear"  (click)="abrirdialogoPlanes()"><mat-icon>add</mat-icon> Nuevo Plan</button>
+    </div>
+
     <div class="grid-container" >
       <div class="grid-item" *ngFor="let plan of listaPlanes">
         <img   class="img"   src="{{plan.imagen}}" alt="">

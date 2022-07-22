@@ -1,17 +1,10 @@
 .h1{
   justify-content: center;
 }
-.card {
-  width: 360px;
-  float: left;
-  display: flex;
-  margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-.spacer {
-  flex: 2 2 auto;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(400px,auto));
+  gap: 10px;
 }
 
 .card-header {
@@ -37,6 +30,10 @@
 
 .card-text {
   font-weight: bold;
+}
+
+.mensaje{
+  white-space: pre-line;
 }
 
 mat-card-title {

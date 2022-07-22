@@ -6,7 +6,7 @@ import {AccionesService} from "../../servicios/AccionesService";
 import {Acciones} from "../../modelos/Acciones";
 import {MatTable, MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
+import {MatSort, Sort} from "@angular/material/sort";
 import {Cliente} from "../../modelos/Cliente";
 import {Servicio} from "../../modelos/Servicio";
 import {ServicioService} from "../../servicios/ServicioService";
@@ -27,6 +27,7 @@ import {PlanService} from "../../servicios/PlanService";
 import {Plan} from "../../modelos/Plan";
 import {EmailService} from "../../servicios/EmailService";
 import {MensajesMail} from "../../modelos/MensajesMail";
+import {LiveAnnouncer} from "@angular/cdk/a11y";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -91,17 +92,26 @@ export class NuevoServicioComponent implements OnInit {
   // @ts-ignore
   selectedValue: string;
 
-  displayedColumns: string[] = ['accion'];
+  displayedColumnscon: string[] = ['id', 'placa', 'vehiculo', 'idg','imei','modelo','quitar'];
   // @ts-ignore
-  dataSource: MatTableDataSource<Acciones>;
+  dataSourcecon: MatTableDataSource<Descripcion>;
+  //@ts-ignore
+  @ViewChild(MatPaginator) paginatorcon: MatPaginator;
+
+
+  displayedColumnssingps: string[] = ['id', 'placa', 'vehiculo', 'imei'];
+  // @ts-ignore
+  dataSourcesin : MatTableDataSource<Vehiculo>;
+// @ts-ignore
+  @ViewChild(MatSort) sort: MatSort;
+  // @ts-ignore
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
 
   @ViewChild('dialogRef')
   dialogRef!: TemplateRef<any>;
 
-  // @ts-ignore
-  @ViewChild(MatSort) sort: MatSort;
-  // @ts-ignore
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+
 
   // @ts-ignore
   @ViewChild(MatTable) table: MatTable<Acciones>;
@@ -122,9 +132,28 @@ export class NuevoServicioComponent implements OnInit {
               public dialog: MatDialog,
               private router:Router,
               private route:ActivatedRoute,
-              private  mail:EmailService) {
+              private  mail:EmailService,
+              private _liveAnnouncer: LiveAnnouncer) {
 
   }
+
+
+
+  @ViewChild(MatSort) sortsing: MatSort;
+
+  ngAfterViewInit() {
+    this.dataSourcesin.sort = this.sortsing;
+  }
+
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
+
 
   firstFormGroup = new FormGroup({
     cedcli: new FormControl('',[Validators.required, Validators.maxLength(10),Validators.pattern("[0-9]+")]),
@@ -241,7 +270,11 @@ export class NuevoServicioComponent implements OnInit {
                                                           this.vehiculo,
                                                           this.obser,
                                                           this.ubica));
-        console.log(this.listavehiculosAsignados)
+    this.dataSourcesin = new MatTableDataSource<any>(this.listavehiculos);
+    this.dataSourcesin.paginator = this.paginator;
+
+    this.dataSourcecon = new MatTableDataSource<any>(this.listavehiculosAsignados);
+    this.dataSourcecon.paginator = this.paginatorcon;
   }
 
   //1.0
@@ -251,6 +284,8 @@ export class NuevoServicioComponent implements OnInit {
       var narray=this.listavehiculosAsignados.filter((item) => item.vehiculo.id_vehiculo !== id_vehiculo);
       this.listavehiculosAsignados=narray
       this.listavehiculos.push(this.vehiculo)
+      this.dataSourcesin = new MatTableDataSource<any>(this.listavehiculos);
+      this.dataSourcesin.paginator = this.paginator;
     })
   }
 
@@ -258,6 +293,8 @@ export class NuevoServicioComponent implements OnInit {
     console.log(this.cliente)
     this.servicioVehiculo.getVehiculos().subscribe((value:any)=>{
       this.listavehiculos=value.filter((data:any)=>data.cliente.cedula==cedula && data.estado=="Activo")
+      this.dataSourcesin = new MatTableDataSource<any>(this.listavehiculos);
+      this.dataSourcesin.paginator = this.paginator;
     })
   }
 
@@ -348,6 +385,7 @@ export class NuevoServicioComponent implements OnInit {
     console.log(this.newArray2)
     var fecha: String = new Date().toISOString();
     var pipe: DatePipe = new DatePipe('en-US')
+    this.servicio.fecha_fin="No Asignado"
 
     const pdfDefinition: any = {
 
@@ -375,7 +413,7 @@ export class NuevoServicioComponent implements OnInit {
               ['NOMBRE:' + this.cliente.nombre, 'RUC/CLI:' + this.cliente.cedula],
               ['DIRECCION: ' + this.cliente.direccion, 'CORREO: ' + this.cliente.correo],
               [ 'FECHA ENTREGA: ' + pipe.transform(this.servicio.fecha_ds, 'dd/MM/yyyy'), 'TELEFONO: ' + this.cliente.telefono],
-              ['FECHA INICIO: ' + pipe.transform(this.servicio.fecha_inicion, 'dd/MM/yyyy'), 'FECHA FIN: ' + pipe.transform(this.servicio.fecha_fin, 'dd/MM/yyyy')],
+              ['FECHA INICIO: ' + pipe.transform(this.servicio.fecha_inicion, 'dd/MM/yyyy'), 'FECHA FIN: ' +this.servicio.fecha_fin],
               ['ATENDIDO POR: Angel Villa', 'HORAS: ' + this.servicio.hora],
             ]
           }
@@ -396,7 +434,7 @@ export class NuevoServicioComponent implements OnInit {
           columns : [
             { qr: this.servicio.costo + ', Cliente : ' + this.cliente.nombre, fit : 100 },
             {
-              text: `(${this.servicio.idplan})`,
+              text: 'El servicio necesita ser activado',
               alignment: 'center',
             }
           ]
@@ -473,12 +511,6 @@ export class NuevoServicioComponent implements OnInit {
       }
     };
   }
-
-
-
-
-
-
 
   getBase64ImageFromURL(url: any) {
     return new Promise((resolve, reject) => {

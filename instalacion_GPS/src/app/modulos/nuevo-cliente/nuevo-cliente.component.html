@@ -50,7 +50,8 @@
     </mat-form-field>
     <br>
     <mat-card-actions style="text-align: center">
-      <button  mat-raised-button color="primary"  class="btniniciarSesion" (click)="Guardar()" [disabled]="!firstFormGroup.valid">GUARDAR</button>
+      <button  mat-raised-button color="warn"  [routerLink]="'/verclientes'" ><mat-icon>reply</mat-icon> ATRAS</button>
+      <button  mat-raised-button color="primary"  class="btniniciarSesion" (click)="Guardar()" [disabled]="!firstFormGroup.valid"><mat-icon>save</mat-icon> GUARDAR</button>
     </mat-card-actions>
     <br>
   </mat-card>

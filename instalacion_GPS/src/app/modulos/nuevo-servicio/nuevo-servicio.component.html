@@ -41,52 +41,117 @@
           <div class="grids">
             <div *ngIf="listavehiculos.length>0">
               <mat-card-title class="mediat">Datos Vehiculo</mat-card-title>
-              <h2>Seleccione un imei para vehiculo</h2>
-              <table class="center">
-                <thead>
-                <th>ID</th>
-                <th>Placa</th>
-                <th>Vehiculo</th>
-                <th>Agregar Imei</th>
+              <h2>Seleccione un imei para cada vehiculo</h2>
 
-                </thead>
-                <tbody *ngFor="let vehiculo of listavehiculos">
-                <td>{{vehiculo.id_vehiculo}}</td>
-                <td>{{vehiculo.placa}}</td>
-                <td>{{vehiculo.vehiculo}}</td>
-                <td><button class="btn btn-primary" (click)="addImei(vehiculo.id_vehiculo)">Add Imei</button></td>
-                </tbody>
+              <table mat-table [dataSource]="dataSourcesin" matSort (matSortChange)="announceSortChange($event)"
+                     class="mat-elevation-z8">
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                    <strong>ID</strong>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.id_vehiculo}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="placa">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by placa">
+                    <strong>Placa</strong>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.placa}} </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="vehiculo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
+                    <strong>Vehiculo</strong>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.vehiculo}} </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="imei">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                    <strong>Imei</strong>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> <button class="btn btn-primary" (click)="addImei(element.id_vehiculo)">Add Imei</button> </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnssingps"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnssingps;"></tr>
               </table>
             </div>
+
             <div *ngIf="listavehiculosAsignados.length>0">
               <h2>Vehiculos a guardar</h2>
-              <table class="center">
-                <thead>
-                <th>ID</th>
-                <th>Placa</th>
-                <th>Vehiculo</th>
-                <th>ID</th>
-                <th>Imei</th>
-                <th>Modelo</th>
-                <th>Quitar</th>
-                </thead>
-                <tbody *ngFor="let det of listavehiculosAsignados">
-                <td>{{det.vehiculo.id_vehiculo}}</td>
-                <td>{{det.vehiculo.placa}}</td>
-                <td>{{det.vehiculo.vehiculo}}</td>
-                <td>{{det.gps.id_gps}}</td>
-                <td>{{det.gps.imei_gps}}</td>
-                <td>{{det.gps.modelo.nombre}}</td>
-                <td><button class="btn btn-danger" (click)="Quitar(det.vehiculo.id_vehiculo)">	<mat-icon>close</mat-icon></button></td>
-                </tbody>
+
+              <table mat-table [dataSource]="dataSourcecon" matSort (matSortChange)="announceSortChange($event)"
+                     class="mat-elevation-z8">
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                    <strong>ID</strong>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.vehiculo.id_vehiculo}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="placa">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by placa">
+                    <strong>Placa</strong>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.vehiculo.placa}} </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="vehiculo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
+                    <strong>Vehiculo</strong>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.vehiculo.vehiculo}} </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="idg">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                    <strong>ID</strong>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.gps.id_gps}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="imei">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                    <strong>Imei</strong>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.gps.imei_gps}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="modelo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                    <strong>Modelo</strong>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.gps.modelo.nombre}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="quitar">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                    <strong>Quitar</strong>
+                  </th>
+                  <td mat-cell *matCellDef="let element"> <button class="btn btn-danger" (click)="Quitar(element.vehiculo.id_vehiculo)">	<mat-icon>close</mat-icon></button> </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnscon"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnscon;"></tr>
               </table>
             </div>
 
           </div>
           <br><br>
           <div>
-            <button mat-raised-button color="warn" matStepperPrevious>Atras</button>
-            <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+            <button class="btn" mat-raised-button color="warn" matStepperPrevious>Atras</button>
+            <button class="btn" mat-raised-button color="primary" [disabled]="listavehiculosAsignados.length<=0" matStepperNext>Siguiente</button>
           </div>
         </form>
       </mat-step>
@@ -109,34 +174,76 @@
             </div>
 
                 <h4>VEHICULOS - GPS:</h4>
-                <table class="center" *ngIf="listavehiculosAsignados.length>0">
-                  <thead>
-                      <th>Placa</th>
-                      <th>Vehiculo</th>
-                      <th>ID</th>
-                      <th>Imei</th>
-                      <th>Modelo</th>
-                      <th>Observacion</th>
-                      <th>Ubicación</th>
-                  </thead>
-                  <tbody *ngFor="let datos of listavehiculosAsignados">
-                      <td>{{datos.vehiculo.placa}}</td>
-                      <td>{{datos.vehiculo.vehiculo}}</td>
-                      <td>{{datos.gps.id_gps}}</td>
-                      <td>{{datos.gps.imei_gps}}</td>
-                      <td>{{datos.gps.modelo.nombre}}</td>
-                      <td>{{datos.observacion}}</td>
-                      <td>{{datos.ubicacion}}</td>
-                  </tbody>
-                </table>
+
+                <table *ngIf="listavehiculosAsignados.length>0" mat-table [dataSource]="dataSourcecon" matSort (matSortChange)="announceSortChange($event)"
+                   class="mat-elevation-z8">
+
+              <!-- Position Column -->
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                  <strong>Placa</strong>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.vehiculo.placa}} </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="placa">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by placa">
+                  <strong>Vehiculo</strong>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.vehiculo.vehiculo}} </td>
+              </ng-container>
+
+              <!-- Weight Column -->
+              <ng-container matColumnDef="vehiculo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
+                  <strong>ID</strong>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.gps.id_gps}} </td>
+              </ng-container>
+
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="idg">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                  <strong>Imei</strong>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.gps.imei_gps}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="imei">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                  <strong>Imei</strong>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.gps.modelo.nombre}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="modelo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                  <strong>Observación</strong>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.observacion}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="quitar">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                  <strong>Ubicación</strong>
+                </th>
+                <td mat-cell *matCellDef="let element">{{element.ubicacion}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumnscon"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumnscon;"></tr>
+            </table>
+
             <h3 style="color: #F65B3A" *ngIf="listavehiculosAsignados.length<=0"><strong>Ningun vehiculo Asignado</strong></h3>
 
           </mat-card-content>
         </div>
+        <br><br>
         <mat-card-actions>
-          <button mat-raised-button matStepperPrevious color="warn">Atras</button>
-          <button mat-raised-button (click)="guardaServicio()"color="accent">Guardar Servicio</button>
-          <button mat-raised-button (click)="createPdf()" color="primary">Imprimir</button>
+          <button class="btn" mat-raised-button matStepperPrevious color="warn">Atras</button>
+          <button class="btn" mat-raised-button (click)="guardaServicio()"color="accent">Guardar Servicio</button>
+          <button class="btn" mat-raised-button (click)="createPdf()" color="primary">Imprimir</button>
         </mat-card-actions>
 
       </mat-step>
