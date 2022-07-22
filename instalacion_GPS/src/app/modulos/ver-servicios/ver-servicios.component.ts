@@ -10,6 +10,8 @@ import {ClienteService} from "../../servicios/ClienteService";
 import {DescripcionService} from "../../servicios/DescripcionService";
 import {Descripcion} from "../../modelos/Descripcion";
 import {User} from "../../modelos/User";
+import {MensajesMail} from "../../modelos/MensajesMail";
+import {EmailService} from "../../servicios/EmailService";
 
 
 @Component({
@@ -37,9 +39,15 @@ export class VerServiciosComponent implements OnInit {
 
   listServicios:Servicio[]=[];
 
+  listaMensajes:MensajesMail[]=[];
+  mensaje:MensajesMail=new MensajesMail();
+
+  cliente:Cliente=new Cliente();
+
   constructor(private serviceService:ServicioService,
               private clienteService:ClienteService,
-              private detalleService:DescripcionService) {
+              private detalleService:DescripcionService,
+              private  mail:EmailService) {
 
   }
 
@@ -93,8 +101,29 @@ export class VerServiciosComponent implements OnInit {
 
 
   servicios(){
+    let day=new Date().getTime();
     this.serviceService.getServices().subscribe(value => {
       this.listServicios=value;
+      //this.clienteService.getByidCliente()
+      for (let ls of this.listServicios){
+        var fechaFin    = new Date(ls.fecha_fin).getTime();
+        var diff = fechaFin - day;
+        if ((diff/(1000*60*60*24)*5)==5){
+          for (let sms1 of this.listaMensajes){
+            if (sms1.tipoMensaje.toLowerCase()=='vencimiento de plan'){
+              this.mensaje=sms1;
+            }
+          }
+
+          if (this.mensaje.tipoMensaje==null){
+            this.mensaje.title='PAGO MENSUAL';
+            this.mensaje.mensaje='Usted a realizado el pago mensual de su servicio en Coordenada';
+          }
+          this.mail.enviarMail(this.mensaje,this.cliente.correo).subscribe(values => {
+            console.log("Email Enviado pago mensual")
+          })
+        }
+      }
     })
   }
 
