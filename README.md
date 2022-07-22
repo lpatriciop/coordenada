@@ -5,7 +5,7 @@ Este proyecto fue realizado con [Angular CLI](https://github.com/angular/angular
 ## Dependencias
 
 El proyecto de FrontEnd una las siguentes dependincias.
-1. Angular Material, propio de Angular CLI para mejorar 
+1. Angular Material(https://material.angular.io/), propio de Angular CLI para mejorar 
 el estilo visual de los componentes.
 2. PdfMake, esta dependencia generar pdf.
 
