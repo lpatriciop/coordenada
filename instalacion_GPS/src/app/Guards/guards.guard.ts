@@ -9,38 +9,35 @@ import {TokenService} from "../servicios/TokenService";
 })
 export class GuardsGuard implements CanActivate {
   realRol: string;
-  nombreUser: any;
 
   constructor(
     private tokenService:TokenService,
     private router: Router,
-    private usuarioService:UserService
   ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
     const expectedRol = route.data['expectedRol'];
-    const roles = JSON.parse(localStorage.getItem("user")+"").authorities;
-    console.log(roles)
-    this.realRol = 'user';
+    const roles = this.tokenService.getAuthorities();
+    this.realRol = '';
     roles.forEach(rol =>{
-      if(rol.authority == 'ROLE_ADMIN'){
+      if(rol == 'ROLE_ADMIN'){
         this.realRol = 'rolAdmin';
       }
       if(rol == 'ROLE_INSTALL'){
         this.realRol = 'rolinstall';
       }
     });
+    console.log(this.tokenService.getToken()+"dkjfk")
+    console.log(expectedRol.indexOf(this.realRol))
 
     if(!this.tokenService.getToken() || expectedRol.indexOf(this.realRol) === -1){
-      this.router.navigateByUrl('/inicio');
-      this.nombreUser = sessionStorage.getItem('AuthUserName');
-      console.log(this.nombreUser)
+      this.router.navigate(['/iniciasesion']);
       // @ts-ignore
       Swal.fire(
         'Acceso denegado',
-        `Hola ${ this.nombreUser} no tienes acceso a este recurso!`,
+        `No tienes Acceso`,
         'warning'
       );
       return false;

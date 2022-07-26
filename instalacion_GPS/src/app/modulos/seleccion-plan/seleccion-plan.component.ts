@@ -145,12 +145,14 @@ export class SeleccionPlanComponent implements OnInit {
         this.plan.modelo=value;
         this.servicioPlan.crearPlan(this.plan).subscribe((data:any)=>{
           this.listarPLanes();
+          window.location.reload();
           this.dialog.closeAll();
         })
       });
     }else{
       this.servicioPlan.crearPlan(this.plan).subscribe((data:any)=>{
         this.listarPLanes();
+        window.location.reload();
         this.dialog.closeAll();
       })
     }

@@ -15,7 +15,7 @@
         <span><strong>Pago Mensual:</strong> {{plan.p_costo_mensual}}</span><br>
         <span><strong>Modelo:</strong> {{plan.modelo.nombre}}</span><br><br>
         <button class="btn btn-primary" (click)="abrirdialogoPlanesEdit(plan.id_plan)">Editar</button>
-        <button  style="margin-left: 10px" class="btn btn-sucessful" [routerLink]="['/nuevoservicio',plan.id_plan]">Contratar</button>
+        <button  style="margin-left: 10px" class="btn btn-success" [routerLink]="['/nuevoservicio',plan.id_plan]">Contratar</button>
       </div>
     </div>
   </div>
