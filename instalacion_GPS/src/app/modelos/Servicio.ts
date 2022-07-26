@@ -13,4 +13,6 @@ export class Servicio{
   fecha_fin_plan:any;
   id_cliente:any;
   iduser:any;
+  noti:any;
+  notiplan:any;
 }

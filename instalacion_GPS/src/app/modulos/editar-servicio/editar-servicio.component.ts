@@ -15,10 +15,9 @@ import {Vehiculo} from "../../modelos/Vehiculo";
 import {Cliente} from "../../modelos/Cliente";
 import {HistorialService} from "../../servicios/HistorialService";
 import {Historial} from "../../modelos/Historial";
-import {withModule} from "@angular/core/testing";
 import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-editar-servicio',
@@ -93,7 +92,8 @@ export class EditarServicioComponent implements OnInit {
               public dialog: MatDialog,
               private serviceVehiculo:VehiculoService,
               private serviceHistorial:HistorialService,
-              private router:Router) { }
+              private router:Router,
+              private snackBar: MatSnackBar,) { }
 
   ngOnInit(): void {
     this.listaServicio();
@@ -110,6 +110,7 @@ export class EditarServicioComponent implements OnInit {
   });
 
 
+  /****Listar todos los detalle servicio****/
   listaServicio(){
     this.id=this.route.snapshot.params['id'];
     if (this.id){
@@ -142,18 +143,16 @@ export class EditarServicioComponent implements OnInit {
   }
 
 
+  /****Seleccion del nuevo gps****/
   seleccionarGps(){
     this.detalleedi=this.detalleid;
       let nuevopgs = new Descripcion(this.detalleedi.documentoservicio,this.detalleid.estado,this.gps, this.detalleedi.vehiculo,this.detalleedi.observacion, this.detalleedi.ubicacion)
       this.listadetallen.push(nuevopgs)
       this.listadetallehistorial.push(this.detalleedi);
       this.vernuvegps=true;
-      console.log("Nuevo");
-      console.log(this.listadetallen);
-      console.log("Lista Historial");
-      console.log(this.listadetallehistorial);
   }
 
+  /****Mostrar para editar vehiculo****/
   editarVehiculo(id_vehiculo:String){
     this.serviceVehiculo.getVehiculo(id_vehiculo).subscribe((data:any)=>{
       this.vehiculo=data;
@@ -161,13 +160,11 @@ export class EditarServicioComponent implements OnInit {
       this.listadetallen.push(nuevovehiculo)
       this.listadetallehistorial.push(this.detalleedi);
       this.vernuvehiculo=true;
-      console.log("Nuevo");
-      console.log(this.listadetallen);
-      console.log("Lista Historial");
-      console.log(this.listadetallehistorial);
     })
   }
+  /***********/
 
+  /*****flitro de los gps*******/
   flitrarimei($event :any) {
     this.gps=new Gps();
     this.listaacciones.pop();
@@ -193,7 +190,7 @@ export class EditarServicioComponent implements OnInit {
     }
   }
 
-  //Abrir
+  /****Dialog para buscar gps****/
   abrirdialogoEditServiciogps(){
     this.titulo="Editar GPS"
     this.gps=new Gps();
@@ -206,16 +203,24 @@ export class EditarServicioComponent implements OnInit {
 
   }
 
+  /****Dilogo para elegir vehiculos****/
   abrirdialogoEditServiciovehiculo(idcli:any, det:Descripcion){
     this.detalleedi=det;
     this.titulo="Seleccione el vehiculo";
     this.serviceVehiculo.getVehiculoCli(idcli).subscribe(data=>{
       this.listvehiuclosCliSinSer=data.filter(m=>m.estado=="Activo")
-      this.dialog.open(this.dialogEditServiciovehiculo);
+      if (this.listvehiuclosCliSinSer.length>0){
+        this.dialog.open(this.dialogEditServiciovehiculo);
+      }else{
+        this.snackBar.open("El cliente no posee vehiculos activos", "",{
+          duration: 1 * 1000,
+        });
+      }
     })
 
   }
 
+  /****Se habre el campo para ingresar datos de edicion de vehiuclos****/
   edithtmlvehiculo(iddetalle:any){
     this.titulo="Editar Vehiculo"
     this.serviciodescripcion.getByidDescrip(iddetalle).subscribe(data=>{
@@ -224,7 +229,8 @@ export class EditarServicioComponent implements OnInit {
       this.allinfo=false
     })
   }
-//Edit
+
+  /****Se habre el campo para ingresar datos de edicion de gps****/
   edithtmlgps(iddetalle:any){
     this.titulo="Editar GPS"
     this.serviciodescripcion.getByidDescrip(iddetalle).subscribe((data1:any)=>{
@@ -234,7 +240,7 @@ export class EditarServicioComponent implements OnInit {
     })
   }
 
-
+  /****Cancelar html****/
   cancelarnvehiculo() {
       this.editv=false;
       this.allinfo=true;
@@ -250,26 +256,35 @@ export class EditarServicioComponent implements OnInit {
     this.listadetallehistorial.pop();
     this.vernuvegps=false;
   }
+  /**************/
 
   guardarcambiosVehiculo(idde:String){
     this.vehiculoedit=this.detalleid.vehiculo;
-    this.vehiculoedit.estado="Activo";
+    this.vehiculoedit.estado="Cambiado";
+    /****Editar vehiculo****/
       this.serviceVehiculo.editarVehiculos(this.vehiculoedit,this.vehiculoedit.id_vehiculo).subscribe(l=>{
         for (let nvg of this.listadetallen){
           nvg.estado="Activo"
           nvg.fecha_inst=new Date();
+          /*****Crea la nueva descripcion con los nuevps datos*****/
           this.serviciodescripcion.crearDescrip(nvg).subscribe(d=>{
             this.vehiculoGet=nvg.vehiculo;
-            this.vehiculoGet.estado="En servicio"
+            this.vehiculoGet.estado="En servicio";
+            /******Cambio de estado al nuevo vehiculo asignado para ese gps******/
             this.serviceVehiculo.editarVehiculos(this.vehiculoGet,this.vehiculoGet.id_vehiculo).subscribe(m=> {
               for (let dh of this.listadetallehistorial){
                 this.historial.documentodescripcion=dh;
                 this.historial.nombre="Vehiculo";
                 this.historial.fecha_cam=new Date();
+                /*****Crea el historial*****/
                 this.serviceHistorial.crearHistorial(this.historial).subscribe(h=>{
-                  dh.estado="Cambiado"
+                  dh.estado="Cambiado";
+                  /******Cambia de estado al la descripcion******/
                   this.serviciodescripcion.editarDescrip(dh,idde).subscribe(dated=>{
                     window.location.reload();
+                    this.snackBar.open("VEHICULO CAMBIADO", "",{
+                      duration: 1 * 1000,
+                    });
                   })
 
                 })
@@ -283,7 +298,7 @@ export class EditarServicioComponent implements OnInit {
 
   guardarcambiosGps(idde:String){
     this.gpsedit=this.detalleid.gps;
-    this.gpsedit.estado="Activo";
+    this.gpsedit.estado="Cambiado";
     this.servicioGps.editGps(this.gpsedit,this.gpsedit.id_gps).subscribe(l=>{
       for (let nvg of this.listadetallen){
         nvg.estado="Activo"
@@ -300,6 +315,10 @@ export class EditarServicioComponent implements OnInit {
                 dh.estado="Cambiado"
                 this.serviciodescripcion.editarDescrip(dh,idde).subscribe(dated=>{
                   window.location.reload();
+                  this.snackBar.open("GPS CAMBIADO", "",{
+                    duration: 1 * 1000,
+                  });
+
                 })
 
               })

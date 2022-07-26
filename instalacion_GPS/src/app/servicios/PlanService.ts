@@ -25,4 +25,8 @@ export class PlanService{
     return this.httpClient.post(this.base_url+"create-plan/", plan);
   }
 
+  editarPlan(plan:Plan,id:String){
+    return this.httpClient.put(this.base_url+"update-plan/"+id, plan);
+  }
+
 }

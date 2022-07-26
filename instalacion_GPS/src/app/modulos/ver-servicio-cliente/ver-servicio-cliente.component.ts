@@ -23,6 +23,8 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 import {MensajesMail} from "../../modelos/MensajesMail";
 import {EmailService} from "../../servicios/EmailService";
 import {ClienteService} from "../../servicios/ClienteService";
+import {UserService} from "../../servicios/UserService";
+import {User} from "../../modelos/User";
 //import {ToastrService} from "ngx-toastr";
 
 
@@ -81,6 +83,7 @@ export class VerServicioClienteComponent implements OnInit {
   pago:Pagos=new Pagos();
   pagoGet:Pagos=new Pagos();
   plan:Plan=new Plan();
+  user:User=new User();
 
   listaMensajes:MensajesMail[]=[];
   mensaje:MensajesMail=new MensajesMail();
@@ -95,7 +98,8 @@ export class VerServicioClienteComponent implements OnInit {
               private servicePlan:PlanService,
               private snackBar: MatSnackBar,
               private  mail:EmailService,
-              private clienteService:ClienteService) {
+              private clienteService:ClienteService,
+              private userService:UserService) {
 
   }
   ngOnInit(): void {
@@ -137,7 +141,7 @@ export class VerServicioClienteComponent implements OnInit {
   openTempDialog(id:String) {
     this.id_servico=id;
     this.detalleService.getDescrip().subscribe((value1:any)=>{
-      this.infodetalle=value1.filter((m)=> m.documentoservicio.id_documentoservicio==id);
+      this.infodetalle=value1.filter((m)=> m.documentoservicio.id_documentoservicio==id && m.estado.toLowerCase()!='cambiado');
     })
     console.log()
     this.dialog.open(this.dialogRef);
@@ -180,32 +184,36 @@ export class VerServicioClienteComponent implements OnInit {
         this.servicioGet=data;
         this.servicio=this.servicioGet;
 
+       //Calcula el tiempo dependiendo el pago mesual
         let cant= this.pago.cantidad_p/this.servicioGet.costo_plan;
         let mesmili = ((1000 * 60 * 60 * 24 * 7 * 4)+((1000*60*60*24)*2)) *cant;
         if(this.servicioGet.fecha_fin!=null){
-          console.log("Hay fecha fin")
           var date=new Date(this.servicioGet.fecha_fin);
         }else{
           var date=new Date(this.servicioGet.fecha_ds);
-          console.log("No Hay fecha fin")
         }
         this.servicio.fecha_fin = new Date(date.getTime()+mesmili);
         this.servicio.estado="Activo"
+        /**********/
 
-        if(this.monto<=0){
+        //Pago del plan en Blanco
+        if(this.monto<=0 || this.monto==null){
           this.costo=0;
         }
 
+        //Aumento al plan ya pagado//
+        /****Si es el cliente pago solo una cantidad del plan****/
         if (this.costo>0){
           this.servicio.costo=Number(this.servicioGet.costo)+Number(this.costo);
         }
-        console.log(this.costo)
+
         var dayfinplan=new Date(this.servicio.fecha_fin_plan);
         var dayfin=new Date(this.servicio.fecha_fin);
 
         if (this.monto>=this.costo){
           if (dayfinplan>=dayfin){
             this.serviceService.editarService(this.servicio,id).subscribe((datas:any)=>{
+              /*******Enviar correo por pago de Plan*******/
               console.log("Actializado el servicio")
               for (let sms of this.listaMensajes){
                 if (sms.tipoMensaje.toLowerCase()=='pago de plan'){
@@ -217,12 +225,12 @@ export class VerServicioClienteComponent implements OnInit {
                 this.mensaje.title='PAGO DE PLAN';
                 this.mensaje.mensaje='Usted a realizado el pago del plan del servicio en Coordenada';
               }
-              if (this.costo>=0){
+              if (this.costo>0){
                 this.mail.enviarMail(this.mensaje,this.cliente.correo).subscribe(values => {
                   console.log("Email Enviado PAGO DE PLAN")
                 })
               }
-
+          /**************************/
               this.pago.docservice=datas;
               this.pago.fecha_pago=new Date();
               console.log(this.pago)
@@ -277,6 +285,9 @@ export class VerServicioClienteComponent implements OnInit {
   async createPdf() {
     this.serviceService.getService(this.id_servico).subscribe(value => {
       this.servicio=value;
+      this.userService.getUserid(this.servicio.iduser).subscribe(value1 => {
+        this.user=value1;
+      })
     });
     console.log(this.cliente)
     console.log(this.servicio)
@@ -310,7 +321,7 @@ export class VerServicioClienteComponent implements OnInit {
               ['DIRECCION: ' + this.cliente.direccion, 'CORREO: ' + this.cliente.correo],
               [ 'FECHA ENTREGA: ' + pipe.transform(this.servicio.fecha_ds, 'dd/MM/yyyy'), 'TELEFONO: ' + this.cliente.telefono],
               ['FECHA INICIO: ' + pipe.transform(this.servicio.fecha_inicion, 'dd/MM/yyyy'), 'FECHA FIN: ' + pipe.transform(this.servicio.fecha_fin, 'dd/MM/yyyy')],
-              ['ATENDIDO POR: Angel Villa', 'HORAS: ' + this.servicio.hora],
+              ['ATENDIDO POR: '+this.user.nombre, 'HORAS: ' + this.servicio.hora],
             ]
           }
         },

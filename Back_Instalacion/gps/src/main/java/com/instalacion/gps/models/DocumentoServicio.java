@@ -42,6 +42,10 @@ public class DocumentoServicio {
     
     private String iduser;
    
+    private boolean noti;
+    
+    private boolean notiplan;
+    
     //fk_docdescricion
     @OneToMany(mappedBy = "documentoservicio")
     private List<DocumentoDescripcion> docdescripcion;
@@ -66,6 +70,14 @@ public class DocumentoServicio {
 
 	public void setCosto(double costo) {
 		this.costo = costo;
+	}
+
+	public boolean isNotiplan() {
+		return notiplan;
+	}
+
+	public void setNotiplan(boolean notiplan) {
+		this.notiplan = notiplan;
 	}
 
 	public Date getFecha_ds() {
@@ -118,7 +130,15 @@ public class DocumentoServicio {
         Estado = estado;
     }
 
-    public double getCosto_plan() {
+    public boolean isNoti() {
+		return noti;
+	}
+
+	public void setNoti(boolean noti) {
+		this.noti = noti;
+	}
+
+	public double getCosto_plan() {
         return costo_plan;
     }
 

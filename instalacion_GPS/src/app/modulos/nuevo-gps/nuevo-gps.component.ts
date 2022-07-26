@@ -48,8 +48,8 @@ export class NuevoGpsComponent implements OnInit {
     if (this.id){
       this.Gpsid(this.id);
     }
-      this.servicioModelo.getModelos().subscribe((data:any)=>{
-        this.listaModelo=data/*.filter(value=>value.id_modelo==this.plan.modelo.id_modelo);*/
+      this.servicioModelo.getModelos().subscribe(data=>{
+        this.listaModelo=data.filter(value=>value.nombre.toLowerCase()!="todos");
     })
     this.listarGps();
   }
@@ -57,6 +57,7 @@ export class NuevoGpsComponent implements OnInit {
   Gpsid(id:String){
     this.servicioGps.getgps(id).subscribe(value => {
       this.gps=value
+      this.modelo=this.gps.modelo;
     })
   }
 

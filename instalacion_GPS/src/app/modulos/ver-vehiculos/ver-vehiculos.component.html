@@ -4,7 +4,7 @@
   <mat-card-subtitle>Vehiculos del servicio de APECS</mat-card-subtitle>
 </div>
 
-<button class="btn btn-success btncrear"  (click)="abrirdialogoVehiculos()" *ngIf="btncrearVh">Crear Nuevo Vehiculo</button>
+<button class="btn btn-success btncrear"  (click)="abrirdialogoVehiculos()" *ngIf="btncrearVh"><mat-icon>add</mat-icon>Nuevo Vehiculo</button>
 
 <mat-form-field class="buscarV">
   <mat-label>Search</mat-label>
@@ -49,14 +49,30 @@
       <td class="media1" mat-cell *matCellDef="let articulosVv"> {{articulosVv.estado}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="editar">
+    <ng-container matColumnDef="editar" *ngIf="btncrearVh">
       <th class="titulo" mat-header-cell *matHeaderCellDef> Editar </th>
       <td mat-cell *matCellDef="let articulosVv"><button [routerLink]="['/nuevovehiculo',articulosVv.id_vehiculo]" ><mat-icon class="btnEdi">edit</mat-icon></button></td>
     </ng-container>
 
-    <ng-container matColumnDef="eliminar">
+    <ng-container matColumnDef="eliminar" *ngIf="btncrearVh">
       <th class="titulo" mat-header-cell *matHeaderCellDef> Eliminar </th>
       <td mat-cell *matCellDef="let articulosVv"> <button ><mat-icon class="btnEli">delete</mat-icon></button></td>
+    </ng-container>
+
+    <ng-container matColumnDef="editar" *ngIf="!btncrearVh">
+      <th class="titulo" mat-header-cell *matHeaderCellDef> Cliente </th>
+      <td mat-cell *matCellDef="let articulosVv">{{articulosVv.cliente.nombre}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="eliminar" *ngIf="!btncrearVh">
+      <th class="titulo" mat-header-cell *matHeaderCellDef> Servicio </th>
+      <td mat-cell *matCellDef="let articulosVv">
+        <button (click)="descripcion(articulosVv.id_vehiculo)" title="En que servicio se encuentra"
+                mat-button color="primary"
+                *ngIf="articulosVv.estado=='En servicio'">
+          <mat-icon>remove_red_eye</mat-icon>
+        </button>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="columnas"></tr>
@@ -66,7 +82,6 @@
 </div>
 
 <ng-template #dialogNvehiculo >
-
   <form [formGroup]="ValidacionVehiculoFormGroup">
   <h2> {{titulo}} </h2>
   <mat-form-field appearance="outline" style="width: 100%">
@@ -100,7 +115,20 @@
     <mat-error *ngIf="hasError('vehiculo_n', 'required')">Nombre del vehiculo <strong>requerido</strong></mat-error>
   </mat-form-field>
   <br>
-  <button mat-button mat-dialog-close>Cancelar</button>
-  <button mat-button mat-dialog-close   (click)="crearVehiculo()" *ngIf="creating" [disabled]="!ValidacionVehiculoFormGroup.valid" >Guardar</button>
+  <button mat-button mat-dialog-close color="warn"><mat-icon>close</mat-icon> Cancelar</button>
+  <button mat-button mat-dialog-close color="primary"  (click)="crearVehiculo()" *ngIf="creating" [disabled]="!ValidacionVehiculoFormGroup.valid" ><mat-icon>save</mat-icon>Guardar</button>
   </form>
 </ng-template>
+
+<ng-template #dialogdetallev >
+  <h2><strong>DETALLES</strong></h2>
+  <span>Fecha de instalación: <strong>{{detalle.fecha_inst}}</strong></span><br>
+  <span>Imei GPS: <strong>{{detalle.gps.imei_gps}}</strong></span><br>
+  <span>Modelo GPS<strong>{{detalle.gps.modelo.nombre}}</strong></span><br>
+  <span>Obervación:<strong>{{detalle.observacion}}</strong></span><br>
+  <span>Ubicacion: <strong>{{detalle.ubicacion}}</strong></span><br>
+  <br>
+  <button mat-button mat-dialog-close color="warn"><mat-icon>close</mat-icon> Cerrar</button>
+</ng-template>
+
+

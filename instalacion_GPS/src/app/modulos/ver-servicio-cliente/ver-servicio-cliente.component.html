@@ -102,33 +102,37 @@
     </tbody>
   </table>
   <br>
-  <button mat-raised-button mat-dialog-close="I am from dialog land..."  color="warn">Cerrar</button>
-  <button mat-raised-button  (click)="createPdf()"   color="accent" >Imprimir Detalle</button>
+  <button mat-raised-button mat-dialog-close color="warn"><mat-icon>close</mat-icon>Cerrar</button>
+  <button style="margin-left: 10px" mat-raised-button  (click)="createPdf()" color="accent" ><mat-icon>print</mat-icon>Imprimir</button>
 </ng-template>
 
 <!--Activar Plan-->
 <ng-template #dialogRefActivacion >
   <h2>Activaciòn de Servicio</h2>
-  <span><Strong>Precio del Plan:</Strong> ${{monto}}</span><br>
-  <span><strong>Pago Mensual: </strong> ${{servicio.costo_plan}} </span><br>
-  <span><strong> Hasta: </strong> {{servicio.fecha_fin_plan | date: 'dd/MM/yyyy' }}</span>
-  <br><br>
-  <mat-form-field *ngIf="monto!=0">
-    <input matInput placeholder="Pago de Servicio" name="pservice" [(ngModel)]="costo"  required/>
-  </mat-form-field>
+  <div class="grid1">
+    <span><Strong>Precio del Plan:</Strong> ${{monto}}</span>
+    <span><strong>Pago Mensual: </strong> ${{servicio.costo_plan}} </span>
+    <span><strong> Hasta: </strong> {{servicio.fecha_fin_plan | date: 'dd/MM/yyyy' }}</span>
+  </div>
   <br>
-  <mat-form-field>
-    <input matInput placeholder="Pago mesual" name="pmensual" [(ngModel)]="pago.cantidad_p"  required/>
-  </mat-form-field>
+  <form #formulario="ngForm">
+    <mat-form-field style="width: 100%" *ngIf="monto!=0">
+      <input matInput placeholder="Pago de Servicio" name="pservice" [(ngModel)]="costo"  required/>
+    </mat-form-field>
+    <br>
+    <mat-form-field style="width: 100%">
+      <input matInput placeholder="Pago mesual" name="pmensual" [(ngModel)]="pago.cantidad_p"  required/>
+    </mat-form-field>
+  </form>
   <br>
   <br>
-  <button mat-button mat-dialog-close="I am from dialog land...">Cerrar</button>
-  <button mat-button mat-dialog-close   (click)="activarservicio(servicioGet.id_documentoservicio)" >Activar</button>
-  <button mat-button mat-dialog-close   (click)="openDialogoDetallePagos(servicioGet.id_documentoservicio)" >Detalle Pagos</button>
+  <button mat-button color="warn" mat-dialog-close="I am from dialog land..."><mat-icon>close</mat-icon> Cerrar</button>
+  <button mat-button color="primary" mat-dialog-close [disabled]="!formulario.valid"  (click)="activarservicio(servicioGet.id_documentoservicio)" ><mat-icon>save</mat-icon> Activar</button>
+  <button mat-button color="accent" mat-dialog-close  [disabled]="!formulario.valid" (click)="openDialogoDetallePagos(servicioGet.id_documentoservicio)"><mat-icon>eye</mat-icon> Detalle Pagos</button>
 </ng-template>
 
 <ng-template #dialogRefdetallePago>
-  <h2>Detalle de Pagos de Servicio</h2>
+  <h2><strong>Detalle de Pagos de Servicio</strong></h2>
   <br>
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource1">
@@ -154,10 +158,10 @@
 
     <mat-paginator [pageSizeOptions]="[5, 10, 20]"
                    showFirstLastButtons
-                   aria-label="Select page of periodic elements">
+                   aria-label="Page">
     </mat-paginator>
   </div>
   <br>
-  <button mat-button mat-dialog-close="I am from dialog land...">Cerrar</button>
+  <button mat-button color="warn" mat-dialog-close><mat-icon>close</mat-icon>Cerrar</button>
 </ng-template>
 

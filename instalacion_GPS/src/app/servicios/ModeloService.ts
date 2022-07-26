@@ -14,8 +14,8 @@ export class ModeloService{
   constructor(private httpClient:HttpClient) {
   }
 
-  getModelos():Observable<Modelo>{
-    return this.httpClient.get<Modelo>(this.base_url);
+  getModelos():Observable<Modelo[]>{
+    return this.httpClient.get<Modelo[]>(this.base_url);
   }
 
   crearModelo(modelo:Modelo){

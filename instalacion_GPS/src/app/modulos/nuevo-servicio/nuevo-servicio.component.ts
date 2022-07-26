@@ -149,10 +149,6 @@ export class NuevoServicioComponent implements OnInit {
 
   @ViewChild(MatSort) sortsing: MatSort;
 
-  ngAfterViewInit() {
-    this.dataSourcesin.sort = this.sortsing;
-  }
-
   listarMensajes(){
     this.mensajeService.getMensajesEmail().subscribe(value => {
       this.listaMensajes=value;
@@ -195,17 +191,23 @@ export class NuevoServicioComponent implements OnInit {
       this.listaModelo = data;
     })
     this.listaAcciones.pop();
-    this.servicioGps.getGps().subscribe((value: any) => {
-      this.listagps = value.filter(m=>m.estado=="Activo");
-    })
-
-    this.planbyid();
+    this.planbyid(this.id_plan);
     this.listarMensajes();
   }
 
-  planbyid(){
-    this.servicioPlan.getPlan(this.id_plan).subscribe((x:any)=>{
+  planbyid(id:String){
+    this.servicioPlan.getPlan(id).subscribe(x=>{
         this.plan=x;
+      this.servicioGps.getGps().subscribe(value => {
+        this.listagps = value.filter(m=>{
+          if (this.plan.modelo.nombre.toLowerCase()=='todos'){
+            return m.estado=="Activo"
+          }else{
+            return m.estado=="Activo" && m.modelo.nombre==this.plan.modelo.nombre;
+          }
+        });
+      })
+      console.log(this.listagps)
     })
   }
 
@@ -351,6 +353,8 @@ export class NuevoServicioComponent implements OnInit {
     this.mail.enviarMail(this.mensaje,this.cliente.correo).subscribe(values => {
       console.log("Email Enviado")
     })
+    this.servicio.noti=true;
+    this.servicio.notiplan=true;
       this.servicioService.crearService(this.servicio).subscribe((data:any)=>{
        this.servicioGet=data;
         for (let des of this.listavehiculosAsignados){

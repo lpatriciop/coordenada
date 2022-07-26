@@ -20,7 +20,7 @@ export class AsignacionRolesComponent implements OnInit {
 
   columnas: string[] = ['id', 'nombre', 'correo','rol_us','estado','editar','eliminar'];
 
-  columnasPlan: string[] = ['id', 'nombre', 'descripcion','editar','eliminar'];
+  columnasPlan: string[] = ['id', 'nombre'];
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 

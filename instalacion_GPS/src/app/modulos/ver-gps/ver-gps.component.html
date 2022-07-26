@@ -47,12 +47,15 @@
 
     <ng-container matColumnDef="editar">
       <th class="titulo" mat-header-cell *matHeaderCellDef> Editar </th>
-      <td mat-cell *matCellDef="let articuloscl"><button [routerLink]="['/nuevogps/',articuloscl.id_gps]"><mat-icon class="btnEdi">edit</mat-icon></button></td>
+      <td mat-cell *matCellDef="let row"><button title="Edicion del GPS" [routerLink]="['/nuevogps/',row.id_gps]"><mat-icon class="btnEdi">edit</mat-icon></button></td>
     </ng-container>
 
     <ng-container matColumnDef="eliminar">
       <th class="titulo" mat-header-cell *matHeaderCellDef> Eliminar </th>
-      <td mat-cell *matCellDef="let articuloscl"> <button ><mat-icon class="btnEli">delete</mat-icon></button></td>
+      <td mat-cell *matCellDef="let row">
+        <button title="Desabilitación del GPS" (click)="abrirDialogoEliminar(row)" *ngIf="row.estado=='Activo'"><mat-icon class="btnEli">delete</mat-icon></button>
+        <button title="Habilitación del GPS" (click)="abrirDialogoActivar(row)" *ngIf="row.estado=='Inactivo'"><mat-icon class="btnEdi">how_to_reg</mat-icon></button>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="columnas"></tr>
@@ -60,3 +63,14 @@
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
 </div>
+
+<ng-template #eliminarGps>
+  <h2 style="text-align: center"><strong>{{title}}</strong></h2>
+  <div style="text-align: center">
+    <span>Imei: <strong>{{gpsElimnar.imei_gps}}</strong></span>
+  </div>
+  <br><br>
+  <button style="background: red; color: black; margin-left: 5px" mat-button mat-dialog-close color="warn"><mat-icon>close</mat-icon> CANCELAR</button>
+  <button *ngIf="eliminar" style="background: cornflowerblue; color: black; margin-left: 5px" mat-button mat-dialog-close color="primary" (click)="EliminarGps()"><mat-icon>save</mat-icon> ELIMINAR</button>
+  <button *ngIf="editar" style="background: cornflowerblue; color: black; margin-left: 5px" mat-button mat-dialog-close color="primary" (click)="ActivarGps()"><mat-icon>save</mat-icon> ACTIVAR</button>
+</ng-template>

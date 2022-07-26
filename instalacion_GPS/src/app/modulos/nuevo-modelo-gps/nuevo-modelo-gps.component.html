@@ -33,12 +33,15 @@
 
     <ng-container matColumnDef="editar">
       <th class="titulo" mat-header-cell *matHeaderCellDef> Editar </th>
-      <td mat-cell *matCellDef="let row"><button (click)="abrirdialogoEdi(row.id_modelo)"><mat-icon class="btnEdi">edit</mat-icon></button></td>
+      <td mat-cell *matCellDef="let row"><button title="Edición del modelo" (click)="abrirdialogoEdi(row.id_modelo)"><mat-icon class="btnEdi">edit</mat-icon></button></td>
     </ng-container>
 
     <ng-container matColumnDef="eliminar">
       <th class="titulo" mat-header-cell *matHeaderCellDef> Eliminar </th>
-      <td mat-cell *matCellDef="let row"> <button (click)="abrirdialogoEliminar(row);" ><mat-icon class="btnEli">delete</mat-icon></button></td>
+      <td mat-cell *matCellDef="let row">
+        <button title="Deshabilitación del modelo" (click)="abrirdialogoEliminar(row);" *ngIf="row.estado=='Activo'"><mat-icon class="btnEli">delete</mat-icon></button>
+        <button title="Habilitación del modelo" (click)="abrirdialogoActivar(row);" *ngIf="row.estado=='Inactivo'"><mat-icon class="btnEdi">how_to_reg</mat-icon></button>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="columnasM"></tr>
@@ -76,7 +79,7 @@
   <br>
   <span *ngFor="let ac of listaAcciones">
     <span>{{ac.nombre}}
-      <button (click)="EliminarAcciones(ac.id_acciones)"><mat-icon>delete_forever</mat-icon></button>
+      <button (click)="EliminarAcciones(ac)"><mat-icon>delete_forever</mat-icon></button>
       <button (click)="cargardato(ac)"><mat-icon>edit</mat-icon></button>
     </span>
     <br>
@@ -86,9 +89,9 @@
 </ng-template>
 
 <ng-template #dialogEliminar >
-  <h2> <strong>Estas seguro de eliminar el modelo</strong> </h2>
-  <h4><span>{{modelo.nombre}}</span></h4>
-  <br><br>
+  <h2 style="text-align: center"> <strong>{{title}}</strong> </h2>
+  <br>
   <button mat-button mat-dialog-close color="warn"><mat-icon>save</mat-icon> CANCELAR</button>
-  <button mat-button mat-dialog-close color="primary" (click)="EliminarModelo()"><mat-icon>save</mat-icon> ELIMINAR</button>
+  <button *ngIf="eliminar" mat-button mat-dialog-close color="primary" (click)="EliminarModelo()"><mat-icon>save</mat-icon> ELIMINAR</button>
+  <button *ngIf="activar" mat-button mat-dialog-close color="primary" (click)="ActivarModelo()"><mat-icon>save</mat-icon> ACTIVAR</button>
 </ng-template>

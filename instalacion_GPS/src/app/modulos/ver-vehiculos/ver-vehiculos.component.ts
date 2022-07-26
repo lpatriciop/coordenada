@@ -10,6 +10,8 @@ import {Servicio} from "../../modelos/Servicio";
 import { MatDialog } from "@angular/material/dialog";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {DescripcionService} from "../../servicios/DescripcionService";
+import {Descripcion} from "../../modelos/Descripcion";
 
 @Component({
   selector: 'app-ver-vehiculos',
@@ -35,9 +37,14 @@ export class VerVehiculosComponent implements OnInit {
   creating=false;
   btncrearVh=false;
 
+  listdetalle:Descripcion[]=[];
+  detalle:Descripcion;
 
   @ViewChild('dialogNvehiculo')
   dialogNvehiculo!: TemplateRef<any>;
+
+  @ViewChild('dialogdetallev')
+  dialogdetallev!: TemplateRef<any>;
 
   cliente:Cliente=new Cliente();
 
@@ -45,38 +52,53 @@ export class VerVehiculosComponent implements OnInit {
 
   listaVehiculos:Array<Vehiculo>=[];
 
-  constructor(private vehiculoservice:VehiculoService,private route:ActivatedRoute,
-              private clienteService:ClienteService,public dialog: MatDialog) { }
+  constructor(private vehiculoservice:VehiculoService,
+              private route:ActivatedRoute,
+              private clienteService:ClienteService,
+              public dialog: MatDialog,
+              private descripcionService:DescripcionService) { }
 
   ngOnInit(): void {
     this.id=this.route.snapshot.params['id'];
     if(this.id){
-      this.btncrearVh =true;
-      this.clienteService.getByidCliente(this.id).subscribe((vs:any)=>{
-        this.cliente=vs;
-
-        this.vehiculoservice.getVehiculos().subscribe((x: any) => {
-          this.listaVehiculos = x
-          for (let a of this.listaVehiculos) {
-            if(a.cliente.id_persona==this.cliente.id_persona){
-              this.datos.push(a);
-            }
-          }
-          this.dataSource = new MatTableDataSource<any>(this.datos);
-          this.dataSource.paginator = this.paginator;
-        })
-
-      })
+      this.listarvehiculosid()
     }else{
-      console.log("Entra sin id")
+      this.listarvehiculos();
+    }
+    this.listarDescripciones();
+  }
+  listarvehiculos(){
+    this.vehiculoservice.getVehiculos().subscribe((x: any) => {
+      this.listaVehiculos = x
+      console.log(this.datos)
+      this.dataSource = new MatTableDataSource<any>(this.listaVehiculos);
+      this.dataSource.paginator = this.paginator;
+    })
+  }
+
+  listarDescripciones(){
+    this.descripcionService.getDescrip().subscribe(value => {
+      this.listdetalle=value;
+    })
+  }
+
+  listarvehiculosid(){
+    this.btncrearVh =true;
+    this.clienteService.getByidCliente(this.id).subscribe((vs:any)=>{
+      this.cliente=vs;
+
       this.vehiculoservice.getVehiculos().subscribe((x: any) => {
         this.listaVehiculos = x
-        console.log(this.datos)
-        this.dataSource = new MatTableDataSource<any>(this.listaVehiculos);
+        for (let a of this.listaVehiculos) {
+          if(a.cliente.id_persona==this.cliente.id_persona){
+            this.datos.push(a);
+          }
+        }
+        this.dataSource = new MatTableDataSource<any>(this.datos);
         this.dataSource.paginator = this.paginator;
       })
 
-    }
+    })
   }
 
   applyFilter(event: Event) {
@@ -94,7 +116,7 @@ export class VerVehiculosComponent implements OnInit {
     this.creating=true;
     this.titulo="Crear Vehiculos"
     this.dialog.open(this.dialogNvehiculo,{
-      height: '70%',
+      height: '80%',
       width: '30%',
     });
 
@@ -105,7 +127,7 @@ export class VerVehiculosComponent implements OnInit {
     this.vehiculo.estado="Activo";
     console.log(this.vehiculo)
     this.vehiculoservice.crearVehiculos(this.vehiculo).subscribe((data:any)=>{
-      window.location.reload();
+      this.listarvehiculosid();
     })
   }
 
@@ -122,8 +144,14 @@ export class VerVehiculosComponent implements OnInit {
     return this.ValidacionVehiculoFormGroup.controls[controlName].hasError(errorName);
   }
 
-
-
+  descripcion(id:String){
+    for (let d of this.listdetalle){
+      if (d.vehiculo.id_vehiculo=id){
+        this.detalle=d;
+      }
+    }
+    this.dialog.open(this.dialogdetallev);
+  }
 
 }
 

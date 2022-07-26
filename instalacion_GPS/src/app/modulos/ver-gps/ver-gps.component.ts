@@ -1,10 +1,12 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {Cliente} from "../../modelos/Cliente";
 import {ClienteService} from "../../servicios/ClienteService";
 import {Gps} from "../../modelos/Gps";
 import {GpsService} from "../../servicios/GpsService";
+import {MatDialog} from "@angular/material/dialog";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-ver-gps',
@@ -20,11 +22,21 @@ export class VerGpsComponent implements OnInit {
   // @ts-ignore
   dataSource: MatTableDataSource<Gps>;
 
+  @ViewChild('eliminarGps')
+  eliminarGps!: TemplateRef<any>;
+
   datos: Gps[] = [];
 
-  listaGps:Array<Gps>=[];
+  gpsElimnar:Gps=new Gps();
 
-  constructor(private servicegps:GpsService) { }
+  listaGps:Array<Gps>=[];
+  title="";
+  editar=false;
+  eliminar=false;
+
+  constructor(private servicegps:GpsService,
+              public dialog: MatDialog,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.ListaGps();
@@ -48,6 +60,42 @@ export class VerGpsComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
+  abrirDialogoEliminar(data:Gps) {
+    this.eliminar=true;
+    this.editar=false;
+    this.title="Esta seguro de eliminar?"
+    this.gpsElimnar=data;
+    this.dialog.open(this.eliminarGps);
+  }
+
+  abrirDialogoActivar(data:Gps){
+    this.eliminar=false;
+    this.editar=true;
+    this.title="Activación del GPS"
+    this.gpsElimnar=data;
+    this.dialog.open(this.eliminarGps);
+  }
+
+  EliminarGps(){
+    this.gpsElimnar.estado="Inactivo";
+    this.servicegps.editGps(this.gpsElimnar,this.gpsElimnar.id_gps).subscribe(value => {
+      this.snackBar.open("El GPS CON IMEI"+this.gpsElimnar.imei_gps+" HA SIDO INABILITADO", "",{
+        duration: 1 * 1000,
+      });
+    })
+  }
+
+  ActivarGps(){
+    this.gpsElimnar.estado="Activo";
+    this.servicegps.editGps(this.gpsElimnar,this.gpsElimnar.id_gps).subscribe(value => {
+      this.snackBar.open("El GPS CON IMEI"+this.gpsElimnar.imei_gps+" HA SIDO HABILITADO", "",{
+        duration: 1 * 1000,
+      });
+    })
+  }
+
+
 }
 
 

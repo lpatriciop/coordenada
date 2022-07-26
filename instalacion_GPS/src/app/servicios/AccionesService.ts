@@ -17,8 +17,8 @@ export class AccionesService{
     return this.httpClient.get<Acciones[]>(this.base_url);
   }
 
-  crearAccion(accion:Acciones){
-    return this.httpClient.post(this.base_url+"create-accion/", accion);
+  crearAccion(accion:Acciones):Observable<Acciones>{
+    return this.httpClient.post<Acciones>(this.base_url+"create-accion/", accion);
   }
 
   editaccion(accion:Acciones,id:String){

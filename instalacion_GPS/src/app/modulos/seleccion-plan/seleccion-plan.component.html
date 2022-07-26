@@ -8,14 +8,18 @@
     <div class="grid-container" >
       <div class="grid-item" *ngFor="let plan of listaPlanes">
         <img   class="img"   src="{{plan.imagen}}" alt="">
-        <br>
-        <ul><li>{{plan.nombre_p}}</li>
-          <li>{{plan.costo_p}}</li></ul>
-
-        <button class="btn btn-primary" [routerLink]="['/nuevoservicio',plan.id_plan]">CONTRATAR SERVICIO</button>
+        <br><br>
+        <span><strong>Nombre:</strong> {{plan.nombre_p}}</span><br>
+        <span><strong>Costo:</strong> {{plan.costo_p}}</span><br>
+        <span><strong>Descripción:</strong> {{plan.descripcion_plan}}</span><br>
+        <span><strong>Pago Mensual:</strong> {{plan.p_costo_mensual}}</span><br>
+        <span><strong>Modelo:</strong> {{plan.modelo.nombre}}</span><br><br>
+        <button class="btn btn-primary" (click)="abrirdialogoPlanesEdit(plan.id_plan)">Editar</button>
+        <button  style="margin-left: 10px" class="btn btn-sucessful" [routerLink]="['/nuevoservicio',plan.id_plan]">Contratar</button>
       </div>
     </div>
   </div>
+
 <!-- dialo de  planes--->
   <ng-template #dialogNplan>
     <div style="text-align: center">
@@ -39,7 +43,7 @@
         <br><br>
         <img style="width: 90%;" src="{{ plan.imagen}}" alt="" />
       </div>
-
+      <br>
     <mat-form-field appearance="outline" style="width: 40%; margin-left: 5px">
       <mat-label>Descripcion</mat-label>
       <mat-select  [(ngModel)]="plan.descripcion_plan" name="descripcion_p" formControlName="descripcion_p" id="descripcion_p">
@@ -73,12 +77,14 @@
         <mat-option *ngFor="let modelo of listaModelo" [value]="modelo.id_modelo">
           {{modelo.nombre}}
         </mat-option>
+        <mat-option [value]="0" *ngIf="modelotodo">Todo Modelo</mat-option>
       </mat-select>
       <mat-error *ngIf="hasError('modelo', 'required')">Modelo <strong>requerido</strong></mat-error>
     </mat-form-field>
     <br>
     <button mat-raised-button color="warn"   mat-dialog-close>Cancelar</button>
-    <button mat-raised-button color="primary"   (click)="GuardarPlan()" [disabled]="!VNuevoPlanFormGroup.valid">Guardar</button>
+    <button style="margin-left: 10px" *ngIf="guardar" mat-raised-button color="primary"   (click)="GuardarPlan()" [disabled]="!VNuevoPlanFormGroup.valid"><mat-icon>save</mat-icon>Guardar</button>
+      <button style="margin-left: 10px"  *ngIf="editar" mat-raised-button color="primary"   (click)="EditarPlan()" [disabled]="!VNuevoPlanFormGroup.valid"><mat-icon>save</mat-icon>Editar</button>
     </form>
     </div>
   </ng-template>

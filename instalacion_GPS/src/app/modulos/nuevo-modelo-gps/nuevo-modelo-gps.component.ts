@@ -31,8 +31,10 @@ export class NuevoModeloGpsComponent implements OnInit {
 
 
   modelo:Modelo=new Modelo();
+  modeloEliminar:Modelo=new Modelo();
   accion:Acciones=new Acciones();
   accionSet:Acciones=new Acciones();
+  Accioncrear:Acciones=new Acciones();
 
   @ViewChild('dialogRef')
   dialogRef!: TemplateRef<any>;
@@ -43,14 +45,16 @@ export class NuevoModeloGpsComponent implements OnInit {
   @ViewChild('dialogEliminar')
   dialogEliminar!: TemplateRef<any>
 
-  datosA: Acciones[] = [];
-  dataSourceA:any;
-
   crear=true;
   editar=false;
 
   listaModelos:Array<Modelo>=[];
   listaAcciones=[];
+
+  title='';
+  eliminar=false;
+  activar=false;
+
     constructor(private modeloservice:ModeloService,
                 private accionesservice:AccionesService,
                 public dialog: MatDialog,
@@ -143,28 +147,53 @@ export class NuevoModeloGpsComponent implements OnInit {
   }
 
   agregarAcciones(){
-      this.accionSet.estado="Activo"
-      this.accionSet.modelo=this.modelo;
-      console.log(this.accionSet)
-
-     this.accionesservice.crearAccion(this.accionSet).subscribe((data:any)=>{
-       this.abrirdialogoAcciones(this.modelo.id_modelo)
+      this.Accioncrear.nombre=this.accionSet.nombre;
+      this.Accioncrear.estado="Activo"
+      this.Accioncrear.modelo=this.modelo;
+     this.accionesservice.crearAccion(this.Accioncrear).subscribe(data=>{
+       this.dialog.closeAll();
        this.accionSet.nombre=null;
+       this.abrirdialogoAcciones(data.modelo.id_modelo)
       })
   }
 
+
   abrirdialogoEliminar(modelo:Modelo){
-    this.modelo=modelo;
+    this.eliminar=true;
+    this.activar=false;
+    this.modeloEliminar=modelo;
+    this.title='Esta seguro de eliminar el modelo '+this.modeloEliminar.nombre+' ?'
+    this.dialog.open(this.dialogEliminar);
+  }
+
+  abrirdialogoActivar(modelo:Modelo){
+    this.eliminar=false;
+    this.activar=true;
+    this.modeloEliminar=modelo;
+    this.title='Esta seguro de activar el modelo '+this.modeloEliminar.nombre+' ?'
     this.dialog.open(this.dialogEliminar);
   }
 
   EliminarModelo(){
-    this.modelo.estado="Inactivo"
-    this.modeloservice.updateModelo(this.modelo,this.modelo.id_modelo).subscribe((data:any)=>{
+    this.modeloEliminar.estado="Inactivo";
+    this.modeloservice.updateModelo(this.modeloEliminar,this.modeloEliminar.id_modelo).subscribe((data:any)=>{
       this.listarModelos();
-      this.abrirdialogoAcciones(this.modelo.id_modelo)
+      this.snackBar.open("MODELO "+this.modeloEliminar.nombre.toUpperCase()+" DESHABILITADO  ", "",{
+        duration: 1 * 1000,
+      });
     })
   }
+
+ ActivarModelo(){
+    this.modeloEliminar.estado="Activo";
+    this.modeloservice.updateModelo(this.modeloEliminar,this.modeloEliminar.id_modelo).subscribe((data:any)=>{
+      this.listarModelos();
+      this.snackBar.open("MODELO "+this.modeloEliminar.nombre.toUpperCase()+" HABILITADO  ", "",{
+        duration: 1 * 1000,
+      });
+    })
+  }
+
 
   //ACCIONES
   EditarAcciones(accion:Acciones){
@@ -173,22 +202,26 @@ export class NuevoModeloGpsComponent implements OnInit {
         duration: 1 * 1000,
       });
       this.accionSet.nombre=null;
+      this.crear=true;
+      this.editar=false;
+      this.dialog.closeAll();
       this.abrirdialogoAcciones(accion.modelo.id_modelo);
     })
   }
 
   cargardato(accion:Acciones){
-    console.log(accion)
     this.accionSet=accion;
     this.crear=false;
     this.editar=true;
   }
 
-  EliminarAcciones(id:any){
-    this.accionesservice.eliminarAcciones(id).subscribe(value => {
+  EliminarAcciones(data:Acciones){
+    this.accionesservice.eliminarAcciones(data.id_acciones).subscribe(value => {
       this.snackBar.open("ACCIÓN ELIMINADA  ", "",{
         duration: 1 * 1000,
       });
+      this.dialog.closeAll();
+      this.abrirdialogoAcciones(data.modelo.id_modelo);
     })
   }
 }

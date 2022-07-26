@@ -118,7 +118,6 @@
               <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
               <tr mat-row *matRowDef="let row1; columns: displayedColumns1;"></tr>
 
-              <!-- Row shown when there is no matching data. -->
             </table>
 
             <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
@@ -150,12 +149,12 @@
           </mat-form-field>
         </div>
 
-        <button class="btnEli" (click)="cancelarnvehiculo()">Cancelar</button>
+        <button class="btnEli" (click)="cancelarnvehiculo()"><mat-icon>close</mat-icon>Cancelar</button>
         <span *ngIf="!vernuvehiculo">
-            <button class="btnEdi" (click)="abrirdialogoEditServiciovehiculo(detalleid.vehiculo.cliente.id_persona,detalleid)">Seleccionar vehiculo</button>
+            <button class="btnEdi" (click)="abrirdialogoEditServiciovehiculo(detalleid.vehiculo.cliente.id_persona,detalleid)">Seleccionar vehiculo<mat-icon>search</mat-icon></button>
           </span>
         <span *ngIf="vernuvehiculo">
-            <button  class="btn btn-success  btnEdi" (click)="guardarcambiosVehiculo(detalleid.id_documentodescripcion)">Guardar Cambios</button>
+            <button  class="btn btn-success  btnEdi" (click)="guardarcambiosVehiculo(detalleid.id_documentodescripcion)"><mat-icon>save</mat-icon>Guardar Cambios</button>
           </span>
         <br><br>
       </mat-card-content>
@@ -178,12 +177,12 @@
           </mat-form-field>
         </div>
         <br>
-        <button class="btnEli" (click)="cancelarngps()">Cancelar</button>
+        <button class="btnEli" (click)="cancelarngps()"><mat-icon>close</mat-icon>Cancelar</button>
         <span *ngIf="!vernuvegps">
-            <button class="btnEdi" (click)="abrirdialogoEditServiciogps()">Buscar GPS</button>
+            <button class="btnEdi" (click)="abrirdialogoEditServiciogps()">Buscar GPS <mat-icon>search</mat-icon></button>
           </span>
         <span *ngIf="vernuvegps">
-            <button class="btnEdi" (click)="guardarcambiosGps(detalleid.id_documentodescripcion)">Guardar Cambios</button>
+            <button class="btnEdi" (click)="guardarcambiosGps(detalleid.id_documentodescripcion)"><mat-icon>save</mat-icon>Guardar Cambios</button>
           </span>
         <br><br>
       </mat-card-content>
@@ -218,8 +217,8 @@
   </div>
 
   <br>
-  <button mat-button mat-dialog-close>Cancelar</button>
-  <button mat-button mat-dialog-close   (click)="seleccionarGps()" [disabled]="!DialogvalidGps.valid">Seleccionar</button>
+  <button mat-button mat-dialog-close><mat-icon>close</mat-icon> Cancelar</button>
+  <button mat-button mat-dialog-close   (click)="seleccionarGps()" [disabled]="!DialogvalidGps.valid"><mat-icon>save</mat-icon> Seleccionar</button>
   </form>
 </ng-template>
 
