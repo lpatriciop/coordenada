@@ -3,12 +3,14 @@ import {Observable} from "rxjs";
 import {Cliente} from "../modelos/Cliente";
 import {HttpClient} from "@angular/common/http";
 import {Historial} from "../modelos/Historial";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn:"root"
 })
 export class HistorialService{
-  base_url="http://localhost:9898/api/historial/";
+  private appUrl = environment.appUrl;
+  base_url=this.appUrl+"/historial/";
 
   constructor(private httpClient:HttpClient) {
   }

@@ -3,13 +3,15 @@ import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {Rol} from "../modelos/Rol";
 import {Modelo} from "../modelos/Modelo";
+import {environment} from "../../environments/environment";
 
 
 @Injectable({
   providedIn:"root"
 })
 export class RolService{
-  base_url="http://localhost:9898/rol/";
+  private appUrl = environment.appUrlRol;
+  base_url=this.appUrl+"/rol/";
 
   constructor(private httpClient:HttpClient) {
   }

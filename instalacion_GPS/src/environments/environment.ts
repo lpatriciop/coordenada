@@ -3,8 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
-};
+  production: false,
+  appUrl: 'http://coor-app:9898/api',
+  appUrlRol: 'http://coor-app:9898'
+ // appUrl: '/api',
+  //appUrlRol: ''
+  };
 
 /*
  * For easier debugging in development mode, you can import the following file

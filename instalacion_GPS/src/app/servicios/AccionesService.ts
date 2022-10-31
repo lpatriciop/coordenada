@@ -3,12 +3,14 @@ import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {Acciones} from "../modelos/Acciones";
 import {Cliente} from "../modelos/Cliente";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn:"root"
 })
 export class AccionesService{
-  base_url="http://localhost:9898/api/accions/";
+  private appUrl = environment.appUrl;
+  base_url=this.appUrl+"/accions/";
 
   constructor(private httpClient:HttpClient) {
   }

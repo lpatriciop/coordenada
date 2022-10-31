@@ -2,12 +2,14 @@ import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {Vehiculo} from "../modelos/Vehiculo";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn:"root"
 })
 export class VehiculoService{
-  base_url="http://localhost:9898/api/vehiculo/";
+  private appUrl = environment.appUrl;
+  base_url=this.appUrl+"/vehiculo/";
 
   constructor(private httpClient:HttpClient) {
   }

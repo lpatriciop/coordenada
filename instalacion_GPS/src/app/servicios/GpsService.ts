@@ -4,12 +4,14 @@ import {Observable} from "rxjs";
 import {Gps} from "../modelos/Gps";
 import {Cliente} from "../modelos/Cliente";
 import {User} from "../modelos/User";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn:"root"
 })
 export class GpsService{
-  base_url="http://localhost:9898/api/gps/";
+  private appUrl = environment.appUrl;
+  base_url=this.appUrl+"/gps/";
 
   constructor(private httpClient:HttpClient) {
   }

@@ -3,12 +3,14 @@ import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {Servicio} from "../modelos/Servicio";
 import {Cliente} from "../modelos/Cliente";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn:"root"
 })
 export class ServicioService{
-  base_url="http://localhost:9898/api/docservicio/";
+  private appUrl = environment.appUrl;
+  base_url=this.appUrl+"/docservicio/";
 
   constructor(private httpClient:HttpClient) {
   }

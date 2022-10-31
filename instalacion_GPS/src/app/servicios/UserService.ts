@@ -4,13 +4,15 @@ import {map, Observable} from "rxjs";
 import {Injectable} from "@angular/core";
 import {Cliente} from "../modelos/Cliente";
 import {LoginUser} from "../modelos/LoginUser";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn:"root"
 })
 export class UserService{
 
-  base_url="http://localhost:9898/api/user/";
+  private appUrl = environment.appUrl;
+  base_url=this.appUrl+"/user/";
 
   constructor(private httpClient:HttpClient) {
   }

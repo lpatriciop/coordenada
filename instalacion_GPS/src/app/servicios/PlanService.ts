@@ -4,12 +4,14 @@ import {Observable} from "rxjs";
 import {Servicio} from "../modelos/Servicio";
 import {Cliente} from "../modelos/Cliente";
 import {Plan} from "../modelos/Plan";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn:"root"
 })
 export class PlanService{
-  base_url="http://localhost:9898/api/plan/";
+  private appUrl = environment.appUrl;
+  base_url=this.appUrl+"/plan/";
 
   constructor(private httpClient:HttpClient) {
   }

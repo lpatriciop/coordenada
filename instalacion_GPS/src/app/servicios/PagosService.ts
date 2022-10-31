@@ -2,12 +2,14 @@ import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {Pagos} from "../modelos/Pagos";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn:"root"
 })
 export class PagosService{
-  base_url="http://localhost:9898/api/pagos/";
+  private appUrl = environment.appUrl;
+  base_url=this.appUrl+"/pagos/";
 
   constructor(private httpClient:HttpClient) {
   }

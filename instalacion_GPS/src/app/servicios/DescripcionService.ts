@@ -3,12 +3,15 @@ import {Observable} from "rxjs";
 import {Cliente} from "../modelos/Cliente";
 import {HttpClient} from "@angular/common/http";
 import {Descripcion} from "../modelos/Descripcion";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn:"root"
 })
 export class DescripcionService{
-  base_url="http://localhost:9898/api/descipciondc/";
+
+  private appUrl = environment.appUrl;
+  base_url=this.appUrl+"/descipciondc/";
 
   constructor(private httpClient:HttpClient) {
   }

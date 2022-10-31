@@ -2,12 +2,14 @@ import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import { MensajesMail } from "../modelos/MensajesMail";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn:"root"
 })
 export class EmailService{
-  base_url="http://localhost:9898/api/emailservice/";
+  private appUrl = environment.appUrl;
+  base_url=this.appUrl+"/emailservice/";
 
   constructor(private httpClient:HttpClient) {
   }

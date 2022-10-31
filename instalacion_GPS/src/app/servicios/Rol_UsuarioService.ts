@@ -2,13 +2,15 @@ import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {Rol_Usuario} from "../modelos/Rol_Usuario";
+import {environment} from "../../environments/environment";
 
 
 @Injectable({
   providedIn:"root"
 })
 export class Rol_UsuarioService{
-  base_url="http://localhost:9898/api/roluser/";
+  private appUrl = environment.appUrl;
+  base_url=this.appUrl+"/roluser/";
 
   constructor(private httpClient:HttpClient) {
   }
