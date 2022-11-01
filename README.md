@@ -1,4 +1,4 @@
-# Coodenada
+# Coordenada
 
 Este proyecto fue realizado con [Angular CLI](https://github.com/angular/angular-cli) version 13.1.3.
 
